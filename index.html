@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vinebot - Elite Automated Trading Services</title>
+    <!-- Primary Browser Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/vc-logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/vc-logo.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" href="/assets/favicon.ico" />
+
+    <!-- Apple Touch Icon (iOS & Mobile Home Screen) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/vc-logo.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/vc-logo.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/vc-logo.png" />
+    <script>
+      // Suppress Vite HMR WebSocket connection errors in sandbox dev environment
+      (function() {
+        const OriginalWebSocket = window.WebSocket;
+        if (OriginalWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            const urlStr = String(url || '');
+            if (
+              urlStr.includes('vite') || 
+              urlStr.includes('hmr') || 
+              urlStr.includes('localhost') || 
+              urlStr.includes('127.0.0.1') || 
+              urlStr.includes(window.location.host) ||
+              protocols === 'vite-hmr'
+            ) {
+              console.warn('Benign Vite HMR WebSocket connection suppressed to prevent connection errors.');
+              return {
+                url: urlStr,
+                readyState: 3, // CLOSED
+                close: function() {},
+                send: function() {},
+                addEventListener: function() {},
+                removeEventListener: function() {},
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null,
+              };
+            }
+            return new OriginalWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OriginalWebSocket.prototype;
+          window.WebSocket.CONNECTING = OriginalWebSocket.CONNECTING;
+          window.WebSocket.OPEN = OriginalWebSocket.OPEN;
+          window.WebSocket.CLOSING = OriginalWebSocket.CLOSING;
+          window.WebSocket.CLOSED = OriginalWebSocket.CLOSED;
+        }
+
+        // Add safety catchers for unhandled promise rejections originating from HMR/Vite
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = event.reason;
+          const reasonStr = reason ? String(reason.message || reason) : '';
+          if (
+            reasonStr.includes('WebSocket') || 
+            reasonStr.includes('websocket') || 
+            reasonStr.includes('vite') || 
+            reasonStr.includes('HMR')
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        });
+
+        window.addEventListener('error', function(event) {
+          const msg = event.message || '';
+          if (
+            msg.includes('WebSocket') || 
+            msg.includes('websocket') || 
+            msg.includes('vite') || 
+            msg.includes('HMR')
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }, true);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
