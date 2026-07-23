@@ -326,33 +326,35 @@ class VinebotDatabase {
         }
         console.log('[PG DB INFO] Seeding complete.');
       } else {
-        // Safe-seeding check for specific records: Ensure default Admin exists
-        const adminEmail = 'admin@vinebot.app';
-        const existingAdmin = await UserMod.findOne({ where: { email: adminEmail } });
-        if (!existingAdmin) {
-          console.log(`[PG DB INFO] Admin user "${adminEmail}" is missing. Safe-seeding admin account...`);
-          const seedAdmin = initialSeed.users.find(u => u.email === adminEmail) || {
-            id: 'admin-uuid-1111-2222-333333333333',
-            email: adminEmail,
-            passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O', // AdminPassword123!
-            verified: true,
-            isEmailVerified: true,
-            hasAcceptedTerms: true,
-            role: 'ADMIN',
-            profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          };
-          await UserMod.create(seedAdmin as any);
-        } else {
-          console.log(`[PG DB INFO] Admin user "${adminEmail}" exists. Verifying/resetting credentials and role...`);
-          await existingAdmin.update({
-            passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O', // AdminPassword123!
-            role: 'ADMIN',
-            verified: true,
-            isEmailVerified: true,
-            hasAcceptedTerms: true
-          });
+        // Safe-seeding check for specific records: Ensure default Admins exist
+        const adminEmails = ['admin@vinebot.app', 'vinindustry0@gmail.com'];
+        for (const adminEmail of adminEmails) {
+          const existingAdmin = await UserMod.findOne({ where: { email: adminEmail } });
+          if (!existingAdmin) {
+            console.log(`[PG DB INFO] Admin user "${adminEmail}" is missing. Safe-seeding admin account...`);
+            const seedAdmin = {
+              id: adminEmail === 'admin@vinebot.app' ? 'admin-uuid-1111-2222-333333333333' : 'vinindustry0-uuid-admin',
+              email: adminEmail,
+              passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
+              verified: true,
+              isEmailVerified: true,
+              hasAcceptedTerms: true,
+              role: 'ADMIN',
+              profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            };
+            await UserMod.create(seedAdmin as any);
+          } else {
+            console.log(`[PG DB INFO] Admin user "${adminEmail}" exists. Verifying/resetting credentials and role...`);
+            await existingAdmin.update({
+              passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
+              role: 'ADMIN',
+              verified: true,
+              isEmailVerified: true,
+              hasAcceptedTerms: true
+            });
+          }
         }
 
         // Safe-seeding check: Ensure SubscriptionPlans exist
@@ -374,9 +376,9 @@ class VinebotDatabase {
       console.log('\n======================================================');
       console.log('🛡️  VINEBOT DEPLOYMENT SECURITY CREDENTIALS CHECK');
       console.log('------------------------------------------------------');
-      console.log('👤 DEFAULT ADMIN USER CREATED / VERIFIED:');
-      console.log('👉 Email:    admin@vinebot.app');
-      console.log('👉 Password: AdminPassword123!');
+      console.log('👤 ADMIN USERS VERIFIED / READY:');
+      console.log('👉 Email:    admin@vinebot.app | vinindustry0@gmail.com');
+      console.log('👉 Password: admin');
       console.log('👉 Role:     ADMIN');
       console.log('======================================================\n');
 
@@ -512,28 +514,30 @@ class VinebotDatabase {
       state = defaultState;
     }
 
-    // Force seed / update admin in local state
-    const adminEmail = 'admin@vinebot.app';
-    const adminIndex = state.users.findIndex(u => u.email.toLowerCase() === adminEmail);
-    if (adminIndex === -1) {
-      state.users.push({
-        id: 'admin-uuid-1111-2222-333333333333',
-        email: adminEmail,
-        passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O', // AdminPassword123!
-        verified: true,
-        isEmailVerified: true,
-        hasAcceptedTerms: true,
-        role: 'ADMIN',
-        profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-    } else {
-      state.users[adminIndex].passwordHash = '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O'; // AdminPassword123!
-      state.users[adminIndex].role = 'ADMIN';
-      state.users[adminIndex].verified = true;
-      state.users[adminIndex].isEmailVerified = true;
-      state.users[adminIndex].hasAcceptedTerms = true;
+    // Force seed / update admins in local state
+    const adminEmails = ['admin@vinebot.app', 'vinindustry0@gmail.com'];
+    for (const adminEmail of adminEmails) {
+      const adminIndex = state.users.findIndex(u => u.email.toLowerCase() === adminEmail);
+      if (adminIndex === -1) {
+        state.users.push({
+          id: adminEmail === 'admin@vinebot.app' ? 'admin-uuid-1111-2222-333333333333' : 'vinindustry0-uuid-admin',
+          email: adminEmail,
+          passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
+          verified: true,
+          isEmailVerified: true,
+          hasAcceptedTerms: true,
+          role: 'ADMIN',
+          profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      } else {
+        state.users[adminIndex].passwordHash = '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m'; // password: admin
+        state.users[adminIndex].role = 'ADMIN';
+        state.users[adminIndex].verified = true;
+        state.users[adminIndex].isEmailVerified = true;
+        state.users[adminIndex].hasAcceptedTerms = true;
+      }
     }
 
     this.saveState(state);
@@ -596,7 +600,22 @@ class VinebotDatabase {
     const adminUser: User = {
       id: 'admin-uuid-1111-2222-333333333333',
       email: 'admin@vinebot.app',
-      passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O', // AdminPassword123!
+      passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
+      verified: true,
+      isEmailVerified: true,
+      hasAcceptedTerms: true,
+      acceptedTermsAt: now,
+      acceptedIpAddress: '127.0.0.1',
+      role: 'ADMIN',
+      profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      createdAt: now,
+      updatedAt: now
+    };
+
+    const vinindustryUser: User = {
+      id: 'vinindustry0-uuid-admin',
+      email: 'vinindustry0@gmail.com',
+      passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
       verified: true,
       isEmailVerified: true,
       hasAcceptedTerms: true,
@@ -611,7 +630,7 @@ class VinebotDatabase {
     const regularUser: User = {
       id: 'user-uuid-1111-2222-333333333333',
       email: 'user@vinebot.com',
-      passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O', // AdminPassword123!
+      passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
       verified: true,
       isEmailVerified: true,
       hasAcceptedTerms: true,
@@ -657,7 +676,7 @@ class VinebotDatabase {
     ];
 
     return {
-      users: [adminUser, regularUser],
+      users: [adminUser, vinindustryUser, regularUser],
       refreshTokens: [],
       oauthAccounts: [],
       sessions: [],

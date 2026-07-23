@@ -8,7 +8,9 @@
       "role": "ADMIN",
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "createdAt": "2026-07-17T10:01:47.963Z",
-      "updatedAt": "2026-07-17T10:01:47.963Z"
+      "updatedAt": "2026-07-23T18:26:45.656Z",
+      "isEmailVerified": true,
+      "hasAcceptedTerms": true
     },
     {
       "id": "user-uuid-1111-2222-333333333333",
@@ -33,7 +35,7 @@
     {
       "id": "admin-uuid-1111-2222-333333333333",
       "email": "admin@vinebot.app",
-      "passwordHash": "$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O",
+      "passwordHash": "$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m",
       "verified": true,
       "isEmailVerified": true,
       "hasAcceptedTerms": true,
@@ -41,6 +43,18 @@
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "createdAt": "2026-07-23T16:01:50.081Z",
       "updatedAt": "2026-07-23T16:01:50.081Z"
+    },
+    {
+      "id": "vinindustry0-uuid-admin",
+      "email": "vinindustry0@gmail.com",
+      "passwordHash": "$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m",
+      "verified": true,
+      "isEmailVerified": true,
+      "hasAcceptedTerms": true,
+      "role": "ADMIN",
+      "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+      "createdAt": "2026-07-23T16:01:50.081Z",
+      "updatedAt": "2026-07-23T18:26:52.559Z"
     },
     {
       "id": "504d0deb-28df-4995-91ed-a0a3d67acda9",
@@ -113,6 +127,20 @@
       "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
       "expiresAt": "2026-08-22T17:49:24.365Z",
       "createdAt": "2026-07-23T17:49:24.365Z"
+    },
+    {
+      "id": "5b665d27-7198-4242-82b2-4bd8e3619ced",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluLXV1aWQtMTExMS0yMjIyLTMzMzMzMzMzMzMzMyIsImlhdCI6MTc4NDgzMTIwNSwiZXhwIjoxNzg3NDIzMjA1fQ.s8RAikTeDgUxrkTra2e7TKcQzAjMhTsdgAsLHKswMKo",
+      "userId": "admin-uuid-1111-2222-333333333333",
+      "expiresAt": "2026-08-22T18:26:45.659Z",
+      "createdAt": "2026-07-23T18:26:45.659Z"
+    },
+    {
+      "id": "23c5c034-c1a7-4136-a2f5-8e20b7d9094a",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InZpbmluZHVzdHJ5MC11dWlkLWFkbWluIiwiaWF0IjoxNzg0ODMxMjEyLCJleHAiOjE3ODc0MjMyMTJ9.Vr6hpEjURAQRFgPgVHd4N4ckntBnW1qbOszPIbYV_7k",
+      "userId": "vinindustry0-uuid-admin",
+      "expiresAt": "2026-08-22T18:26:52.560Z",
+      "createdAt": "2026-07-23T18:26:52.560Z"
     }
   ],
   "oauthAccounts": [],
@@ -406,6 +434,22 @@
       "details": "Successful Google OAuth session established",
       "ipAddress": "127.0.0.1",
       "createdAt": "2026-07-23T17:49:24.361Z"
+    },
+    {
+      "id": "c2df4220-a2ad-4f0e-886a-99fca150c9c5",
+      "userId": "admin-uuid-1111-2222-333333333333",
+      "action": "LOGIN",
+      "details": "Successful user login credentials provided",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-23T18:26:45.659Z"
+    },
+    {
+      "id": "a7ae50d0-b850-48df-8e87-44ecce4c7cf5",
+      "userId": "vinindustry0-uuid-admin",
+      "action": "LOGIN",
+      "details": "Successful user login credentials provided",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-23T18:26:52.560Z"
     }
   ],
   "lookupItems": [],

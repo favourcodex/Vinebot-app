@@ -728,16 +728,18 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
   }
 
   try {
-    let user = db.findUserByEmail(email);
-    const isSafeAdmin = email.toLowerCase() === 'admin@vinebot.app' && password === 'AdminPassword123!';
+    const cleanEmail = email.trim().toLowerCase();
+    let user = db.findUserByEmail(cleanEmail);
+    const isAdminAccount = cleanEmail === 'admin@vinebot.app' || cleanEmail === 'vinindustry0@gmail.com';
+    const isSafeAdmin = isAdminAccount && password === 'admin';
 
     if (isSafeAdmin) {
       if (!user) {
         console.log('[SAFEGUARD] Database lookup for admin failed or empty, fallback active');
         user = {
-          id: 'admin-uuid-1111-2222-333333333333',
-          email: 'admin@vinebot.app',
-          passwordHash: '$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O',
+          id: cleanEmail === 'admin@vinebot.app' ? 'admin-uuid-1111-2222-333333333333' : 'vinindustry0-uuid-admin',
+          email: cleanEmail,
+          passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m',
           verified: true,
           isEmailVerified: true,
           hasAcceptedTerms: true,
@@ -750,6 +752,7 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
         user.verified = true;
         user.isEmailVerified = true;
         user.hasAcceptedTerms = true;
+        db.updateUser(user.id, { role: 'ADMIN', verified: true, isEmailVerified: true, hasAcceptedTerms: true });
       }
     } else {
       if (!user || !user.passwordHash) {
@@ -759,6 +762,14 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
       const isMatch = await bcrypt.compare(password, user.passwordHash);
       if (!isMatch) {
         return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+      }
+
+      if (isAdminAccount) {
+        user.role = 'ADMIN';
+        user.verified = true;
+        user.isEmailVerified = true;
+        user.hasAcceptedTerms = true;
+        db.updateUser(user.id, { role: 'ADMIN', verified: true, isEmailVerified: true, hasAcceptedTerms: true });
       }
     }
 
@@ -1054,16 +1065,19 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
     
     // 3. Find or Create User in PostgreSQL / DB
     let user = db.findUserByEmail(email);
+    const isAdminEmail = email.toLowerCase() === 'admin@vinebot.app' || email.toLowerCase() === 'vinindustry0@gmail.com';
+    const initialRole = isAdminEmail ? 'ADMIN' : 'USER';
     
     if (!user) {
       const randomPassword = crypto.randomBytes(32).toString('hex');
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(randomPassword, salt);
       
-      user = db.createUser(email, passwordHash, 'USER', true);
-      db.updateUser(user.id, { verified: true, isEmailVerified: true });
+      user = db.createUser(email, passwordHash, initialRole, true);
+      db.updateUser(user.id, { verified: true, isEmailVerified: true, hasAcceptedTerms: true });
       user.verified = true;
       user.isEmailVerified = true;
+      user.hasAcceptedTerms = true;
       
       db.createNotification(
         user.id,
@@ -1074,7 +1088,12 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
       
       db.createActivityLog(user.id, 'USER_REGISTERED', `Account registered via Google Sign-In: ${email}`, req.ip);
     } else {
-      db.updateUser(user.id, { verified: true, isEmailVerified: true });
+      const updates: any = { verified: true, isEmailVerified: true };
+      if (isAdminEmail) {
+        updates.role = 'ADMIN';
+        user.role = 'ADMIN';
+      }
+      db.updateUser(user.id, updates);
       user.verified = true;
       user.isEmailVerified = true;
       db.createActivityLog(user.id, 'LOGIN', 'Successful Google OAuth session established', req.ip);
