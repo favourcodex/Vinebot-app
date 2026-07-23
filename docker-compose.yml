@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  vinebot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vinebot_production_service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_ACCESS_SECRET=vinebot-enterprise-access-token-secret-2026
+      - JWT_REFRESH_SECRET=vinebot-enterprise-refresh-token-secret-2026
+      - MT5_ENCRYPTION_SECRET=vinebot-enterprise-standard-secure-key-2026
+    volumes:
+      # Map database file mount so relational data is preserved on container updates
+      - ./vinebot_db.json:/usr/src/app/vinebot_db.json
+    restart: always

@@ -1,0 +1,6 @@
+{
+  "name": "Vinebot",
+  "description": "Enterprise-grade automated trading bot subscription SaaS platform with secure MT5 integration and premium dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
