@@ -26,38 +26,26 @@ interface PnLDataPoint {
   trades: number;
 }
 
-const generateMockPnLData = (daysCount: number): PnLDataPoint[] => {
-  const data: PnLDataPoint[] = [];
-  const now = new Date();
-  let cumulative = 0;
+const processRealTradesPnL = (tradesList: any[], daysCount: number): PnLDataPoint[] => {
+  if (!tradesList || tradesList.length === 0) return [];
   
-  const dailyProfits = [
-    180.50, 320.10, -95.00, 410.25, 275.80, -45.00, 510.00, 
-    190.20, -110.50, 380.00, 290.40, 430.15, -80.00, 310.50, 
-    220.00, -150.25, 490.80, 315.00, 185.50, -65.00, 420.30, 
-    360.10, 240.00, -120.50, 530.40, 280.20, 390.15, -75.00, 
-    460.00, 345.50, 210.80, -105.00, 480.25, 325.00, -90.00,
-    515.40, 295.10, 410.00, -60.50, 385.20, 270.00, 495.50,
-    -130.00, 440.10, 350.25, 215.00, -85.50, 525.00, 310.80,
-    265.40, -115.00, 475.20, 335.00, 195.50, -70.00, 435.10,
-    380.25, 290.00, 505.50, -95.00
-  ];
+  const data: PnLDataPoint[] = [];
+  let cumulative = 0;
 
-  for (let i = daysCount - 1; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const dateStr = `${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getDate().toString().padStart(2, '0')}`;
-    const idx = (daysCount - 1 - i) % dailyProfits.length;
-    const profit = dailyProfits[idx];
-    cumulative += profit;
-    const trades = Math.floor(Math.abs(profit) / 25) + 6;
+  // Sort trades chronologically
+  const sorted = [...tradesList].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
+  sorted.forEach(t => {
+    cumulative += (t.pnl || 0);
+    const dateStr = new Date(t.createdAt).toLocaleDateString(undefined, { month: '2-digit', day: '2-digit' });
     data.push({
       date: dateStr,
-      profit,
+      profit: t.pnl || 0,
       cumulativePnL: Number(cumulative.toFixed(2)),
-      trades
+      trades: 1
     });
-  }
+  });
+
   return data;
 };
 
@@ -108,30 +96,33 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
   const [mt5, setMt5] = useState<Mt5Account | null>(null);
   const [bot, setBot] = useState<BotActivation | null>(null);
   const [logs, setLogs] = useState<ActivityLog[]>([]);
+  const [trades, setTrades] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<'7D' | '30D' | 'ALL'>('30D');
 
   const pnlDays = timeframe === '7D' ? 7 : timeframe === '30D' ? 30 : 60;
-  const pnlData = useMemo(() => generateMockPnLData(pnlDays), [pnlDays]);
+  const pnlData = useMemo(() => processRealTradesPnL(trades, pnlDays), [trades, pnlDays]);
 
   const metrics = useMemo(() => {
-    if (!pnlData || pnlData.length === 0) return { totalProfit: 0, winRate: '0.0', totalTrades: 0, avgDailyReturn: '0.00' };
-    const totalProfit = pnlData[pnlData.length - 1]?.cumulativePnL || 0;
-    const winningDays = pnlData.filter(d => d.profit > 0).length;
-    const winRate = ((winningDays / pnlData.length) * 100).toFixed(1);
-    const totalTrades = pnlData.reduce((acc, curr) => acc + curr.trades, 0);
-    const avgDailyReturn = (totalProfit / pnlData.length).toFixed(2);
+    if (!trades || trades.length === 0) return { totalProfit: 0, winRate: '0.0', totalTrades: 0, avgDailyReturn: '0.00' };
+    const closedTrades = trades.filter(t => t.status === 'CLOSED');
+    const winningTrades = closedTrades.filter(t => t.pnl > 0).length;
+    const totalProfit = trades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+    const winRate = closedTrades.length > 0 ? ((winningTrades / closedTrades.length) * 100).toFixed(1) : '0.0';
+    const totalTrades = trades.length;
+    const avgDailyReturn = (totalProfit / Math.max(1, trades.length)).toFixed(2);
     return { totalProfit, winRate, totalTrades, avgDailyReturn };
-  }, [pnlData]);
+  }, [trades]);
 
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
-      const [plansRes, mt5Res, botRes, logsRes] = await Promise.all([
+      const [plansRes, mt5Res, botRes, logsRes, tradesRes] = await Promise.all([
         apiRequest<SubscriptionPlan[]>('/api/plans'),
         apiRequest<Mt5Account | null>('/api/mt5'),
         apiRequest<BotActivation | null>('/api/bot-activation'),
-        apiRequest<ActivityLog[]>('/api/activity-logs')
+        apiRequest<ActivityLog[]>('/api/activity-logs'),
+        apiRequest<{ trades: any[] }>('/api/trades')
       ]);
 
       if (plansRes.success && plansRes.data && plansRes.data.length > 0) {
@@ -151,6 +142,9 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
       }
       if (logsRes.success && logsRes.data) {
         setLogs(logsRes.data.slice(0, 5));
+      }
+      if (tradesRes.success && tradesRes.data && tradesRes.data.trades) {
+        setTrades(tradesRes.data.trades);
       }
 
       const subRes = await apiRequest<UserSubscription | null>('/api/payments/subscription');

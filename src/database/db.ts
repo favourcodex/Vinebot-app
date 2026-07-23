@@ -627,340 +627,35 @@ class VinebotDatabase {
       updatedAt: now
     };
 
-    const regularUser: User = {
-      id: 'user-uuid-1111-2222-333333333333',
-      email: 'user@vinebot.com',
-      passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
-      verified: true,
-      isEmailVerified: true,
-      hasAcceptedTerms: true,
-      acceptedTermsAt: now,
-      acceptedIpAddress: '127.0.0.1',
-      role: 'USER',
-      profilePicture: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-      createdAt: now,
-      updatedAt: now
-    };
-
-    // Seed some activity logs
+    // Seed initial activity log
     const logs: ActivityLog[] = [
       {
         id: 'log-1',
         userId: 'admin-uuid-1111-2222-333333333333',
         action: 'SYSTEM_STARTUP',
         ipAddress: '127.0.0.1',
-        details: 'Enterprise relDB seed state initiated.',
-        createdAt: now
-      },
-      {
-        id: 'log-2',
-        userId: 'user-uuid-1111-2222-333333333333',
-        action: 'USER_REGISTERED',
-        ipAddress: '127.0.0.1',
-        details: 'User account pre-seeded successfully.',
-        createdAt: now
-      }
-    ];
-
-    // Seed some notifications
-    const notifications: Notification[] = [
-      {
-        id: 'notif-1',
-        userId: 'user-uuid-1111-2222-333333333333',
-        title: 'Welcome to Vinebot Premium!',
-        message: 'Your automated bot dashboard is pre-configured. Subscribe to a trading plan to get started.',
-        read: false,
-        type: 'SYSTEM',
+        details: 'Production Relational DB layer initialized.',
         createdAt: now
       }
     ];
 
     return {
-      users: [adminUser, vinindustryUser, regularUser],
+      users: [adminUser, vinindustryUser],
       refreshTokens: [],
       oauthAccounts: [],
       sessions: [],
-      stripeCustomers: [
-        {
-          id: 'cust-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          stripeCustomerId: 'cus_mock_user_123',
-          createdAt: now
-        }
-      ],
+      stripeCustomers: [],
       subscriptionPlans: plans,
-      userSubscriptions: [
-        {
-          id: 'sub-active-user-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          planId: 'plan-pro-month',
-          status: 'ACTIVE',
-          stripeSubscriptionId: 'sub_mock_active_123',
-          cancelAtPeriodEnd: false,
-          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          createdAt: now
-        }
-      ],
-      payments: [
-        {
-          id: 'pay-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          subscriptionId: 'sub-active-user-1',
-          amount: 99.00,
-          currency: 'usd',
-          status: 'succeeded',
-          stripePaymentIntentId: 'pi_mock_pay_123',
-          stripeInvoiceId: 'in_mock_pay_123',
-          createdAt: now
-        }
-      ],
+      userSubscriptions: [],
+      payments: [],
       webhookEvents: [],
-      mt5Accounts: [
-        {
-          id: 'mt5-active-user-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          accountNumber: '8392819',
-          brokerName: 'IC Markets Ltd',
-          serverName: 'ICMarkets-Demo03',
-          encryptedPassword: 'gZPyX4S0P74WunWp0E3Z8g==', // mock encrypted string
-          iv: 'fFfFfFfFfFfFfFfFfFfFfQ==',
-          authTag: 'aBaBaBaBaBaBaBaBaBaBaB==',
-          label: 'My Principal Forex Bot Account',
-          createdAt: now,
-          updatedAt: now
-        }
-      ],
-      botActivations: [
-        {
-          id: 'bot-act-user-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          mt5AccountId: 'mt5-active-user-1',
-          status: 'WAITING_FOR_BOT_TEAM',
-          timeline: [
-            {
-              status: 'PENDING_PAYMENT',
-              timestamp: now,
-              title: 'Subscription Purchase',
-              description: 'Professional Bot subscription purchased successfully.',
-              completed: true
-            },
-            {
-              status: 'PAYMENT_CONFIRMED',
-              timestamp: now,
-              title: 'Invoice Verified',
-              description: 'Payment of $99.00 confirmed.',
-              completed: true
-            },
-            {
-              status: 'WAITING_FOR_BOT_TEAM',
-              timestamp: now,
-              title: 'Pending Expert Activation',
-              description: 'MT5 Credentials submitted. Waiting for Bot Deployment Team.',
-              completed: true
-            },
-            {
-              status: 'IN_PROGRESS',
-              timestamp: '',
-              title: 'Server Provisioning',
-              description: 'VPS allocation and EA deployment.',
-              completed: false
-            },
-            {
-              status: 'ACTIVE',
-              timestamp: '',
-              title: 'Trading Bot Activated',
-              description: 'EA running successfully with live risk controls.',
-              completed: false
-            }
-          ],
-          createdAt: now,
-          updatedAt: now
-        }
-      ],
-      adminNotes: [
-        {
-          id: 'note-1',
-          targetId: 'bot-act-user-1',
-          targetType: 'BOT_ACTIVATION',
-          note: 'Allocated server Node-IC-04. Deploying automated trailing-stops EA parameters.',
-          adminId: 'admin-uuid-1111-2222-333333333333',
-          adminEmail: 'admin@vinebot.com',
-          createdAt: now
-        }
-      ],
-      notifications,
-      activityLogs: logs,
+      mt5Accounts: [],
+      botActivations: [],
+      adminNotes: [],
       lookupItems: [],
-      trades: [
-        {
-          id: 'trade-1',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'EURUSD',
-          type: 'BUY',
-          volume: 1.0,
-          entryPrice: 1.0854,
-          exitPrice: 1.0912,
-          pnl: 580.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 10 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 9.5 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-2',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'GBPUSD',
-          type: 'SELL',
-          volume: 0.5,
-          entryPrice: 1.2741,
-          exitPrice: 1.2690,
-          pnl: 255.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 7.2 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-3',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'USDJPY',
-          type: 'BUY',
-          volume: 2.0,
-          entryPrice: 154.20,
-          exitPrice: 153.85,
-          pnl: -450.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 5 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-4',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'XAUUSD',
-          type: 'BUY',
-          volume: 0.2,
-          entryPrice: 2350.50,
-          exitPrice: 2368.20,
-          pnl: 354.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-5',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'BTCUSD',
-          type: 'BUY',
-          volume: 0.1,
-          entryPrice: 64200.00,
-          exitPrice: 64850.00,
-          pnl: 65.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-6',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'USDCAD',
-          type: 'SELL',
-          volume: 1.0,
-          entryPrice: 1.3620,
-          exitPrice: 1.3655,
-          pnl: -350.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 1.5 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-7',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'AUDUSD',
-          type: 'BUY',
-          volume: 1.5,
-          entryPrice: 0.6620,
-          exitPrice: 0.6655,
-          pnl: 525.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 1.5 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-8',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'NZDUSD',
-          type: 'SELL',
-          volume: 0.8,
-          entryPrice: 0.6120,
-          exitPrice: 0.6085,
-          pnl: 280.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 0.8 * 3600 * 1000).toISOString()
-        },
-        {
-          id: 'trade-9',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'EURGBP',
-          type: 'BUY',
-          volume: 1.0,
-          entryPrice: 0.8420,
-          exitPrice: 0.8405,
-          pnl: -150.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 30 * 60 * 1000).toISOString()
-        },
-        {
-          id: 'trade-10',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'USDCHF',
-          type: 'SELL',
-          volume: 1.2,
-          entryPrice: 0.8940,
-          exitPrice: 0.8890,
-          pnl: 600.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 15 * 60 * 1000).toISOString()
-        },
-        {
-          id: 'trade-11',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'GBPUSD',
-          type: 'BUY',
-          volume: 0.5,
-          entryPrice: 1.2720,
-          exitPrice: 1.2770,
-          pnl: 250.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 5 * 60 * 1000).toISOString()
-        },
-        {
-          id: 'trade-12',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'XAUUSD',
-          type: 'SELL',
-          volume: 0.15,
-          entryPrice: 2375.00,
-          exitPrice: 2382.00,
-          pnl: -105.00,
-          status: 'CLOSED',
-          createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
-          closedAt: new Date(Date.now() - 2 * 60 * 1000).toISOString()
-        },
-        {
-          id: 'trade-13',
-          userId: 'user-uuid-1111-2222-333333333333',
-          symbol: 'EURUSD',
-          type: 'BUY',
-          volume: 1.0,
-          entryPrice: 1.0920,
-          exitPrice: 0,
-          pnl: 34.00,
-          status: 'OPEN',
-          createdAt: new Date(Date.now() - 5 * 60 * 1000).toISOString()
-        }
-      ]
+      trades: [],
+      activityLogs: logs,
+      notifications: []
     };
   }
 

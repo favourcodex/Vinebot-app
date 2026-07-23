@@ -14,6 +14,7 @@ export interface User {
   verified: boolean;
   isEmailVerified: boolean;
   hasAcceptedTerms: boolean;
+  isBotActive?: boolean;
   acceptedTermsAt?: string | null;
   acceptedIpAddress?: string | null;
   verificationToken?: string | null;
