@@ -2,43 +2,12 @@
   "users": [
     {
       "id": "admin-uuid-1111-2222-333333333333",
-      "email": "admin@vinebot.com",
-      "passwordHash": "$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O",
-      "verified": true,
-      "role": "ADMIN",
-      "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
-      "createdAt": "2026-07-17T10:01:47.963Z",
-      "updatedAt": "2026-07-23T18:26:45.656Z",
-      "isEmailVerified": true,
-      "hasAcceptedTerms": true
-    },
-    {
-      "id": "user-uuid-1111-2222-333333333333",
-      "email": "user@vinebot.com",
-      "passwordHash": "$2b$10$vUkFh7eUA9vEj8u77QWLTOOK/i3Vqd.G/mZWjfFp.nHms0dJw8U4O",
-      "verified": true,
-      "role": "USER",
-      "profilePicture": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
-      "createdAt": "2026-07-17T10:01:47.963Z",
-      "updatedAt": "2026-07-17T10:01:47.963Z"
-    },
-    {
-      "id": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "email": "favourcodex3@gmail.com",
-      "passwordHash": "$2b$10$7K6c9CVJ4HNLh7lHB2YBZOChToEsnSb1lxmo05JSZs3.gN2JS0QkW",
-      "verified": true,
-      "role": "USER",
-      "createdAt": "2026-07-17T12:04:22.601Z",
-      "updatedAt": "2026-07-17T12:04:22.602Z",
-      "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI6Fmm0O-hcjVchL4YHVb28u7SQrwgTSRaW51jZ3qjCPNDaH6s=s96-c"
-    },
-    {
-      "id": "admin-uuid-1111-2222-333333333333",
       "email": "admin@vinebot.app",
       "passwordHash": "$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m",
       "verified": true,
       "isEmailVerified": true,
       "hasAcceptedTerms": true,
+      "isBotActive": true,
       "role": "ADMIN",
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "createdAt": "2026-07-23T16:01:50.081Z",
@@ -51,10 +20,24 @@
       "verified": true,
       "isEmailVerified": true,
       "hasAcceptedTerms": true,
+      "isBotActive": true,
       "role": "ADMIN",
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "createdAt": "2026-07-23T16:01:50.081Z",
-      "updatedAt": "2026-07-23T18:26:52.559Z"
+      "updatedAt": "2026-07-23T18:27:54.949Z"
+    },
+    {
+      "id": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "email": "favourcodex3@gmail.com",
+      "passwordHash": "$2b$10$7K6c9CVJ4HNLh7lHB2YBZOChToEsnSb1lxmo05JSZs3.gN2JS0QkW",
+      "verified": true,
+      "isEmailVerified": true,
+      "hasAcceptedTerms": true,
+      "isBotActive": false,
+      "role": "USER",
+      "createdAt": "2026-07-17T12:04:22.601Z",
+      "updatedAt": "2026-07-17T12:04:22.602Z",
+      "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI6Fmm0O-hcjVchL4YHVb28u7SQrwgTSRaW51jZ3qjCPNDaH6s=s96-c"
     },
     {
       "id": "504d0deb-28df-4995-91ed-a0a3d67acda9",
@@ -63,6 +46,7 @@
       "verified": true,
       "isEmailVerified": true,
       "hasAcceptedTerms": true,
+      "isBotActive": false,
       "role": "USER",
       "createdAt": "2026-07-23T17:22:45.539Z",
       "updatedAt": "2026-07-23T17:49:24.360Z",
@@ -78,81 +62,11 @@
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
       "expiresAt": "2026-08-16T14:19:45.297Z",
       "createdAt": "2026-07-17T14:19:45.297Z"
-    },
-    {
-      "id": "5d8b08f4-fca6-4f55-a989-d3d0d2be3d31",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyNzM2NSwiZXhwIjoxNzg3NDE5MzY1fQ.bxGnnCiTitHoH4AwILs4WDIuapkYha8tpJF1-k2eodk",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:22:45.543Z",
-      "createdAt": "2026-07-23T17:22:45.543Z"
-    },
-    {
-      "id": "96d032a5-a85d-43fa-9773-464812872ec6",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyNzQ4NywiZXhwIjoxNzg3NDE5NDg3fQ.FoOpKW10rWbjQWiT9kEIvAbrQywaSibtKV-b5dO3tOA",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:24:47.196Z",
-      "createdAt": "2026-07-23T17:24:47.196Z"
-    },
-    {
-      "id": "276de82e-4ae8-4936-a59f-6bb0f387f321",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyNzUyNiwiZXhwIjoxNzg3NDE5NTI2fQ.pisuLtMLXvFXBAiKbp7WIWYNbtAnUusosoOYfmh7Ios",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:25:26.494Z",
-      "createdAt": "2026-07-23T17:25:26.495Z"
-    },
-    {
-      "id": "f1ebe0b7-052d-4efb-99a8-84267083422f",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyNzU5NywiZXhwIjoxNzg3NDE5NTk3fQ.y8z-I6WYRjx2e0Ryt61iS3j__vJpLq-Q5KORTZzybkw",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:26:37.396Z",
-      "createdAt": "2026-07-23T17:26:37.396Z"
-    },
-    {
-      "id": "9a9754e0-25c6-484d-b73e-02c9a4dc57c1",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyNzY2MSwiZXhwIjoxNzg3NDE5NjYxfQ.bLyuS8WP8LA2my5_NWKOgqDrIQcKrejwnyBhiocyZ9Q",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:27:41.627Z",
-      "createdAt": "2026-07-23T17:27:41.627Z"
-    },
-    {
-      "id": "6af60e0a-9b46-45f5-8cc3-708904ea4219",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyODE2MywiZXhwIjoxNzg3NDIwMTYzfQ.yJDw8lr-uN23Tj21beBPPajXIACrZvBJ--114FEW_NA",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:36:03.254Z",
-      "createdAt": "2026-07-23T17:36:03.254Z"
-    },
-    {
-      "id": "c04ca1e1-7fd7-42d1-8a01-0683e6f26c76",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwNGQwZGViLTI4ZGYtNDk5NS05MWVkLWEwYTNkNjdhY2RhOSIsImlhdCI6MTc4NDgyODk2NCwiZXhwIjoxNzg3NDIwOTY0fQ.Dg9-jBRW1FY9CWPyIowYVYnbm7FI2WmZPUCpa_bl0_k",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "expiresAt": "2026-08-22T17:49:24.365Z",
-      "createdAt": "2026-07-23T17:49:24.365Z"
-    },
-    {
-      "id": "5b665d27-7198-4242-82b2-4bd8e3619ced",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluLXV1aWQtMTExMS0yMjIyLTMzMzMzMzMzMzMzMyIsImlhdCI6MTc4NDgzMTIwNSwiZXhwIjoxNzg3NDIzMjA1fQ.s8RAikTeDgUxrkTra2e7TKcQzAjMhTsdgAsLHKswMKo",
-      "userId": "admin-uuid-1111-2222-333333333333",
-      "expiresAt": "2026-08-22T18:26:45.659Z",
-      "createdAt": "2026-07-23T18:26:45.659Z"
-    },
-    {
-      "id": "23c5c034-c1a7-4136-a2f5-8e20b7d9094a",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InZpbmluZHVzdHJ5MC11dWlkLWFkbWluIiwiaWF0IjoxNzg0ODMxMjEyLCJleHAiOjE3ODc0MjMyMTJ9.Vr6hpEjURAQRFgPgVHd4N4ckntBnW1qbOszPIbYV_7k",
-      "userId": "vinindustry0-uuid-admin",
-      "expiresAt": "2026-08-22T18:26:52.560Z",
-      "createdAt": "2026-07-23T18:26:52.560Z"
     }
   ],
   "oauthAccounts": [],
   "sessions": [],
-  "stripeCustomers": [
-    {
-      "id": "cust-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "stripeCustomerId": "cus_mock_user_123",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    }
-  ],
+  "stripeCustomers": [],
   "subscriptionPlans": [
     {
       "id": "plan-premium-month",
@@ -185,115 +99,41 @@
       "stripePriceId": "price_vip_monthly"
     }
   ],
-  "userSubscriptions": [
-    {
-      "id": "sub-active-user-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "planId": "plan-pro-month",
-      "status": "ACTIVE",
-      "stripeSubscriptionId": "sub_mock_active_123",
-      "cancelAtPeriodEnd": false,
-      "currentPeriodEnd": "2026-08-16T10:01:47.963Z",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    }
-  ],
-  "payments": [
-    {
-      "id": "pay-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "subscriptionId": "sub-active-user-1",
-      "amount": 100,
-      "currency": "usd",
-      "status": "succeeded",
-      "stripePaymentIntentId": "pi_mock_pay_123",
-      "stripeInvoiceId": "in_mock_pay_123",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    }
-  ],
+  "userSubscriptions": [],
+  "payments": [],
   "webhookEvents": [],
-  "mt5Accounts": [
+  "mt5Accounts": [],
+  "botActivations": [],
+  "adminNotes": [],
+  "lookupItems": [],
+  "trades": [],
+  "activityLogs": [
     {
-      "id": "mt5-active-user-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "accountNumber": "8392819",
-      "brokerName": "IC Markets Ltd",
-      "serverName": "ICMarkets-Demo03",
-      "encryptedPassword": "gZPyX4S0P74WunWp0E3Z8g==",
-      "iv": "fFfFfFfFfFfFfFfFfFfFfQ==",
-      "authTag": "aBaBaBaBaBaBaBaBaBaBaB==",
-      "label": "My Principal Forex Bot Account",
-      "createdAt": "2026-07-17T10:01:47.963Z",
-      "updatedAt": "2026-07-17T10:01:47.963Z"
-    }
-  ],
-  "botActivations": [
+      "id": "log-1",
+      "userId": "admin-uuid-1111-2222-333333333333",
+      "action": "SYSTEM_STARTUP",
+      "ipAddress": "127.0.0.1",
+      "details": "Production Relational DB layer initialized.",
+      "createdAt": "2026-07-23T16:01:50.081Z"
+    },
     {
-      "id": "bot-act-user-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "mt5AccountId": "mt5-active-user-1",
-      "status": "WAITING_FOR_BOT_TEAM",
-      "timeline": [
-        {
-          "status": "PENDING_PAYMENT",
-          "timestamp": "2026-07-17T10:01:47.963Z",
-          "title": "Subscription Purchase",
-          "description": "Professional Bot subscription purchased successfully.",
-          "completed": true
-        },
-        {
-          "status": "PAYMENT_CONFIRMED",
-          "timestamp": "2026-07-17T10:01:47.963Z",
-          "title": "Invoice Verified",
-          "description": "Payment of $99.00 confirmed.",
-          "completed": true
-        },
-        {
-          "status": "WAITING_FOR_BOT_TEAM",
-          "timestamp": "2026-07-17T10:01:47.963Z",
-          "title": "Pending Expert Activation",
-          "description": "MT5 Credentials submitted. Waiting for Bot Deployment Team.",
-          "completed": true
-        },
-        {
-          "status": "IN_PROGRESS",
-          "timestamp": "",
-          "title": "Server Provisioning",
-          "description": "VPS allocation and EA deployment.",
-          "completed": false
-        },
-        {
-          "status": "ACTIVE",
-          "timestamp": "",
-          "title": "Trading Bot Activated",
-          "description": "EA running successfully with live risk controls.",
-          "completed": false
-        }
-      ],
-      "createdAt": "2026-07-17T10:01:47.963Z",
-      "updatedAt": "2026-07-17T10:01:47.963Z"
-    }
-  ],
-  "adminNotes": [
+      "id": "3a6a76a1-0e1d-4b71-b6c2-f366e3e1350d",
+      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "action": "USER_REGISTERED",
+      "details": "Account registered via Google Sign-In: favourcodex3@gmail.com",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-17T12:04:22.602Z"
+    },
     {
-      "id": "note-1",
-      "targetId": "bot-act-user-1",
-      "targetType": "BOT_ACTIVATION",
-      "note": "Allocated server Node-IC-04. Deploying automated trailing-stops EA parameters.",
-      "adminId": "admin-uuid-1111-2222-333333333333",
-      "adminEmail": "admin@vinebot.com",
-      "createdAt": "2026-07-17T10:01:47.963Z"
+      "id": "80610b05-f18f-40d3-8d78-6aeae6ddfdc6",
+      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
+      "action": "USER_REGISTERED",
+      "details": "Account registered via Google Sign-In: google.user@vinebot.app",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-23T17:22:45.540Z"
     }
   ],
   "notifications": [
-    {
-      "id": "notif-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "title": "Welcome to Vinebot Premium!",
-      "message": "Your automated bot dashboard is pre-configured. Subscribe to a trading plan to get started.",
-      "read": false,
-      "type": "SYSTEM",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    },
     {
       "id": "a1779d6f-4632-40fb-8d27-8456790cefaf",
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
@@ -320,307 +160,6 @@
       "read": false,
       "type": "SECURITY",
       "createdAt": "2026-07-23T17:36:44.586Z"
-    }
-  ],
-  "activityLogs": [
-    {
-      "id": "log-1",
-      "userId": "admin-uuid-1111-2222-333333333333",
-      "action": "SYSTEM_STARTUP",
-      "ipAddress": "127.0.0.1",
-      "details": "Enterprise relDB seed state initiated.",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    },
-    {
-      "id": "log-2",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "action": "USER_REGISTERED",
-      "ipAddress": "127.0.0.1",
-      "details": "User account pre-seeded successfully.",
-      "createdAt": "2026-07-17T10:01:47.963Z"
-    },
-    {
-      "id": "3a6a76a1-0e1d-4b71-b6c2-f366e3e1350d",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "USER_REGISTERED",
-      "details": "Account registered via Google Sign-In: favourcodex3@gmail.com",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-17T12:04:22.602Z"
-    },
-    {
-      "id": "cfa7ac63-536b-48ad-9f01-f523d54b9f09",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-17T12:42:17.243Z"
-    },
-    {
-      "id": "703c18d1-49e2-47f7-a825-9d630b1ccb7e",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-17T14:19:45.296Z"
-    },
-    {
-      "id": "80610b05-f18f-40d3-8d78-6aeae6ddfdc6",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "USER_REGISTERED",
-      "details": "Account registered via Google Sign-In: google.user@vinebot.app",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:22:45.540Z"
-    },
-    {
-      "id": "b0f0833d-f365-4bf4-9fc4-58c9e9f7c924",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:24:47.193Z"
-    },
-    {
-      "id": "c0a3e55d-bc00-4c1c-8fa1-ba468b165b46",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:25:26.490Z"
-    },
-    {
-      "id": "c58ff3e3-bf1b-4493-8732-9098fb7d8891",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:26:37.394Z"
-    },
-    {
-      "id": "754d9336-1208-4c5c-b848-f7df69330193",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:27:41.626Z"
-    },
-    {
-      "id": "2f5d5838-fbbf-422a-b515-a9ba1a27bffa",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:36:03.250Z"
-    },
-    {
-      "id": "256911dc-2e09-4608-97d0-82dd534715cb",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:36:35.735Z"
-    },
-    {
-      "id": "46fb617f-41a5-4e08-a642-2181cbde28e9",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "ACCEPTED_TERMS",
-      "details": "User accepted onboarding compliance terms and policies",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:36:44.586Z"
-    },
-    {
-      "id": "a51c9981-86d8-4622-b58e-5e2bab816ab9",
-      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T17:49:24.361Z"
-    },
-    {
-      "id": "c2df4220-a2ad-4f0e-886a-99fca150c9c5",
-      "userId": "admin-uuid-1111-2222-333333333333",
-      "action": "LOGIN",
-      "details": "Successful user login credentials provided",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T18:26:45.659Z"
-    },
-    {
-      "id": "a7ae50d0-b850-48df-8e87-44ecce4c7cf5",
-      "userId": "vinindustry0-uuid-admin",
-      "action": "LOGIN",
-      "details": "Successful user login credentials provided",
-      "ipAddress": "127.0.0.1",
-      "createdAt": "2026-07-23T18:26:52.560Z"
-    }
-  ],
-  "lookupItems": [],
-  "trades": [
-    {
-      "id": "trade-1",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "EURUSD",
-      "type": "BUY",
-      "volume": 1,
-      "entryPrice": 1.0854,
-      "exitPrice": 1.0912,
-      "pnl": 580,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T06:01:50.081Z",
-      "closedAt": "2026-07-23T06:31:50.081Z"
-    },
-    {
-      "id": "trade-2",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "GBPUSD",
-      "type": "SELL",
-      "volume": 0.5,
-      "entryPrice": 1.2741,
-      "exitPrice": 1.269,
-      "pnl": 255,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T08:01:50.081Z",
-      "closedAt": "2026-07-23T08:49:50.081Z"
-    },
-    {
-      "id": "trade-3",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "USDJPY",
-      "type": "BUY",
-      "volume": 2,
-      "entryPrice": 154.2,
-      "exitPrice": 153.85,
-      "pnl": -450,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T10:01:50.081Z",
-      "closedAt": "2026-07-23T11:01:50.081Z"
-    },
-    {
-      "id": "trade-4",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "XAUUSD",
-      "type": "BUY",
-      "volume": 0.2,
-      "entryPrice": 2350.5,
-      "exitPrice": 2368.2,
-      "pnl": 354,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T12:01:50.081Z",
-      "closedAt": "2026-07-23T13:01:50.081Z"
-    },
-    {
-      "id": "trade-5",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "BTCUSD",
-      "type": "BUY",
-      "volume": 0.1,
-      "entryPrice": 64200,
-      "exitPrice": 64850,
-      "pnl": 65,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T13:01:50.081Z",
-      "closedAt": "2026-07-23T14:01:50.081Z"
-    },
-    {
-      "id": "trade-6",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "USDCAD",
-      "type": "SELL",
-      "volume": 1,
-      "entryPrice": 1.362,
-      "exitPrice": 1.3655,
-      "pnl": -350,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T14:01:50.081Z",
-      "closedAt": "2026-07-23T14:31:50.081Z"
-    },
-    {
-      "id": "trade-7",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "AUDUSD",
-      "type": "BUY",
-      "volume": 1.5,
-      "entryPrice": 0.662,
-      "exitPrice": 0.6655,
-      "pnl": 525,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T14:31:50.081Z",
-      "closedAt": "2026-07-23T15:01:50.081Z"
-    },
-    {
-      "id": "trade-8",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "NZDUSD",
-      "type": "SELL",
-      "volume": 0.8,
-      "entryPrice": 0.612,
-      "exitPrice": 0.6085,
-      "pnl": 280,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T15:01:50.081Z",
-      "closedAt": "2026-07-23T15:13:50.081Z"
-    },
-    {
-      "id": "trade-9",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "EURGBP",
-      "type": "BUY",
-      "volume": 1,
-      "entryPrice": 0.842,
-      "exitPrice": 0.8405,
-      "pnl": -150,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T15:16:50.081Z",
-      "closedAt": "2026-07-23T15:31:50.081Z"
-    },
-    {
-      "id": "trade-10",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "USDCHF",
-      "type": "SELL",
-      "volume": 1.2,
-      "entryPrice": 0.894,
-      "exitPrice": 0.889,
-      "pnl": 600,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T15:31:50.081Z",
-      "closedAt": "2026-07-23T15:46:50.081Z"
-    },
-    {
-      "id": "trade-11",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "GBPUSD",
-      "type": "BUY",
-      "volume": 0.5,
-      "entryPrice": 1.272,
-      "exitPrice": 1.277,
-      "pnl": 250,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T15:46:50.081Z",
-      "closedAt": "2026-07-23T15:56:50.081Z"
-    },
-    {
-      "id": "trade-12",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "XAUUSD",
-      "type": "SELL",
-      "volume": 0.15,
-      "entryPrice": 2375,
-      "exitPrice": 2382,
-      "pnl": -105,
-      "status": "CLOSED",
-      "createdAt": "2026-07-23T15:51:50.081Z",
-      "closedAt": "2026-07-23T15:59:50.081Z"
-    },
-    {
-      "id": "trade-13",
-      "userId": "user-uuid-1111-2222-333333333333",
-      "symbol": "EURUSD",
-      "type": "BUY",
-      "volume": 1,
-      "entryPrice": 1.092,
-      "exitPrice": 0,
-      "pnl": 34,
-      "status": "OPEN",
-      "createdAt": "2026-07-23T15:56:50.081Z"
     }
   ]
 }

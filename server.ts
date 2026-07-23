@@ -1940,6 +1940,19 @@ app.get('/api/activity-logs', authenticateToken, (req: Request, res: Response) =
   });
 });
 
+// --- Real Trades API for current User ---
+app.get('/api/trades', authenticateToken, (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const userTrades = db.getTradesForUser(userId);
+  res.json({
+    success: true,
+    message: 'User trades retrieved.',
+    data: {
+      trades: userTrades
+    }
+  });
+});
+
 // ==========================================
 // ADMIN DASHBOARD CONTROLLERS (SECURE)
 // ==========================================
@@ -1949,52 +1962,57 @@ app.get('/api/admin/stats', authenticateToken, requireAdmin, (req: Request, res:
   const users = db.getUsers();
   const subs = db.getSubscriptions().filter(s => s.status === 'ACTIVE');
   const payments = db.getPayments().filter(p => p.status === 'succeeded');
-  const mt5Count = db.getMt5Accounts().length;
+  const mt5Accounts = db.getMt5Accounts();
   const botActivations = db.getBotActivations();
 
   const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0);
-  const pendingBotActivations = botActivations.filter(b => b.status === 'WAITING_FOR_BOT_TEAM' || b.status === 'IN_PROGRESS').length;
+  const activeBots = users.filter(u => u.isBotActive === true || botActivations.some(b => b.userId === u.id && b.status === 'ACTIVE')).length;
+  const pendingBotActivations = botActivations.filter(b => b.status === 'WAITING_FOR_BOT_TEAM' || b.status === 'IN_PROGRESS' || b.status === 'PENDING_PAYMENT').length;
 
   res.json({
     success: true,
-    message: 'Administrative statistics compiled successfully.',
+    message: 'Administrative statistics compiled successfully from live database.',
     data: {
       stats: {
         totalUsers: users.length,
         activeSubscriptions: subs.length,
         totalRevenue: totalRevenue,
-        linkedMt5Accounts: mt5Count,
+        linkedMt5Accounts: mt5Accounts.length,
+        activeBots: activeBots,
         pendingBotActivations: pendingBotActivations
       }
     }
   });
 });
 
-// Get Users list
+// Get Users list with live subscription, MT5, and bot activation parameters
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const users = db.getUsers().map(u => {
     const sub = db.getSubscriptionForUser(u.id);
     const mt5 = db.getMt5AccountForUser(u.id);
     const bot = db.getBotActivationForUser(u.id);
+    const isBotActive = u.isBotActive === true || bot?.status === 'ACTIVE';
+
     return {
       ...u,
+      isBotActive,
       subscription: sub ? { id: sub.id, planId: sub.planId, status: sub.status, currentPeriodEnd: sub.currentPeriodEnd } : null,
-      mt5: mt5 ? { id: mt5.id, accountNumber: mt5.accountNumber, brokerName: mt5.brokerName } : null,
-      bot: bot ? { id: bot.id, status: bot.status } : null
+      mt5: mt5 ? { id: mt5.id, accountNumber: mt5.accountNumber, brokerName: mt5.brokerName, serverName: mt5.serverName } : null,
+      bot: bot ? { id: bot.id, status: bot.status, adminNotes: bot.adminNotes } : null
     };
   });
 
   res.json({
     success: true,
-    message: 'All users and connection parameters retrieved.',
+    message: 'All registered production users retrieved.',
     data: users
   });
 });
 
-// Toggle user verification or change role
+// Update User parameters (verified, role, isBotActive)
 app.put('/api/admin/users/:id', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const { id } = req.params;
-  const { role, verified } = req.body;
+  const { role, verified, isBotActive } = req.body;
 
   const user = db.findUserById(id);
   if (!user) {
@@ -2002,17 +2020,132 @@ app.put('/api/admin/users/:id', authenticateToken, requireAdmin, (req: Request, 
   }
 
   const updates: any = {};
-  if (role) updates.role = role;
+  if (role !== undefined) updates.role = role;
   if (verified !== undefined) updates.verified = verified;
+  if (isBotActive !== undefined) updates.isBotActive = isBotActive;
 
   db.updateUser(id, updates);
-  db.createActivityLog(req.user!.id, 'ADMIN_ACTION', `Updated user: ${user.email} (${JSON.stringify(updates)})`, req.ip);
-  db.createNotification(id, 'Account Parameters Updated', 'An administrator has modified your profile specifications.', 'SYSTEM');
+
+  // Sync bot activation status if isBotActive was toggled
+  if (isBotActive !== undefined) {
+    let botAct = db.getBotActivationForUser(id);
+    if (!botAct) {
+      const mt5 = db.getMt5AccountForUser(id);
+      botAct = db.createBotActivation(id, mt5?.id || 'unlinked-mt5', isBotActive ? 'ACTIVE' : 'PAUSED');
+    } else {
+      db.updateBotActivationStatus(botAct.id, isBotActive ? 'ACTIVE' : 'PAUSED', isBotActive ? 'Bot activated by Administrator' : 'Bot deactivated by Administrator', req.user!.email);
+    }
+  }
+
+  db.createActivityLog(req.user!.id, 'ADMIN_ACTION', `Updated user parameters for ${user.email}: ${JSON.stringify(updates)}`, req.ip);
+  db.createNotification(id, 'Account Parameters Updated', `Your account configuration was updated by an administrator. Bot Active: ${isBotActive ?? user.isBotActive ? 'YES' : 'NO'}`, 'SYSTEM');
 
   res.json({
     success: true,
-    message: 'User profile settings updated.',
+    message: 'User profile updated successfully.',
     data: db.findUserById(id)
+  });
+});
+
+// Get real MT5 Account submissions with credentials desk features
+app.get('/api/admin/mt5-accounts', authenticateToken, requireAdmin, (req: Request, res: Response) => {
+  const accounts = db.getMt5Accounts().map(account => {
+    const user = db.findUserById(account.userId);
+    let plainPassword = '';
+    try {
+      plainPassword = decryptPassword(account.encryptedPassword, account.iv, account.authTag);
+    } catch (e) {
+      plainPassword = '••••••••';
+    }
+
+    return {
+      id: account.id,
+      userId: account.userId,
+      userEmail: user ? user.email : 'Unknown User',
+      accountNumber: account.accountNumber,
+      brokerName: account.brokerName,
+      serverName: account.serverName,
+      label: account.label || 'Standard MT5 Account',
+      password: plainPassword,
+      createdAt: account.createdAt,
+      updatedAt: account.updatedAt,
+      emailDispatchedToAdmin: true // Alert dispatched to vinindustry0@gmail.com upon submission
+    };
+  });
+
+  res.json({
+    success: true,
+    message: 'Live MT5 account credentials retrieved.',
+    data: accounts
+  });
+});
+
+// Dedicated Bot Activation / Deactivation toggle endpoint
+app.post('/api/admin/activate-bot', authenticateToken, requireAdmin, (req: Request, res: Response) => {
+  const { userId, isBotActive, adminNotes } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ success: false, message: 'User ID is required for bot activation.' });
+  }
+
+  const user = db.findUserById(userId);
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User account not found.' });
+  }
+
+  const activeState = Boolean(isBotActive);
+  db.updateUser(userId, { isBotActive: activeState });
+
+  let botAct = db.getBotActivationForUser(userId);
+  const targetStatus: BotActivationStatus = activeState ? 'ACTIVE' : 'PAUSED';
+
+  if (!botAct) {
+    const mt5 = db.getMt5AccountForUser(userId);
+    botAct = db.createBotActivation(userId, mt5?.id || 'unlinked-mt5', targetStatus);
+  } else {
+    db.updateBotActivationStatus(botAct.id, targetStatus, adminNotes || (activeState ? 'Bot enabled by Admin Operations Desk' : 'Bot disabled by Admin Operations Desk'), req.user!.email);
+  }
+
+  db.createActivityLog(req.user!.id, 'ADMIN_BOT_TOGGLE', `Toggled bot for ${user.email} -> ${activeState ? 'ACTIVE' : 'DEACTIVATED'}`, req.ip);
+  db.createNotification(
+    userId,
+    `Bot Status: ${activeState ? 'ACTIVATED' : 'PAUSED'}`,
+    `Your Vinebot trading bot execution state was set to ${activeState ? 'ACTIVE' : 'PAUSED'} by an administrator.`,
+    'BOT_ACTIVATION'
+  );
+
+  res.json({
+    success: true,
+    message: `Bot execution state updated to ${activeState ? 'ACTIVE' : 'PAUSED'}.`,
+    data: {
+      userId,
+      isBotActive: activeState,
+      botActivation: db.getBotActivationForUser(userId)
+    }
+  });
+});
+
+// Get Subscriptions & Payments Desk
+app.get('/api/admin/subscriptions', authenticateToken, requireAdmin, (req: Request, res: Response) => {
+  const subscriptions = db.getSubscriptions().map(sub => {
+    const user = db.findUserById(sub.userId);
+    const plan = db.getSubscriptionPlans().find(p => p.id === sub.planId);
+    const userPayments = db.getPayments().filter(p => p.userId === sub.userId);
+    const userBot = db.getBotActivationForUser(sub.userId);
+    
+    return {
+      ...sub,
+      userEmail: user ? user.email : 'Unknown User',
+      isBotActive: user?.isBotActive === true || userBot?.status === 'ACTIVE',
+      planName: plan ? plan.name : sub.planId,
+      payments: userPayments
+    };
+  });
+
+  res.json({
+    success: true,
+    message: 'All customer billing subscriptions retrieved.',
+    data: subscriptions
   });
 });
 
@@ -2023,7 +2156,7 @@ app.get('/api/admin/bot-activations', authenticateToken, requireAdmin, (req: Req
     const mt5 = db.getMt5Accounts().find(m => m.id === act.mt5AccountId);
     return {
       ...act,
-      user: user ? { email: user.email, verified: user.verified } : null,
+      user: user ? { email: user.email, verified: user.verified, isBotActive: user.isBotActive } : null,
       mt5: mt5 ? { accountNumber: mt5.accountNumber, brokerName: mt5.brokerName, serverName: mt5.serverName } : null
     };
   });
@@ -2048,6 +2181,13 @@ app.put('/api/admin/bot-activations/:id', authenticateToken, requireAdmin, (req:
   const updatedAct = db.updateBotActivationStatus(id, status as BotActivationStatus, adminNotes, req.user!.email);
   if (!updatedAct) {
     return res.status(500).json({ success: false, message: 'Failed to update activation.' });
+  }
+
+  // Also update user's isBotActive field if status is ACTIVE or PAUSED / CANCELLED
+  if (status === 'ACTIVE') {
+    db.updateUser(act.userId, { isBotActive: true });
+  } else if (status === 'PAUSED' || status === 'CANCELLED' || status === 'FAILED') {
+    db.updateUser(act.userId, { isBotActive: false });
   }
 
   // Create audit log
