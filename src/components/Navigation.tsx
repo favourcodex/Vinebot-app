@@ -16,10 +16,11 @@ import { Logo } from './common/Logo';
 interface NavigationProps {
   currentTab: string;
   onTabChange: (tab: string) => void;
+  onNavigate?: (route: string) => void;
   children: React.ReactNode;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange, children }) => {
+export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange, onNavigate, children }) => {
   const { state, logout, apiRequest, updateUser } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -66,10 +67,6 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
     { id: 'settings', label: 'Security', icon: <Settings className="w-4 h-4" /> }
   ];
 
-  if (user?.role === 'ADMIN') {
-    navItems.push({ id: 'admin', label: 'Operations Desk', icon: <ShieldAlert className="w-4 h-4" /> });
-  }
-
   return (
     <div className="bg-[#050505] text-[#E5E5E5] min-h-screen flex flex-col md:flex-row font-sans">
       
@@ -106,6 +103,20 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               );
             })}
           </nav>
+
+          {user?.role === 'ADMIN' && (
+            <div className="px-3 mt-6 pt-4 border-t border-white/5">
+              <button
+                onClick={() => onNavigate ? onNavigate('/admin') : (window.location.href = '/admin')}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 text-xs font-bold transition cursor-pointer"
+              >
+                <div className="flex items-center gap-2">
+                  <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+                  <span>Operations Console</span>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Profile Card / Logout Footer */}
