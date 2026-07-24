@@ -13,6 +13,7 @@ import { Timeline } from './components/Timeline';
 import { SubscriptionCard } from './components/SubscriptionCard';
 import { SettingsPage } from './components/Settings';
 import { AdminPanel } from './components/AdminPanel';
+import { AdminLayout } from './layouts/AdminLayout';
 import { TradeHistory } from './components/TradeHistory';
 import { TermsPage, PrivacyPage, CookiePolicyPage, RiskDisclosurePage } from './components/LegalPages';
 import { OnboardingTerms } from './components/OnboardingTerms';
@@ -31,20 +32,15 @@ function AppContent() {
   const [route, setRoute] = useState<string>(() => {
     const path = window.location.pathname;
     if (path === '/admin' || path === '/admin-login') {
-      return '/admin-login';
+      return '/admin';
     }
     if (['/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
       return path;
     }
     return '/';
   });
-  const [dashboardTab, setDashboardTab] = useState<string>(() => {
-    const path = window.location.pathname;
-    if (path === '/admin' || path === '/admin-login') {
-      return 'admin';
-    }
-    return 'dashboard';
-  });
+  const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
+  const [adminTab, setAdminTab] = useState<'users' | 'mt5' | 'subscriptions' | 'logs'>('users');
 
   // Form Fields
   const [email, setEmail] = useState('');
@@ -83,10 +79,11 @@ function AppContent() {
     if (state.isAuthenticated) {
       if (state.user?.hasAcceptedTerms === false) {
         setRoute('/onboarding/terms');
-      } else {
-        setRoute('/dashboard');
-        if (state.user?.role === 'ADMIN' && (window.location.pathname === '/admin' || window.location.pathname === '/admin-login')) {
-          setDashboardTab('admin');
+      } else if (route === '/login' || route === '/register' || route === '/admin-login') {
+        if (state.user?.role === 'ADMIN') {
+          setRoute('/admin');
+        } else {
+          setRoute('/dashboard');
         }
       }
     } else if (route === '/dashboard' || route === '/onboarding/terms') {
@@ -439,8 +436,7 @@ function AppContent() {
           return;
         }
         login(res.data.token, res.data.refreshToken, res.data.user);
-        setRoute('/dashboard');
-        setDashboardTab('admin'); // Directly open Operations Desk
+        setRoute('/admin');
       } else {
         setAuthError(res?.message || 'Admin authentication failed.');
       }
@@ -614,6 +610,107 @@ function AppContent() {
         );
 
       case '/admin':
+        if (!state.isAuthenticated) {
+          return (
+            <div className="bg-[#050505] min-h-screen text-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
+              <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+                <button 
+                  onClick={() => setRoute('/')}
+                  className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white mb-6 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" /> Return home
+                </button>
+                <div className="w-12 h-12 bg-rose-600/20 border border-rose-500/30 rounded-xl flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                  <ShieldAlert className="w-6 h-6 text-rose-400" />
+                </div>
+                <h2 className="mt-4 text-2xl font-bold tracking-tight text-white uppercase font-mono">Operations Console</h2>
+                <p className="mt-1 text-xs text-rose-400/80 uppercase tracking-widest font-mono text-[9px]">Authorized Administrators Only</p>
+              </div>
+
+              <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-[#0b0c10] border border-rose-500/20 py-8 px-4 shadow-2xl sm:rounded-xl sm:px-10 shadow-rose-950/10">
+                  {authError && (
+                    <div className="mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 p-3 rounded-lg text-xs flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 shrink-0" />
+                      <span>{authError}</span>
+                    </div>
+                  )}
+
+                  <form className="space-y-4" onSubmit={handleAdminLoginSubmit}>
+                    <div>
+                      <label className="block text-[10px] font-semibold text-rose-400/60 uppercase tracking-wider mb-1.5">Admin Email ID</label>
+                      <div className="relative">
+                        <input 
+                          type="email"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          placeholder="admin@vinebot.app"
+                          className="w-full bg-[#080a0e] border border-rose-950/40 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500 font-mono"
+                          required
+                        />
+                        <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-500/40" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <label className="block text-[10px] font-semibold text-rose-400/60 uppercase tracking-wider">Access Password</label>
+                      </div>
+                      <div className="relative">
+                        <input 
+                          type="password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full bg-[#080a0e] border border-rose-950/40 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500 font-mono"
+                          required
+                        />
+                        <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-500/40" />
+                      </div>
+                    </div>
+
+                    <button 
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full py-3 bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-semibold text-xs tracking-wider rounded-lg transition uppercase flex items-center justify-center gap-1.5 cursor-pointer font-mono"
+                    >
+                      Authorize Console <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        if (state.user?.role !== 'ADMIN') {
+          return (
+            <div className="bg-[#050505] min-h-screen text-gray-200 flex flex-col items-center justify-center p-4">
+              <div className="text-center space-y-4 max-w-md">
+                <div className="w-12 h-12 bg-rose-500/20 border border-rose-500/30 rounded-xl flex items-center justify-center mx-auto text-rose-400">
+                  <ShieldAlert className="w-6 h-6" />
+                </div>
+                <h2 className="text-xl font-bold text-white uppercase font-mono">Access Restricted</h2>
+                <p className="text-xs text-gray-400">Your account ({state.user?.email}) does not possess administrator privileges on the Vinebot Operations Console.</p>
+                <div className="pt-2 flex gap-3 justify-center">
+                  <button onClick={() => setRoute('/dashboard')} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold uppercase cursor-pointer">
+                    Return to Dashboard
+                  </button>
+                  <button onClick={() => { logout(); setRoute('/admin-login'); }} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold uppercase cursor-pointer">
+                    Switch Account
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <AdminLayout currentTab={adminTab} onTabChange={setAdminTab}>
+            <AdminPanel activeTab={adminTab} onTabChange={setAdminTab} />
+          </AdminLayout>
+        );
+
       case '/admin-login':
         return (
           <div className="bg-[#050505] min-h-screen text-gray-200 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
@@ -648,7 +745,7 @@ function AppContent() {
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        placeholder="admin@vinebot.com"
+                        placeholder="admin@vinebot.app"
                         className="w-full bg-[#080a0e] border border-rose-950/40 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500 font-mono"
                         required
                       />
@@ -784,14 +881,13 @@ function AppContent() {
 
       case '/dashboard':
         return (
-          <Navigation currentTab={dashboardTab} onTabChange={setDashboardTab}>
+          <Navigation currentTab={dashboardTab} onTabChange={setDashboardTab} onNavigate={setRoute}>
             {dashboardTab === 'dashboard' && <DashboardHome onTabChange={setDashboardTab} />}
             {dashboardTab === 'mt5' && <Mt5Form onTabChange={setDashboardTab} />}
             {dashboardTab === 'bot-status' && <Timeline />}
             {dashboardTab === 'trades' && <TradeHistory />}
             {dashboardTab === 'subscription' && <SubscriptionCard />}
             {dashboardTab === 'settings' && <SettingsPage />}
-            {dashboardTab === 'admin' && <AdminPanel />}
           </Navigation>
         );
 

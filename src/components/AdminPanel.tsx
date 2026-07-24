@@ -21,7 +21,12 @@ interface AdminStats {
   pendingBotActivations: number;
 }
 
-export const AdminPanel: React.FC = () => {
+interface AdminPanelProps {
+  activeTab?: 'users' | 'mt5' | 'subscriptions' | 'logs';
+  onTabChange?: (tab: 'users' | 'mt5' | 'subscriptions' | 'logs') => void;
+}
+
+export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }) => {
   const { apiRequest } = useAuth();
   
   const [stats, setStats] = useState<AdminStats | null>(null);
@@ -31,7 +36,14 @@ export const AdminPanel: React.FC = () => {
   const [activations, setActivations] = useState<any[]>([]);
   const [logs, setLogs] = useState<any[]>([]);
   
-  const [view, setView] = useState<'users' | 'mt5' | 'subscriptions' | 'logs'>('users');
+  const [internalView, setInternalView] = useState<'users' | 'mt5' | 'subscriptions' | 'logs'>('users');
+  const view = activeTab || internalView;
+
+  const setView = (tab: 'users' | 'mt5' | 'subscriptions' | 'logs') => {
+    setInternalView(tab);
+    if (onTabChange) onTabChange(tab);
+  };
+
   const [loading, setLoading] = useState(true);
 
   // Search/Filters
