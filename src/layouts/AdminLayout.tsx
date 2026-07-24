@@ -7,13 +7,15 @@ import React, { useState } from 'react';
 import { useAuth } from '../components/AuthContext';
 import { 
   ShieldAlert, Users, Key, Power, Activity, LogOut, 
-  Menu, X, LayoutDashboard, RefreshCw, CheckCircle2, Shield
+  Menu, X, LayoutDashboard, RefreshCw, CheckCircle2, Shield, Sliders
 } from 'lucide-react';
 import { Logo } from '../components/common/Logo';
 
+export type AdminTab = 'overview' | 'users' | 'mt5' | 'subscriptions' | 'logs' | 'settings';
+
 interface AdminLayoutProps {
-  currentTab: 'users' | 'mt5' | 'subscriptions' | 'logs';
-  onTabChange: (tab: 'users' | 'mt5' | 'subscriptions' | 'logs') => void;
+  currentTab: AdminTab;
+  onTabChange: (tab: AdminTab) => void;
   children: React.ReactNode;
 }
 
@@ -24,11 +26,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
 
   const user = state.user;
 
-  const adminNavItems = [
-    { id: 'users', label: 'User Management', icon: <Users className="w-4 h-4" />, desc: 'User list, status & verification' },
-    { id: 'mt5', label: 'MT5 Credentials Desk', icon: <Key className="w-4 h-4" />, desc: 'Submitted MT5 credentials' },
-    { id: 'subscriptions', label: 'Bot Activations & Billing', icon: <Power className="w-4 h-4" />, desc: 'Real-time bot state toggles' },
-    { id: 'logs', label: 'System Audit Logs', icon: <Activity className="w-4 h-4" />, desc: 'Activity & event audit feed' }
+  const adminNavItems: { id: AdminTab; label: string; icon: React.ReactNode; desc: string }[] = [
+    { id: 'overview', label: 'Operations Overview', icon: <LayoutDashboard className="w-4 h-4" />, desc: 'Platform metrics & live stats' },
+    { id: 'users', label: 'User Management', icon: <Users className="w-4 h-4" />, desc: 'Registered users & verification' },
+    { id: 'mt5', label: 'MT5 Credentials Desk', icon: <Key className="w-4 h-4" />, desc: 'Submitted broker credentials' },
+    { id: 'subscriptions', label: 'Bot Activation Queue', icon: <Power className="w-4 h-4" />, desc: 'Real-time bot state toggles' },
+    { id: 'logs', label: 'Audit Logs', icon: <Activity className="w-4 h-4" />, desc: 'System events & activity logs' },
+    { id: 'settings', label: 'Platform Settings', icon: <Sliders className="w-4 h-4" />, desc: 'System configuration & alerts' }
   ];
 
   return (
