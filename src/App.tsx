@@ -13,7 +13,7 @@ import { Timeline } from './components/Timeline';
 import { SubscriptionCard } from './components/SubscriptionCard';
 import { SettingsPage } from './components/Settings';
 import { AdminPanel } from './components/AdminPanel';
-import { AdminLayout } from './layouts/AdminLayout';
+import { AdminLayout, AdminTab } from './layouts/AdminLayout';
 import { TradeHistory } from './components/TradeHistory';
 import { TermsPage, PrivacyPage, CookiePolicyPage, RiskDisclosurePage } from './components/LegalPages';
 import { OnboardingTerms } from './components/OnboardingTerms';
@@ -40,7 +40,7 @@ function AppContent() {
     return '/';
   });
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
-  const [adminTab, setAdminTab] = useState<'users' | 'mt5' | 'subscriptions' | 'logs'>('users');
+  const [adminTab, setAdminTab] = useState<AdminTab>('overview');
 
   // Form Fields
   const [email, setEmail] = useState('');
