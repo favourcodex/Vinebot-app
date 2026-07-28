@@ -101,6 +101,7 @@ function AppContent() {
         origin.endsWith('.run.app') || 
         origin.includes('localhost') || 
         origin.includes('127.0.0.1') || 
+        origin.includes('vercel.app') || 
         origin.includes('netlify.app') || 
         origin.includes('railway.app');
 

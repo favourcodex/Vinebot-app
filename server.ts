@@ -87,18 +87,16 @@ app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), asy
 app.use(express.json());
 app.use(cookieParser());
 
-// Dynamic CORS configuration for Vercel, Netlify, Localhost, and Preview domains
+// Dynamic CORS configuration for Vercel, Localhost, and Preview domains
 const allowedOrigins = [
   'https://vinebot-app.vercel.app',
   'https://vinebot-app.vercel.app/',
-  'https://vinebot.netlify.app',
-  'https://vinebot.netlify.app/',
+  process.env.FRONTEND_URL || '',
+  process.env.CLIENT_URL || '',
   'http://localhost:5173',
   'http://localhost:5173/',
   'http://localhost:3000',
-  'http://localhost:3000/',
-  process.env.FRONTEND_URL || '',
-  process.env.CLIENT_URL || ''
+  'http://localhost:3000/'
 ].map(url => url.trim()).filter(Boolean);
 
 const corsOptions: cors.CorsOptions = {
@@ -925,10 +923,18 @@ const getAppBaseUrl = (req: Request): string => {
 const DEFAULT_GOOGLE_CLIENT_ID = '717234671364-bju7r7k2u8544plscriivsaq3tmk3ms2.apps.googleusercontent.com';
 const DEFAULT_GOOGLE_CLIENT_SECRET = ['GOCSPX', 'MAkEt5d7HFTbSn6V7VRpK5mqEf2K'].join('-');
 
+const getGoogleCallbackUrl = (): string => {
+  if (process.env.GOOGLE_CALLBACK_URL) {
+    return process.env.GOOGLE_CALLBACK_URL.trim();
+  }
+  const frontendUrl = (process.env.CLIENT_URL || process.env.FRONTEND_URL || 'https://vinebot-app.vercel.app').trim().replace(/\/$/, '');
+  return `${frontendUrl}/auth/google/callback`;
+};
+
 app.get('/api/auth/google/config', (req: Request, res: Response) => {
-  const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '');
-  const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '');
-  const expectedRedirectUri = process.env.GOOGLE_CALLBACK_URL || 'https://vinebot-app-production.up.railway.app/api/auth/google/callback';
+  const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '').trim();
+  const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '').trim();
+  const expectedRedirectUri = getGoogleCallbackUrl();
   
   res.json({ 
     configured: !!(clientId && clientSecret),
@@ -937,14 +943,14 @@ app.get('/api/auth/google/config', (req: Request, res: Response) => {
 });
 
 app.get(['/api/auth/google', '/api/auth/google/'], (req: Request, res: Response) => {
-  const defaultRedirectUri = process.env.GOOGLE_CALLBACK_URL || 'https://vinebot-app-production.up.railway.app/api/auth/google/callback';
+  const defaultRedirectUri = getGoogleCallbackUrl();
   res.redirect(`/api/auth/google/url?redirectUri=${encodeURIComponent(defaultRedirectUri)}`);
 });
 
 app.get('/api/auth/google/url', (req: Request, res: Response) => {
   const { redirectUri, action } = req.query;
-  const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '');
-  const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '');
+  const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '').trim();
+  const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '').trim();
   
   if (!clientId || !clientSecret) {
     return res.json({ 
@@ -953,7 +959,7 @@ app.get('/api/auth/google/url', (req: Request, res: Response) => {
     });
   }
   
-  const defaultRedirectUri = process.env.GOOGLE_CALLBACK_URL || 'https://vinebot-app-production.up.railway.app/api/auth/google/callback';
+  const defaultRedirectUri = getGoogleCallbackUrl();
   const finalRedirectUri = (redirectUri as string) || defaultRedirectUri;
   
   console.log(`[GOOGLE OAUTH] Constructing redirect_uri: "${finalRedirectUri}" (registered in console)`);
@@ -991,12 +997,12 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
     const protocol = req.secure || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
     clientUrl = host ? `${protocol}://${host}` : 'https://vinebot-app.vercel.app';
   }
-  clientUrl = clientUrl.replace(/\/$/, '');
+  clientUrl = clientUrl.trim().replace(/\/$/, '');
 
   try {
     const { code, state } = req.query;
-    const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '');
-    const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '');
+    const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '').trim();
+    const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '').trim();
     
     if (!clientId || !clientSecret) {
       const configErr = 'Google OAuth is misconfigured: missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET environment variables.';
@@ -1021,7 +1027,7 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
     }
     
     if (!redirectUri) {
-      redirectUri = process.env.GOOGLE_CALLBACK_URL || `${clientUrl}/api/auth/google/callback`;
+      redirectUri = getGoogleCallbackUrl();
     }
     
     console.log(`[Google OAuth] Executing code exchange. redirect_uri="${redirectUri}"`);
