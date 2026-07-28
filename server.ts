@@ -1044,8 +1044,19 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
 
     if (!tokenResponse.ok) {
       const errText = await tokenResponse.text();
-      console.warn('[Google OAuth Notice] Live Google code exchange returned:', errText);
-      console.warn('[Google OAuth Notice] Activating fallback Google user session for preview environment.');
+      let errorDetail = errText;
+      try {
+        const parsed = JSON.parse(errText);
+        if (parsed.error_description) {
+          errorDetail = `${parsed.error} (${parsed.error_description})`;
+        }
+      } catch (e) {
+        // Raw text response
+      }
+
+      console.warn(`[Google OAuth Notice] Code exchange failed: ${errorDetail}`);
+      console.warn('[Google OAuth Notice] To enable live Google OAuth sign-in, please ensure valid GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET credentials are configured in your environment.');
+      console.warn('[Google OAuth Notice] Activating authenticated Google user session fallback for preview environment.');
 
       email = 'google.user@vinebot.app';
       profilePicture = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
