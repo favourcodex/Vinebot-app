@@ -11,7 +11,7 @@
       "role": "ADMIN",
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "createdAt": "2026-07-23T16:01:50.081Z",
-      "updatedAt": "2026-07-23T16:01:50.081Z"
+      "updatedAt": "2026-07-28T01:41:25.737Z"
     },
     {
       "id": "vinindustry0-uuid-admin",
@@ -49,7 +49,7 @@
       "isBotActive": false,
       "role": "USER",
       "createdAt": "2026-07-23T17:22:45.539Z",
-      "updatedAt": "2026-07-23T17:49:24.360Z",
+      "updatedAt": "2026-07-28T01:39:39.959Z",
       "profilePicture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
       "acceptedTermsAt": "2026-07-23T17:36:44.586Z",
       "acceptedIpAddress": "127.0.0.1"
@@ -62,6 +62,13 @@
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
       "expiresAt": "2026-08-16T14:19:45.297Z",
       "createdAt": "2026-07-17T14:19:45.297Z"
+    },
+    {
+      "id": "c82755ac-e3e2-4342-8685-6254c0ad92ec",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluLXV1aWQtMTExMS0yMjIyLTMzMzMzMzMzMzMzMyIsImlhdCI6MTc4NTIwMjg4NSwiZXhwIjoxNzg3Nzk0ODg1fQ.FvZ8d7Gab65lLyJmPJ5Bw-cSRguROfuSOs4ggMWhCMk",
+      "userId": "admin-uuid-1111-2222-333333333333",
+      "expiresAt": "2026-08-27T01:41:25.738Z",
+      "createdAt": "2026-07-28T01:41:25.738Z"
     }
   ],
   "oauthAccounts": [],
@@ -131,6 +138,22 @@
       "details": "Account registered via Google Sign-In: google.user@vinebot.app",
       "ipAddress": "127.0.0.1",
       "createdAt": "2026-07-23T17:22:45.540Z"
+    },
+    {
+      "id": "845a3be4-4ad8-4c12-a2d5-9a4b8e02f248",
+      "userId": "504d0deb-28df-4995-91ed-a0a3d67acda9",
+      "action": "LOGIN",
+      "details": "Successful Google OAuth session established",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-28T01:39:39.961Z"
+    },
+    {
+      "id": "5d7a50df-8f3f-4369-8224-ae477925c030",
+      "userId": "admin-uuid-1111-2222-333333333333",
+      "action": "LOGIN",
+      "details": "Successful user login credentials provided",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2026-07-28T01:41:25.738Z"
     }
   ],
   "notifications": [

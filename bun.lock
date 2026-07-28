@@ -26,7 +26,6 @@
         "resend": "^6.18.0",
         "sequelize": "^6.37.8",
         "stripe": "^22.3.2",
-        "vite": "^6.2.3",
       },
       "devDependencies": {
         "@types/bcryptjs": "^3.0.0",
