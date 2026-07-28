@@ -87,33 +87,36 @@ app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), asy
 app.use(express.json());
 app.use(cookieParser());
 
-// Dynamic CORS configuration for Netlify, Localhost, and Preview domains
+// Dynamic CORS configuration for Vercel, Netlify, Localhost, and Preview domains
 const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3000/',
-  'http://localhost:5173',
-  'http://localhost:5173/',
+  'https://vinebot-app.vercel.app',
+  'https://vinebot-app.vercel.app/',
   'https://vinebot.netlify.app',
   'https://vinebot.netlify.app/',
+  'http://localhost:5173',
+  'http://localhost:5173/',
+  'http://localhost:3000',
+  'http://localhost:3000/',
   process.env.FRONTEND_URL || '',
   process.env.CLIENT_URL || ''
 ].map(url => url.trim()).filter(Boolean);
 
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, server-to-server, or curl/Postman requests)
     if (!origin) {
       return callback(null, true);
     }
     
+    const cleanOrigin = origin.replace(/\/$/, '');
     const isAllowed = allowedOrigins.some(ao => {
       const cleanAo = ao.replace(/\/$/, '');
-      const cleanOrigin = origin.replace(/\/$/, '');
       return cleanOrigin === cleanAo;
     }) ||
-    origin.endsWith('.netlify.app') ||
-    origin.endsWith('.run.app') ||
-    /https:\/\/.*-235247141986\.europe-west2\.run\.app/.test(origin);
+    cleanOrigin.endsWith('.vercel.app') ||
+    cleanOrigin.endsWith('.netlify.app') ||
+    cleanOrigin.endsWith('.run.app') ||
+    /https:\/\/.*-235247141986\.europe-west2\.run\.app/.test(cleanOrigin);
       
     if (isAllowed) {
       callback(null, true);
@@ -122,9 +125,12 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Stable developer secrets with environment configuration
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'vinebot-enterprise-access-token-secret-2026';
