@@ -280,7 +280,7 @@ async function sendMT5DetailsEmail(details: {
 async function sendVerificationEmail(email: string, token: string) {
   const apiKey = process.env.RESEND_API_KEY || process.env.SMTP_PASS;
   const smtpFrom = process.env.SMTP_FROM || 'onboarding@resend.dev';
-  const clientUrl = (process.env.CLIENT_URL || 'https://vinebot.netlify.app').replace(/\/$/, '');
+  const clientUrl = (process.env.CLIENT_URL || process.env.FRONTEND_URL || 'https://vinebot-app.vercel.app').replace(/\/$/, '');
   const verifyUrl = `${clientUrl}/verify-email?token=${token}`;
 
   const htmlContent = `
@@ -377,7 +377,7 @@ async function sendVerificationEmail(email: string, token: string) {
 async function sendMagicLinkEmail(email: string, token: string) {
   const apiKey = process.env.RESEND_API_KEY || process.env.SMTP_PASS;
   const smtpFrom = process.env.SMTP_FROM || 'onboarding@resend.dev';
-  const clientUrl = (process.env.CLIENT_URL || 'https://vinebot.netlify.app').replace(/\/$/, '');
+  const clientUrl = (process.env.CLIENT_URL || process.env.FRONTEND_URL || 'https://vinebot-app.vercel.app').replace(/\/$/, '');
   const magicLink = `${clientUrl}/auth/callback?token=${token}`;
 
   const htmlContent = `
@@ -985,11 +985,11 @@ app.get('/api/auth/google/url', (req: Request, res: Response) => {
 
 app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/callback', '/api/auth/google/callback/'], async (req: Request, res: Response) => {
   // Determine clientUrl for frontend redirect
-  let clientUrl = process.env.CLIENT_URL || process.env.APP_URL;
+  let clientUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL || process.env.APP_URL;
   if (!clientUrl) {
     const host = req.get('host');
     const protocol = req.secure || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
-    clientUrl = host ? `${protocol}://${host}` : 'https://vinebot.netlify.app';
+    clientUrl = host ? `${protocol}://${host}` : 'https://vinebot-app.vercel.app';
   }
   clientUrl = clientUrl.replace(/\/$/, '');
 
