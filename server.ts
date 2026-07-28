@@ -739,18 +739,9 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
 
     if (isSafeAdmin) {
       if (!user) {
-        console.log('[SAFEGUARD] Database lookup for admin failed or empty, fallback active');
-        user = {
-          id: cleanEmail === 'admin@vinebot.app' ? 'admin-uuid-1111-2222-333333333333' : 'vinindustry0-uuid-admin',
-          email: cleanEmail,
-          passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m',
-          verified: true,
-          isEmailVerified: true,
-          hasAcceptedTerms: true,
-          role: 'ADMIN',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
+        console.log('[SAFEGUARD] Database lookup for admin missing, creating admin user');
+        user = db.createUser(cleanEmail, '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', 'ADMIN', true);
+        db.updateUser(user.id, { isEmailVerified: true, hasAcceptedTerms: true });
       } else {
         user.role = 'ADMIN';
         user.verified = true;

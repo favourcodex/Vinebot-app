@@ -281,16 +281,18 @@ class VinebotDatabase {
       if (usersCount === 0) {
         console.log('[PG DB INFO] PostgreSQL database is empty. Performing initial data seed...');
         
-        // Seed each table sequentially
+        // Seed each table sequentially using findOrCreate / safe queries
         for (const user of initialSeed.users) {
           try {
-            const targetId = user.id;
-            const existing = (await UserMod.findByPk(targetId)) || (await UserMod.findOne({ where: { email: user.email } }));
-            if (!existing) {
-              await UserMod.create(user as any);
-            } else {
-              await existing.update({
-                email: user.email,
+            const [userRecord, created] = await UserMod.findOrCreate({
+              where: { email: user.email },
+              defaults: {
+                ...user,
+                id: user.id || crypto.randomUUID()
+              }
+            });
+            if (!created) {
+              await userRecord.update({
                 role: user.role || 'ADMIN',
                 verified: true,
                 isEmailVerified: true,
@@ -350,19 +352,14 @@ class VinebotDatabase {
         }
         console.log('[PG DB INFO] Seeding complete.');
       } else {
-        // Safe-seeding check for specific records: Ensure default Admins exist
+        // Safe-seeding check using findOrCreate for default Admins
         const adminEmails = ['admin@vinebot.app', 'vinindustry0@gmail.com'];
         for (const adminEmail of adminEmails) {
           try {
-            const targetId = adminEmail === 'admin@vinebot.app' ? 'admin-uuid-1111-2222-333333333333' : 'vinindustry0-uuid-admin';
-            const existingAdminByEmail = await UserMod.findOne({ where: { email: adminEmail } });
-            const existingAdminById = await UserMod.findByPk(targetId);
-            const existingAdmin = existingAdminByEmail || existingAdminById;
-
-            if (!existingAdmin) {
-              console.log(`[PG DB INFO] Admin user "${adminEmail}" is missing. Safe-seeding admin account...`);
-              const seedAdmin = {
-                id: targetId,
+            const [adminRecord, created] = await UserMod.findOrCreate({
+              where: { email: adminEmail },
+              defaults: {
+                id: crypto.randomUUID(),
                 email: adminEmail,
                 passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
                 verified: true,
@@ -372,18 +369,20 @@ class VinebotDatabase {
                 profilePicture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
-              };
-              await UserMod.create(seedAdmin as any);
-            } else {
+              }
+            });
+
+            if (!created) {
               console.log(`[PG DB INFO] Admin user "${adminEmail}" already exists. Verifying/updating credentials and role...`);
-              await existingAdmin.update({
-                email: adminEmail,
+              await adminRecord.update({
                 passwordHash: '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', // password: admin
                 role: 'ADMIN',
                 verified: true,
                 isEmailVerified: true,
                 hasAcceptedTerms: true
               });
+            } else {
+              console.log(`[PG DB INFO] Admin user "${adminEmail}" missing. Created using findOrCreate.`);
             }
           } catch (adminSeedErr: any) {
             console.warn(`[PG DB WARN] Safe-seeding admin warning for ${adminEmail}:`, adminSeedErr?.message || adminSeedErr);
@@ -480,9 +479,10 @@ class VinebotDatabase {
       this.isPostgres = true;
       console.log(`[PG DB INFO] Cache pre-populated successfully with ${usersData.length} users and ${subscriptionPlansData.length} plans.`);
 
-    } catch (err) {
-      console.error('[PG DB ERROR] Failed to connect or initialize PostgreSQL. Falling back to local file database.', err);
+    } catch (err: any) {
+      console.warn('[PG DB WARN] Failed to connect or initialize PostgreSQL. Falling back cleanly to local file database.', err?.message || err);
       this.isPostgres = false;
+      this.state = this.loadOrCreateDb();
     }
   }
 
