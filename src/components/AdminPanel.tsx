@@ -319,78 +319,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
       {/* Operations Desk Content Area */}
       <div className="glass-card overflow-hidden !p-0 border border-white/10 rounded-2xl">
         
-        {/* Navigation Tabs Header */}
-        <div className="p-4 border-b border-white/5 bg-white/5 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div className="flex flex-wrap gap-2">
-            <button 
-              onClick={() => { setView('overview'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'overview' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <LayoutDashboard className="w-3.5 h-3.5" /> Platform Overview
-            </button>
-
-            <button 
-              onClick={() => { setView('users'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'users' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Users className="w-3.5 h-3.5" /> User Management ({users.length})
-            </button>
-
-            <button 
-              onClick={() => { setView('mt5'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'mt5' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Key className="w-3.5 h-3.5" /> MT5 Credentials Desk ({mt5Accounts.length})
-            </button>
-
-            <button 
-              onClick={() => { setView('subscriptions'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'subscriptions' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Power className="w-3.5 h-3.5" /> Bot Activation Queue ({stats?.pendingBotActivations || 0})
-            </button>
-
-            <button 
-              onClick={() => { setView('logs'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'logs' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5" /> Audit Logs ({logs.length})
-            </button>
-
-            <button 
-              onClick={() => { setView('settings'); setSearchQuery(''); }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-wide transition flex items-center gap-2 cursor-pointer ${
-                view === 'settings' 
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-950/40' 
-                  : 'text-white/50 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Sliders className="w-3.5 h-3.5" /> Platform Settings
-            </button>
-          </div>
+        {/* View Header Bar */}
+        <div className="p-4 border-b border-white/5 bg-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h2 className="text-xs font-bold text-white/90 uppercase tracking-wider flex items-center gap-2">
+            {view === 'overview' && <><LayoutDashboard className="w-4 h-4 text-rose-400" /> Platform Overview</>}
+            {view === 'users' && <><Users className="w-4 h-4 text-rose-400" /> User Management ({users.length})</>}
+            {view === 'mt5' && <><Key className="w-4 h-4 text-rose-400" /> MT5 Credentials Desk ({mt5Accounts.length})</>}
+            {view === 'subscriptions' && <><Power className="w-4 h-4 text-rose-400" /> Bot Activation Queue ({stats?.pendingBotActivations || 0})</>}
+            {view === 'logs' && <><Activity className="w-4 h-4 text-rose-400" /> System Audit Logs ({logs.length})</>}
+            {view === 'settings' && <><Sliders className="w-4 h-4 text-rose-400" /> Platform Settings</>}
+          </h2>
 
           {/* Search Inputs & Filter Actions */}
-          <div className="flex items-center gap-3 w-full lg:w-auto">
+          <div className="flex items-center gap-3 w-full sm:w-auto ml-auto">
             {view === 'users' && (
               <select
                 value={statusFilter}
@@ -414,16 +355,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
               </button>
             )}
 
-            <div className="relative w-full lg:w-60">
-              <input 
-                type="text"
-                placeholder={`Search ${view}...`}
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full bg-[#050505] border border-white/10 rounded-xl pl-8 pr-4 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
-              />
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40" />
-            </div>
+            {(view === 'users' || view === 'mt5' || view === 'subscriptions' || view === 'logs') && (
+              <div className="relative w-full sm:w-60">
+                <input 
+                  type="text"
+                  placeholder={`Search ${view}...`}
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="w-full bg-[#050505] border border-white/10 rounded-xl pl-8 pr-4 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                />
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40" />
+              </div>
+            )}
           </div>
         </div>
 
