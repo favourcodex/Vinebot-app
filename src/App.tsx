@@ -55,7 +55,7 @@ function AppContent() {
   useEffect(() => {
     const checkGoogleConfig = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_URL || '';
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
         const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
         const res = await fetch(`${cleanBase}/api/auth/google/config`);
         if (res.ok) {
@@ -118,7 +118,7 @@ function AppContent() {
 
           if (!user || typeof user.hasAcceptedTerms === 'undefined') {
             try {
-              const baseUrl = import.meta.env.VITE_API_URL || '';
+              const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
               const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
               const res = await fetch(`${cleanBase}/api/auth/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -252,7 +252,7 @@ function AppContent() {
       setAuthSuccess(null);
       
       const redirectUri = `${window.location.origin}/auth/google/callback`;
-      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
       const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
       const res = await fetch(`${cleanBase}/api/auth/google/url?redirectUri=${encodeURIComponent(redirectUri)}&action=${action}`);
       
