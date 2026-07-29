@@ -5,6 +5,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, AuthState, ApiResponse } from '../types';
+import { apiFetch, getApiUrl } from '../utils/api';
 
 interface AuthContextType {
   state: AuthState;
@@ -59,19 +60,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const getApiUrl = (endpoint: string): string => {
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    return `${cleanBase}${cleanEndpoint}`;
-  };
-
   const logout = () => {
     const refresh = localStorage.getItem('vinebot_refresh');
     
     // Call server to revoke
     if (refresh && state.token) {
-      fetch(getApiUrl('/api/auth/logout'), {
+      apiFetch('/api/auth/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const response = await fetch(getApiUrl(endpoint), {
+      const response = await apiFetch(endpoint, {
         ...options,
         headers
       });

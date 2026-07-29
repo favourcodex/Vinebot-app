@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './components/AuthContext';
+import { apiFetch, getApiUrl } from './utils/api';
 import { LandingPage } from './components/LandingPage';
 import { Navigation } from './components/Navigation';
 import { DashboardHome } from './components/DashboardHome';
@@ -55,15 +56,13 @@ function AppContent() {
   useEffect(() => {
     const checkGoogleConfig = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-        const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-        const res = await fetch(`${cleanBase}/api/auth/google/config`);
+        const res = await apiFetch('/api/auth/google/config');
         if (res.ok) {
           const data = await res.json();
           setGoogleConfigured(!!data.configured);
         }
       } catch (err) {
-        console.error('Failed to load Google Auth configuration status:', err);
+        console.warn('Google Auth configuration check notice:', err);
       }
     };
     checkGoogleConfig();
@@ -118,9 +117,7 @@ function AppContent() {
 
           if (!user || typeof user.hasAcceptedTerms === 'undefined') {
             try {
-              const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-              const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-              const res = await fetch(`${cleanBase}/api/auth/me`, {
+              const res = await apiFetch('/api/auth/me', {
                 headers: { 'Authorization': `Bearer ${token}` }
               });
               if (res.ok) {
@@ -252,9 +249,7 @@ function AppContent() {
       setAuthSuccess(null);
       
       const redirectUri = `${window.location.origin}/auth/google/callback`;
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-      const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-      const res = await fetch(`${cleanBase}/api/auth/google/url?redirectUri=${encodeURIComponent(redirectUri)}&action=${action}`);
+      const res = await apiFetch(`/api/auth/google/url?redirectUri=${encodeURIComponent(redirectUri)}&action=${action}`);
       
       if (!res.ok) {
         throw new Error('Could not contact authentication server.');
