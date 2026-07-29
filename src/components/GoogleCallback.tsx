@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
+import { apiFetch, getApiUrl } from '../utils/api';
 import { Loader2, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 interface GoogleCallbackProps {
@@ -47,11 +48,8 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
 
         // If authorization code is present without direct token, exchange code with backend
         if (!token && code) {
-          const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-          const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-          
           try {
-            const res = await fetch(`${cleanBase}/api/auth/google/callback?code=${encodeURIComponent(code)}`, {
+            const res = await apiFetch(`/api/auth/google/callback?code=${encodeURIComponent(code)}`, {
               headers: { 'Accept': 'application/json' }
             });
 
@@ -83,7 +81,7 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
           } catch (fetchErr) {
             console.error('Fetch code exchange error:', fetchErr);
             // Fallback: direct window redirect to backend callback handler
-            window.location.href = `${cleanBase}/api/auth/google/callback?code=${encodeURIComponent(code)}`;
+            window.location.href = getApiUrl(`/api/auth/google/callback?code=${encodeURIComponent(code)}`);
             return;
           }
         }
@@ -102,10 +100,8 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
 
           // Fetch user profile if missing or to verify hasAcceptedTerms
           if (!user || typeof user.hasAcceptedTerms === 'undefined') {
-            const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
-            const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
             try {
-              const meRes = await fetch(`${cleanBase}/api/auth/me`, {
+              const meRes = await apiFetch('/api/auth/me', {
                 headers: { 'Authorization': `Bearer ${token}` }
               });
               if (meRes.ok) {
