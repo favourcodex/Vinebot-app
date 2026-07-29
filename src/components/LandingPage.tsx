@@ -5,21 +5,24 @@
 
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Bot, Shield, Cpu, Activity, Mail, CheckCircle2, ChevronRight, HelpCircle, ArrowRight, Zap, RefreshCw, Layers } from 'lucide-react';
+import { Bot, Shield, Cpu, Activity, Mail, CheckCircle2, ChevronRight, HelpCircle, ArrowRight, Zap, RefreshCw, Layers, Loader2 } from 'lucide-react';
 import vincorpLogo from '../assets/images/vincorp_logo.png';
 import { Logo } from './common/Logo';
 import { Navbar } from './Navbar';
+import { useAuth } from './AuthContext';
 
 interface LandingPageProps {
   onNavigate: (route: string) => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+  const { state, apiRequest } = useAuth();
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [contactSuccess, setContactSuccess] = useState(false);
   const [showCookieConsent, setShowCookieConsent] = useState(() => !localStorage.getItem('vinebot_cookie_consent'));
   const [showCookieSettingsInfo, setShowCookieSettingsInfo] = useState(false);
+  const [loadingPlanIndex, setLoadingPlanIndex] = useState<number | null>(null);
 
   const handleAcceptCookies = () => {
     localStorage.setItem('vinebot_cookie_consent', 'accepted');
@@ -63,6 +66,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
   const pricingPlans = [
     {
+      id: "plan-premium-month",
+      priceId: import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V',
       name: "Vinebot Pro Access",
       price: 100,
       subLabel: null,
@@ -77,9 +82,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         "Standard Support"
       ],
       popular: false,
-      buttonText: "Get Started"
+      buttonText: "GET STARTED"
     },
     {
+      id: "plan-vip-month",
+      priceId: import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY',
       name: "Vinebot VIP Unlimited",
       price: 200,
       subLabel: "+ 20% Profit Share",
@@ -94,9 +101,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         "1-on-1 VIP Setup & Telegram Priority Support"
       ],
       popular: true,
-      buttonText: "Get VIP Access"
+      buttonText: "GET VIP ACCESS"
     }
   ];
+
+  const handlePlanCheckout = async (planIndex: number) => {
+    const plan = pricingPlans[planIndex];
+    if (!state.isAuthenticated) {
+      onNavigate('/register');
+      return;
+    }
+
+    setLoadingPlanIndex(planIndex);
+    try {
+      const res = await apiRequest<{ checkoutUrl: string }>('/api/stripe/create-checkout-session', {
+        method: 'POST',
+        body: JSON.stringify({ planId: plan.id, priceId: plan.priceId })
+      });
+
+      if (res.success && res.data?.checkoutUrl) {
+        window.location.href = res.data.checkoutUrl;
+        return;
+      }
+    } catch (err) {
+      console.warn('Checkout error or fallback:', err);
+    } finally {
+      setLoadingPlanIndex(null);
+    }
+
+    onNavigate('/dashboard');
+  };
 
   const faqs = [
     {
@@ -302,14 +336,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
               <button 
                 id={`plan-subscribe-${i}`}
-                onClick={() => onNavigate('/register')}
+                onClick={() => handlePlanCheckout(i)}
+                disabled={loadingPlanIndex === i}
                 className={`mt-8 w-full py-3.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer ${
                   plan.popular 
                     ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/25' 
                     : 'bg-[#151a24] text-gray-200 border border-[#232c3d] hover:bg-[#1a202d] hover:text-white'
                 }`}
               >
-                {plan.buttonText} <ChevronRight className="w-4 h-4" />
+                {loadingPlanIndex === i ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to Checkout...
+                  </>
+                ) : (
+                  <>
+                    {plan.buttonText} <ChevronRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </motion.div>
           ))}
