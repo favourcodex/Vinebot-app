@@ -60,8 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const getApiUrl = (endpoint: string): string => {
-    const baseUrl = import.meta.env.VITE_API_URL || '';
-    if (!baseUrl) return endpoint;
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://vinebot-app-production.up.railway.app';
     const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     return `${cleanBase}${cleanEndpoint}`;
