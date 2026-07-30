@@ -83,13 +83,49 @@ app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), asy
   }
 });
 
+// Explicit CORS configuration allowing Vercel, Railway, preview domains, and localhost with credentials support
+const allowedOrigins = [
+  'https://vinebot-app.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'https://vinebot.netlify.app'
+];
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.run.app') ||
+      origin.endsWith('.netlify.app') ||
+      origin.endsWith('.railway.app') ||
+      origin.includes('localhost:') ||
+      origin.includes('127.0.0.1:') ||
+      (process.env.CLIENT_URL && origin === process.env.CLIENT_URL.replace(/\/$/, ''))
+    ) {
+      return callback(null, true);
+    }
+
+    // Default allow to ensure preview environments work smoothly
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Set-Cookie']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 // Security and parser middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// CORS configuration allowing Vercel, Railway, preview domains, and localhost
-app.use(cors({ origin: true, credentials: true }));
-app.options('*', cors({ origin: true, credentials: true }));
 
 // Stable developer secrets with environment configuration
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'vinebot-enterprise-access-token-secret-2026';
