@@ -117,29 +117,27 @@ export const SubscriptionCard: React.FC = () => {
     );
 
     try {
-      const res = await authApiRequest<{ checkoutUrl: string }>('/api/stripe/create-checkout-session', {
+      const res = await authApiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
         method: 'POST',
         body: JSON.stringify({ planId: plan.id, priceId })
       });
 
-      if (res.success && res.data?.checkoutUrl) {
-        const url = res.data.checkoutUrl;
-        if (url.startsWith('http') && url.includes('stripe.com')) {
-          window.location.href = url;
-          return;
-        }
+      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
+      if (res.success && redirectUrl) {
+        window.location.href = redirectUrl;
+        return;
+      } else {
+        const errText = res.message || 'Failed to create Stripe Checkout Session.';
+        setMessage({ type: 'error', text: errText });
+        console.error('Stripe checkout session failed:', errText);
       }
     } catch (err: any) {
-      console.warn('Stripe checkout API pending or keys missing, falling back to Sandbox checkout UI:', err);
+      console.error('Stripe checkout API error:', err);
+      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Stripe Checkout Session.' });
     } finally {
       setProcessing(false);
       setLoadingPlanId(null);
     }
-
-    setCheckoutPlan(plan);
-    setCardName(state.user?.name || '');
-    setCheckoutStep('form');
-    setCheckoutError(null);
   };
 
   const handleConfirmCheckout = async (e: React.FormEvent) => {
