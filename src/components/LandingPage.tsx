@@ -114,17 +114,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
     setLoadingPlanIndex(planIndex);
     try {
-      const res = await apiRequest<{ checkoutUrl: string }>('/api/stripe/create-checkout-session', {
+      const priceId = plan.priceId || (
+        plan.id.includes('vip') || plan.name.toLowerCase().includes('vip')
+          ? (import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY')
+          : (import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V')
+      );
+
+      const res = await apiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
         method: 'POST',
-        body: JSON.stringify({ planId: plan.id, priceId: plan.priceId })
+        body: JSON.stringify({ planId: plan.id, priceId })
       });
 
-      if (res.success && res.data?.checkoutUrl) {
-        window.location.href = res.data.checkoutUrl;
+      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
+      if (res.success && redirectUrl) {
+        window.location.href = redirectUrl;
         return;
+      } else {
+        console.error('Stripe checkout session failed:', res.message);
       }
     } catch (err) {
-      console.warn('Checkout error or fallback:', err);
+      console.error('Checkout error:', err);
     } finally {
       setLoadingPlanIndex(null);
     }

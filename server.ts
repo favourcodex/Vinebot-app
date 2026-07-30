@@ -1568,29 +1568,72 @@ const handleCheckout = async (req: Request, res: Response) => {
     plan.id.includes('vip') || plan.name.toLowerCase().includes('vip') ? vipPriceId : proPriceId
   );
 
-  // If real Stripe is configured, create a real checkout session
-  if (process.env.STRIPE_SECRET_KEY) {
+  // Create a real Stripe checkout session using configured Price IDs
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({
+      success: false,
+      message: 'Stripe secret key (STRIPE_SECRET_KEY) is not configured on the server.'
+    });
+  }
+
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    
+    const host = req.get('host') || '';
+    const isHttps = (req.headers['x-forwarded-proto'] === 'https') || host.includes('.run.app') || host.includes('vercel.app');
+    const protocol = isHttps ? 'https' : 'http';
+
+    const originHeader = req.get('origin') || (req.get('referer') ? new URL(req.get('referer')!).origin : '');
+    const clientOrigin = originHeader || process.env.CLIENT_URL || process.env.FRONTEND_URL || process.env.APP_URL || `${protocol}://${host}`;
+    const cleanClientOrigin = clientOrigin.replace(/\/$/, '');
+
+    let lineItems: any[];
+
+    // Prefer passing the explicit Stripe Price ID if valid
+    if (effectiveStripePriceId && effectiveStripePriceId.startsWith('price_')) {
+      lineItems = [{
+        price: effectiveStripePriceId,
+        quantity: 1,
+      }];
+    } else {
+      lineItems = [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: plan.name,
+            description: plan.description,
+          },
+          unit_amount: Math.round(plan.price * 100),
+          recurring: plan.interval === 'one_time' ? undefined : {
+            interval: (plan.interval as 'month' | 'year') || 'month',
+          },
+        },
+        quantity: 1,
+      }];
+    }
+
+    let session: Stripe.Checkout.Session;
     try {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-      
-      const host = req.get('host') || '';
-      const isHttps = (req.headers['x-forwarded-proto'] === 'https') || host.includes('.run.app') || host.includes('vercel.app');
-      const protocol = isHttps ? 'https' : 'http';
-
-      const originHeader = req.get('origin') || (req.get('referer') ? new URL(req.get('referer')!).origin : '');
-      const clientOrigin = originHeader || process.env.CLIENT_URL || process.env.FRONTEND_URL || process.env.APP_URL || `${protocol}://${host}`;
-      const cleanClientOrigin = clientOrigin.replace(/\/$/, '');
-
-      let lineItems: any[];
-
-      // Prefer passing the explicit Stripe Price ID if valid
-      if (effectiveStripePriceId && effectiveStripePriceId.startsWith('price_')) {
-        lineItems = [{
-          price: effectiveStripePriceId,
-          quantity: 1,
-        }];
-      } else {
-        lineItems = [{
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
+        success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
+        client_reference_id: userId,
+        customer_email: req.user!.email,
+        metadata: {
+          userId,
+          planId: plan.id,
+          priceId: effectiveStripePriceId
+        }
+      });
+    } catch (priceErr: any) {
+      console.warn('Stripe checkout price ID failed, falling back to price_data:', priceErr?.message || priceErr);
+      // Fallback to price_data if exact Price ID object is not found in Stripe environment
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
           price_data: {
             currency: 'usd',
             product_data: {
@@ -1603,100 +1646,36 @@ const handleCheckout = async (req: Request, res: Response) => {
             },
           },
           quantity: 1,
-        }];
-      }
-
-      let session: Stripe.Checkout.Session;
-      try {
-        session = await stripe.checkout.sessions.create({
-          payment_method_types: ['card'],
-          line_items: lineItems,
-          mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
-          success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
-          client_reference_id: userId,
-          customer_email: req.user!.email,
-          metadata: {
-            userId,
-            planId: plan.id,
-            priceId: effectiveStripePriceId
-          }
-        });
-      } catch (priceErr: any) {
-        console.warn('Stripe checkout price ID failed, falling back to price_data:', priceErr?.message || priceErr);
-        // Fallback to price_data if exact Price ID object is not found in Stripe environment
-        session = await stripe.checkout.sessions.create({
-          payment_method_types: ['card'],
-          line_items: [{
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: plan.name,
-                description: plan.description,
-              },
-              unit_amount: Math.round(plan.price * 100),
-              recurring: plan.interval === 'one_time' ? undefined : {
-                interval: (plan.interval as 'month' | 'year') || 'month',
-              },
-            },
-            quantity: 1,
-          }],
-          mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
-          success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
-          client_reference_id: userId,
-          customer_email: req.user!.email,
-          metadata: {
-            userId,
-            planId: plan.id,
-            priceId: effectiveStripePriceId
-          }
-        });
-      }
-
-      return res.json({
-        success: true,
-        message: 'Stripe Checkout Session initialized.',
-        data: {
-          checkoutUrl: session.url
+        }],
+        mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
+        success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
+        client_reference_id: userId,
+        customer_email: req.user!.email,
+        metadata: {
+          userId,
+          planId: plan.id,
+          priceId: effectiveStripePriceId
         }
       });
-    } catch (stripeError: any) {
-      console.error('Real Stripe checkout session creation failed, falling back to Sandbox:', stripeError);
     }
+
+    return res.json({
+      success: true,
+      message: 'Stripe Checkout Session initialized.',
+      url: session.url,
+      data: {
+        url: session.url,
+        checkoutUrl: session.url
+      }
+    });
+  } catch (stripeError: any) {
+    console.error('Real Stripe checkout session creation failed:', stripeError);
+    return res.status(500).json({
+      success: false,
+      message: stripeError?.message || 'Failed to create real Stripe Checkout Session.'
+    });
   }
-
-  // Simulate/Complete Checkout Session immediately for high-fidelity Sandbox
-  const sub = db.createUserSubscription(userId, plan.id, 'sub_stripe_act_' + db.generateId().substring(0, 8));
-  
-  db.createPayment({
-    userId,
-    subscriptionId: sub.id,
-    amount: plan.price,
-    currency: 'usd',
-    status: 'succeeded',
-    stripePaymentIntentId: 'pi_' + db.generateId().substring(0, 12),
-    stripeInvoiceId: 'in_' + db.generateId().substring(0, 12)
-  });
-
-  db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed to plan: ${plan.name} ($${plan.price})`, req.ip);
-  db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name}! Premium trading parameters unlocked.`, 'SUBSCRIPTION');
-
-  // If there is an MT5 account linked, trigger transition to WAITING_FOR_BOT_TEAM or PENDING
-  const mt5 = db.getMt5AccountForUser(userId);
-  if (mt5) {
-    db.createBotActivation(userId, mt5.id, 'WAITING_FOR_BOT_TEAM');
-    db.createNotification(userId, 'Bot Queue Update', 'MT5 found. Bot is queued for expert team deployment.', 'BOT_ACTIVATION');
-  }
-
-  res.json({
-    success: true,
-    message: 'Stripe Sandbox Checkout session initialized & processed successfully.',
-    data: {
-      subscription: sub,
-      checkoutUrl: '/dashboard?payment=success&plan_id=' + plan.id
-    }
-  });
 };
 
 app.post('/api/payments/checkout', authenticateToken, handleCheckout);
