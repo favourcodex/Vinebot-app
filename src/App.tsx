@@ -35,11 +35,12 @@ function AppContent() {
     if (path === '/admin' || path === '/admin-login') {
       return '/admin';
     }
-    if (['/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
+    if (['/dashboard', '/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
       return path;
     }
     return '/';
   });
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
 
@@ -72,6 +73,8 @@ function AppContent() {
 
   // Sync route on auth state
   useEffect(() => {
+    if (state.loading) return;
+
     const isPublicLegal = ['/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
     if (isPublicLegal) return;
 
@@ -88,7 +91,7 @@ function AppContent() {
     } else if (route === '/dashboard' || route === '/onboarding/terms') {
       setRoute('/');
     }
-  }, [state.isAuthenticated, state.user?.hasAcceptedTerms, route]);
+  }, [state.isAuthenticated, state.user?.hasAcceptedTerms, route, state.loading]);
 
   // Google OAuth message listener
   useEffect(() => {
@@ -174,6 +177,8 @@ function AppContent() {
         }).then(res => {
           if (res.success) {
             setDashboardTab('subscription'); // Open billing tab to let them view plan
+            setPaymentSuccess(true);
+            setTimeout(() => setPaymentSuccess(false), 8000);
           }
         }).catch(err => {
           console.error('Failed to confirm Stripe subscription:', err);
@@ -878,6 +883,17 @@ function AppContent() {
       case '/dashboard':
         return (
           <Navigation currentTab={dashboardTab} onTabChange={setDashboardTab} onNavigate={setRoute}>
+            {paymentSuccess && (
+              <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-sm flex items-center justify-between shadow-lg shadow-emerald-900/20 animate-fade-in">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
+                  <span className="font-semibold">Payment verified successfully! Your subscription is now active.</span>
+                </div>
+                <button onClick={() => setPaymentSuccess(false)} className="text-emerald-400/60 hover:text-emerald-400 transition-colors">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+            )}
             {dashboardTab === 'dashboard' && <DashboardHome onTabChange={setDashboardTab} />}
             {dashboardTab === 'mt5' && <Mt5Form onTabChange={setDashboardTab} />}
             {dashboardTab === 'bot-status' && <Timeline />}
