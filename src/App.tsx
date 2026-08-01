@@ -30,7 +30,7 @@ function AppContent() {
   const { state, login, apiRequest, logout } = useAuth();
   
   // State-based routing with initial path support to handle direct browser visits
-  const [route, setRoute] = useState<string>(() => {
+  const [routeState, setRouteState] = useState<string>(() => {
     const path = window.location.pathname;
     if (path === '/admin' || path === '/admin-login') {
       return '/admin';
@@ -40,6 +40,23 @@ function AppContent() {
     }
     return '/';
   });
+
+  const setRoute = (newRoute: string) => {
+    if (newRoute !== window.location.pathname) {
+      window.history.pushState({}, '', newRoute);
+    }
+    setRouteState(newRoute);
+  };
+
+  const route = routeState;
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setRouteState(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
@@ -158,22 +175,18 @@ function AppContent() {
     return () => window.removeEventListener('message', handleMessage);
   }, [login]);
 
-  // Listen for Stripe Redirection Success Parameters (Dual Webhook/Redirect flow)
+  // Listen for Paystack Verification Parameters
   useEffect(() => {
     if (state.isAuthenticated && route === '/dashboard') {
       const params = new URLSearchParams(window.location.search);
-      const paymentStatus = params.get('payment');
-      const planId = params.get('plan_id');
-      const sessionId = params.get('session_id');
+      const reference = params.get('reference');
 
-      if (paymentStatus === 'success' && planId) {
+      if (reference) {
         // Clear query parameters from browser URL bar without reloading
         window.history.replaceState({}, document.title, window.location.pathname);
         
-        // Execute instant secure activation handshake with Stripe confirmation API
-        apiRequest('/api/payments/confirm', {
-          method: 'POST',
-          body: JSON.stringify({ planId, stripeSessionId: sessionId })
+        apiRequest(`/api/payments/verify?reference=${encodeURIComponent(reference)}`, {
+          method: 'GET'
         }).then(res => {
           if (res.success) {
             setDashboardTab('subscription'); // Open billing tab to let them view plan
@@ -181,7 +194,7 @@ function AppContent() {
             setTimeout(() => setPaymentSuccess(false), 8000);
           }
         }).catch(err => {
-          console.error('Failed to confirm Stripe subscription:', err);
+          console.error('Failed to confirm Paystack subscription:', err);
         });
       }
     }

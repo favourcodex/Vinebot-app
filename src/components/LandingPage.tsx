@@ -120,24 +120,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           : (import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V')
       );
 
-      const res = await apiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
+      const res = await apiRequest<{ authorization_url?: string }>('/api/payments/checkout', {
         method: 'POST',
         body: JSON.stringify({ planId: plan.id, priceId })
       });
 
-      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
-      if (res.success && redirectUrl) {
+      const redirectUrl = res.data?.authorization_url || res.authorization_url;
+
+      if (redirectUrl) {
         window.location.href = redirectUrl;
-        return;
       } else {
-        console.error('Stripe checkout session failed:', res.message);
+        throw new Error(res.message || 'Failed to generate checkout URL');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Checkout error:', err);
     } finally {
       setLoadingPlanIndex(null);
     }
-
     onNavigate('/dashboard');
   };
 
