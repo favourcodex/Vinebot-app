@@ -117,23 +117,21 @@ export const SubscriptionCard: React.FC = () => {
     );
 
     try {
-      const res = await authApiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
+      const res = await authApiRequest<{ authorization_url?: string }>('/api/payments/checkout', {
         method: 'POST',
         body: JSON.stringify({ planId: plan.id, priceId })
       });
 
-      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
-      if (res.success && redirectUrl) {
+      const redirectUrl = res.data?.authorization_url || res.authorization_url;
+
+      if (redirectUrl) {
         window.location.href = redirectUrl;
-        return;
       } else {
-        const errText = res.message || 'Failed to create Stripe Checkout Session.';
-        setMessage({ type: 'error', text: errText });
-        console.error('Stripe checkout session failed:', errText);
+        throw new Error(res.message || 'Failed to generate checkout URL');
       }
     } catch (err: any) {
-      console.error('Stripe checkout API error:', err);
-      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Stripe Checkout Session.' });
+      console.error('Checkout API error:', err);
+      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Checkout Session.' });
     } finally {
       setProcessing(false);
       setLoadingPlanId(null);
