@@ -51,6 +51,12 @@ export interface Session {
   createdAt: string;
 }
 
+export interface StripeCustomer {
+  id: string;
+  stripeCustomerId: string;
+  userId: string;
+  createdAt: string;
+}
 
 export interface SubscriptionPlan {
   id: string;
@@ -59,6 +65,7 @@ export interface SubscriptionPlan {
   price: number;
   interval: 'month' | 'year' | 'one_time';
   features: string[];
+  stripePriceId: string;
 }
 
 export type SubscriptionStatus = 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'UNPAID' | 'TRIALING' | 'INACTIVE';
@@ -68,8 +75,7 @@ export interface UserSubscription {
   userId: string;
   planId: string;
   status: SubscriptionStatus;
-  paystackReference?: string;
-  paystackCustomerCode?: string;
+  stripeSubscriptionId?: string;
   cancelAtPeriodEnd: boolean;
   currentPeriodEnd: string;
   createdAt: string;
@@ -82,10 +88,17 @@ export interface Payment {
   amount: number;
   currency: string;
   status: 'succeeded' | 'failed' | 'pending';
-  paystackReference?: string;
+  stripePaymentIntentId?: string;
+  stripeInvoiceId?: string;
   createdAt: string;
 }
 
+export interface WebhookEvent {
+  id: string;
+  stripeEventId: string;
+  eventType: string;
+  processedAt: string;
+}
 
 export interface Mt5Account {
   id: string;

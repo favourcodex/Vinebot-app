@@ -18,40 +18,98 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    token: null,
-    isAuthenticated: false,
-    loading: true
-  });
-
-  useEffect(() => {
-    // Attempt to resume session
+  const [state, setState] = useState<AuthState>(() => {
     const storedUser = localStorage.getItem('vinebot_user');
-    const storedToken = localStorage.getItem('vinebot_token');
+    const storedToken = localStorage.getItem('vinebot_token') || localStorage.getItem('token');
 
     if (storedUser && storedToken) {
       try {
-        setState({
-          user: JSON.parse(storedUser),
+        const user = JSON.parse(storedUser);
+        return {
+          user,
           token: storedToken,
           isAuthenticated: true,
           loading: false
-        });
+        };
       } catch (e) {
-        localStorage.removeItem('vinebot_user');
-        localStorage.removeItem('vinebot_token');
-        setState(prev => ({ ...prev, loading: false }));
+        // Fallback to unauthenticated if JSON is corrupt
       }
+    }
+    return {
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      loading: false
+    };
+  });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('vinebot_user');
+    const storedToken = localStorage.getItem('vinebot_token') || localStorage.getItem('token');
+
+    if (storedToken) {
+      if (storedUser) {
+        try {
+          setState({
+            user: JSON.parse(storedUser),
+            token: storedToken,
+            isAuthenticated: true,
+            loading: false
+          });
+        } catch (e) {
+          localStorage.removeItem('vinebot_user');
+        }
+      }
+
+      // Automatically refresh user profile and session validity on app mount
+      apiFetch('/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${storedToken}` }
+      })
+        .then(async (res) => {
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.success && data.data) {
+              const updatedUser = data.data;
+              localStorage.setItem('vinebot_user', JSON.stringify(updatedUser));
+              localStorage.setItem('vinebot_token', storedToken);
+              localStorage.setItem('token', storedToken);
+              setState({
+                user: updatedUser,
+                token: storedToken,
+                isAuthenticated: true,
+                loading: false
+              });
+              return;
+            }
+          }
+          if (res.status === 401 && !storedUser) {
+            localStorage.removeItem('vinebot_user');
+            localStorage.removeItem('vinebot_token');
+            localStorage.removeItem('token');
+            localStorage.removeItem('vinebot_refresh');
+            setState({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+              loading: false
+            });
+          }
+        })
+        .catch(() => {
+          setState(prev => ({ ...prev, loading: false }));
+        });
     } else {
       setState(prev => ({ ...prev, loading: false }));
     }
   }, []);
 
   const login = (token: string, refreshToken: string, user: User) => {
-    localStorage.setItem('vinebot_user', JSON.stringify(user));
+    localStorage.setItem('token', token);
     localStorage.setItem('vinebot_token', token);
-    localStorage.setItem('vinebot_refresh', refreshToken);
+    if (refreshToken) {
+      localStorage.setItem('vinebot_refresh', refreshToken);
+    }
+    localStorage.setItem('vinebot_user', JSON.stringify(user));
     setState({
       user,
       token,
@@ -75,6 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }).catch(() => {});
     }
 
+    localStorage.removeItem('token');
     localStorage.removeItem('vinebot_user');
     localStorage.removeItem('vinebot_token');
     localStorage.removeItem('vinebot_refresh');

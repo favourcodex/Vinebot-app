@@ -584,19 +584,44 @@ class VinebotDatabase {
     return state;
   }
 
+  private writeLock = false;
+  private pendingWrite = false;
+
   private save(): void {
     if (this.isPostgres) {
       // Background async save to PG handles DB, cache updated synchronously
       return;
     }
-    this.saveState(this.state);
+    this.scheduleSave();
+  }
+
+  private scheduleSave(): void {
+    if (this.writeLock) {
+      this.pendingWrite = true;
+      return;
+    }
+    this.writeLock = true;
+    try {
+      this.saveState(this.state);
+    } finally {
+      this.writeLock = false;
+      if (this.pendingWrite) {
+        this.pendingWrite = false;
+        this.scheduleSave();
+      }
+    }
   }
 
   private saveState(state: RelationalState): void {
+    const tmpFile = `${DB_FILE}.tmp.${process.pid}.${Date.now()}`;
     try {
-      fs.writeFileSync(DB_FILE, JSON.stringify(state, null, 2), 'utf-8');
+      fs.writeFileSync(tmpFile, JSON.stringify(state, null, 2), 'utf-8');
+      fs.renameSync(tmpFile, DB_FILE);
     } catch (e) {
-      console.error('Error saving state to DB file', e);
+      console.error('Error saving state to DB file:', e);
+      if (fs.existsSync(tmpFile)) {
+        try { fs.unlinkSync(tmpFile); } catch (unlinkErr) {}
+      }
     }
   }
 
