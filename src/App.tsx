@@ -30,34 +30,16 @@ function AppContent() {
   const { state, login, apiRequest, logout } = useAuth();
   
   // State-based routing with initial path support to handle direct browser visits
-  const [routeState, setRouteState] = useState<string>(() => {
+  const [route, setRoute] = useState<string>(() => {
     const path = window.location.pathname;
     if (path === '/admin' || path === '/admin-login') {
       return '/admin';
     }
-    if (['/dashboard', '/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
+    if (['/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
       return path;
     }
     return '/';
   });
-
-  const setRoute = (newRoute: string) => {
-    if (newRoute !== window.location.pathname) {
-      window.history.pushState({}, '', newRoute);
-    }
-    setRouteState(newRoute);
-  };
-
-  const route = routeState;
-
-  useEffect(() => {
-    const handlePopState = () => {
-      setRouteState(window.location.pathname);
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
 
@@ -90,8 +72,6 @@ function AppContent() {
 
   // Sync route on auth state
   useEffect(() => {
-    if (state.loading) return;
-
     const isPublicLegal = ['/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
     if (isPublicLegal) return;
 
@@ -108,7 +88,7 @@ function AppContent() {
     } else if (route === '/dashboard' || route === '/onboarding/terms') {
       setRoute('/');
     }
-  }, [state.isAuthenticated, state.user?.hasAcceptedTerms, route, state.loading]);
+  }, [state.isAuthenticated, state.user?.hasAcceptedTerms, route]);
 
   // Google OAuth message listener
   useEffect(() => {
@@ -175,26 +155,28 @@ function AppContent() {
     return () => window.removeEventListener('message', handleMessage);
   }, [login]);
 
-  // Listen for Paystack Verification Parameters
+  // Listen for Stripe Redirection Success Parameters (Dual Webhook/Redirect flow)
   useEffect(() => {
     if (state.isAuthenticated && route === '/dashboard') {
       const params = new URLSearchParams(window.location.search);
-      const reference = params.get('reference');
+      const paymentStatus = params.get('payment');
+      const planId = params.get('plan_id');
+      const sessionId = params.get('session_id');
 
-      if (reference) {
+      if (paymentStatus === 'success' && planId) {
         // Clear query parameters from browser URL bar without reloading
         window.history.replaceState({}, document.title, window.location.pathname);
         
-        apiRequest(`/api/payments/verify?reference=${encodeURIComponent(reference)}`, {
-          method: 'GET'
+        // Execute instant secure activation handshake with Stripe confirmation API
+        apiRequest('/api/payments/confirm', {
+          method: 'POST',
+          body: JSON.stringify({ planId, stripeSessionId: sessionId })
         }).then(res => {
           if (res.success) {
             setDashboardTab('subscription'); // Open billing tab to let them view plan
-            setPaymentSuccess(true);
-            setTimeout(() => setPaymentSuccess(false), 8000);
           }
         }).catch(err => {
-          console.error('Failed to confirm Paystack subscription:', err);
+          console.error('Failed to confirm Stripe subscription:', err);
         });
       }
     }
@@ -896,17 +878,6 @@ function AppContent() {
       case '/dashboard':
         return (
           <Navigation currentTab={dashboardTab} onTabChange={setDashboardTab} onNavigate={setRoute}>
-            {paymentSuccess && (
-              <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-sm flex items-center justify-between shadow-lg shadow-emerald-900/20 animate-fade-in">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 shrink-0" />
-                  <span className="font-semibold">Payment verified successfully! Your subscription is now active.</span>
-                </div>
-                <button onClick={() => setPaymentSuccess(false)} className="text-emerald-400/60 hover:text-emerald-400 transition-colors">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              </div>
-            )}
             {dashboardTab === 'dashboard' && <DashboardHome onTabChange={setDashboardTab} />}
             {dashboardTab === 'mt5' && <Mt5Form onTabChange={setDashboardTab} />}
             {dashboardTab === 'bot-status' && <Timeline />}
