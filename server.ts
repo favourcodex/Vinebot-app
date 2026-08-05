@@ -24,6 +24,9 @@ import { ApiResponse, User, UserRole, BotActivationStatus, NotificationType } fr
 const app = express();
 const PORT = 3000;
 
+// Trust reverse proxy header (Cloud Run, Nginx, Railway, Vercel) for rate limiting
+app.set('trust proxy', 1);
+
 // Security header enforcement using Helmet
 app.use(helmet({
   contentSecurityPolicy: false, // Disabled for Vite dev server and iframe preview compatibility
