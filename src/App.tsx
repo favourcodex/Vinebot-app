@@ -472,6 +472,7 @@ function AppContent() {
       case '/':
         return <LandingPage onNavigate={setRoute} />;
       
+      case '/auth':
       case '/login':
       case '/register':
         return (
@@ -761,6 +762,23 @@ function AppContent() {
         );
 
       case '/dashboard':
+        if (!state.isAuthenticated) {
+          return (
+            <LoginPage
+              email={email}
+              setEmail={setEmail}
+              submitting={submitting}
+              authError={authError || "Please sign in to access your dashboard."}
+              setAuthError={setAuthError}
+              sentMagicLinkEmail={sentMagicLinkEmail}
+              setSentMagicLinkEmail={setSentMagicLinkEmail}
+              handleMagicLinkSubmit={handleMagicLinkSubmit}
+              handleGoogleAuth={handleGoogleAuth}
+              googleConfigured={googleConfigured}
+              onNavigate={handleNavigate}
+            />
+          );
+        }
         return (
           <Navigation currentTab={dashboardTab} onTabChange={setDashboardTab} onNavigate={setRoute}>
             {dashboardTab === 'dashboard' && <DashboardHome onTabChange={setDashboardTab} />}
