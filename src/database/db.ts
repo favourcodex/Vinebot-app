@@ -628,8 +628,8 @@ class VinebotDatabase {
   private getInitialSeedState(): RelationalState {
     const now = new Date().toISOString();
     
-    const proPriceId = process.env.VITE_STRIPE_PRICE_PRO || process.env.STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V';
-    const vipPriceId = process.env.VITE_STRIPE_PRICE_VIP || process.env.STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY';
+    const proPriceId = 'price_pro';
+    const vipPriceId = 'price_vip';
 
     // Seed standard plans
     const plans: SubscriptionPlan[] = [
@@ -989,8 +989,8 @@ class VinebotDatabase {
 
   // --- Plans ---
   public getSubscriptionPlans(): SubscriptionPlan[] {
-    const proPriceId = process.env.VITE_STRIPE_PRICE_PRO || process.env.STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V';
-    const vipPriceId = process.env.VITE_STRIPE_PRICE_VIP || process.env.STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY';
+    const proPriceId = 'price_pro';
+    const vipPriceId = 'price_vip';
 
     const requiredPlans: SubscriptionPlan[] = [
       {

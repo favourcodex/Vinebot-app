@@ -67,7 +67,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const pricingPlans = [
     {
       id: "plan-premium-month",
-      priceId: import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V',
       name: "Vinebot Pro Access",
       price: 100,
       subLabel: null,
@@ -86,7 +85,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     },
     {
       id: "plan-vip-month",
-      priceId: import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY',
       name: "Vinebot VIP Unlimited",
       price: 200,
       subLabel: "+ 20% Profit Share",
@@ -114,23 +112,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
     setLoadingPlanIndex(planIndex);
     try {
-      const priceId = plan.priceId || (
-        plan.id.includes('vip') || plan.name.toLowerCase().includes('vip')
-          ? (import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY')
-          : (import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V')
-      );
-
-      const res = await apiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
+      const res = await apiRequest<{ url?: string; authorization_url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
         method: 'POST',
-        body: JSON.stringify({ planId: plan.id, priceId })
+        body: JSON.stringify({ planId: plan.id })
       });
 
-      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
+      const redirectUrl = res.url || res.authorization_url || res.data?.url || res.data?.authorization_url || res.data?.checkoutUrl;
       if (res.success && redirectUrl) {
         window.location.href = redirectUrl;
         return;
       } else {
-        console.error('Stripe checkout session failed:', res.message);
+        console.error('Paystack checkout session failed:', res.message);
       }
     } catch (err) {
       console.error('Checkout error:', err);
