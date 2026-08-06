@@ -26,8 +26,8 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   const textSizes = {
-    sm: 'text-xs font-bold',
-    md: 'text-sm font-bold sm:text-lg sm:font-black',
+    sm: 'text-xs font-black',
+    md: 'text-sm font-black sm:text-base lg:text-lg',
     lg: 'text-lg font-black sm:text-2xl'
   };
 
@@ -36,74 +36,76 @@ export const Logo: React.FC<LogoProps> = ({
       onClick={onClick}
       className={`inline-flex items-center gap-3 select-none ${onClick ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''} ${className}`}
     >
-      {/* Vector High-Tech Metallic Emblem */}
+      {/* Precision High-Tech Vector Metallic VIN-CORP 'V' Emblem */}
       <svg 
-        className={`${iconDimensions[size]} shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]`}
+        className={`${iconDimensions[size]} shrink-0 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]`}
         viewBox="0 0 100 100" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <linearGradient id="vc-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="vc-badge-bg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e293b" />
             <stop offset="50%" stopColor="#0f172a" />
             <stop offset="100%" stopColor="#020617" />
           </linearGradient>
 
-          <linearGradient id="vc-silver" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="vc-silver-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#E2E8F0" />
-            <stop offset="70%" stopColor="#94A3B8" />
-            <stop offset="100%" stopColor="#64748B" />
+            <stop offset="30%" stopColor="#E2E8F0" />
+            <stop offset="65%" stopColor="#94A3B8" />
+            <stop offset="100%" stopColor="#475569" />
           </linearGradient>
 
-          <linearGradient id="vc-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="vc-cyan-glow" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#38BDF8" />
+            <stop offset="50%" stopColor="#60A5FA" />
             <stop offset="100%" stopColor="#2563EB" />
           </linearGradient>
 
-          <linearGradient id="vc-border" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#94A3B8" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#1E293B" stopOpacity="0.8" />
+          <linearGradient id="vc-silver-border" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#CBD5E1" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#334155" stopOpacity="0.9" />
           </linearGradient>
         </defs>
 
-        {/* Outer Shield / Badge Container */}
-        <rect x="4" y="4" width="92" height="92" rx="24" fill="url(#vc-bg)" stroke="url(#vc-border)" strokeWidth="3" />
-        <circle cx="50" cy="50" r="38" stroke="#38BDF8" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="3 3" />
+        {/* Outer Shield Container */}
+        <rect x="4" y="4" width="92" height="92" rx="22" fill="url(#vc-badge-bg)" stroke="url(#vc-silver-border)" strokeWidth="2.5" />
+        <circle cx="50" cy="50" r="38" stroke="#38BDF8" strokeOpacity="0.15" strokeWidth="1" strokeDasharray="3 3" />
 
-        {/* High-Tech Circuit Lines (Left Arm of V) */}
-        <path d="M 22 26 L 38 68 L 50 82" stroke="url(#vc-silver)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M 15 32 L 25 26" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
-        <circle cx="15" cy="32" r="2.5" fill="#38BDF8" />
-        <path d="M 18 48 L 28 48" stroke="#38BDF8" strokeWidth="2" />
-        <circle cx="18" cy="48" r="2" fill="#38BDF8" />
+        {/* LEFT ARM OF V: High-Tech Circuit Board Traces & Node Dots */}
+        <path d="M 22 24 L 38 66 L 50 82" stroke="url(#vc-silver-metallic)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M 14 30 L 25 24" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="14" cy="30" r="2.5" fill="#38BDF8" />
+        <path d="M 16 46 L 27 46" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="16" cy="46" r="2" fill="#38BDF8" />
+        <circle cx="28" cy="40" r="1.5" fill="#60A5FA" />
 
-        {/* Candlestick Trading Bars */}
-        <line x1="58" y1="46" x2="58" y2="70" stroke="#94A3B8" strokeWidth="2" />
-        <rect x="56" y="52" width="4" height="12" rx="1" fill="url(#vc-cyan)" />
+        {/* RIGHT ARM OF V: Candlestick Chart Bars & Upward Arrow */}
+        <line x1="57" y1="44" x2="57" y2="70" stroke="#94A3B8" strokeWidth="1.8" />
+        <rect x="55" y="50" width="4" height="14" rx="1" fill="url(#vc-cyan-glow)" />
 
-        <line x1="68" y1="32" x2="68" y2="60" stroke="#CBD5E1" strokeWidth="2" />
-        <rect x="66" y="38" width="4" height="16" rx="1" fill="url(#vc-silver)" />
+        <line x1="68" y1="30" x2="68" y2="60" stroke="#E2E8F0" strokeWidth="1.8" />
+        <rect x="66" y="36" width="4" height="18" rx="1" fill="url(#vc-silver-metallic)" />
 
-        {/* Right Arm Upward Momentum Arrow */}
-        <path d="M 50 82 L 64 62 L 78 30 L 84 18" stroke="url(#vc-cyan)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M 70 18 L 86 16 L 84 32" fill="url(#vc-cyan)" />
+        {/* Upward Momentum Arrow Pointing Skyward */}
+        <path d="M 50 82 L 64 60 L 78 28 L 84 16" stroke="url(#vc-cyan-glow)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M 68 16 L 86 14 L 84 32" fill="url(#vc-cyan-glow)" />
       </svg>
 
       {showText && (
         <div className="flex flex-col leading-none">
           <div className="flex items-center gap-1.5">
-            <span className={`font-black tracking-wider text-white uppercase ${textSizes[size]} font-sans`}>
-              VINE<span className="text-blue-400">BOT</span>
+            <span className={`font-black tracking-wider text-white uppercase font-sans ${textSizes[size]}`}>
+              VIN<span className="text-blue-400">-CORP</span>
             </span>
-            <span className="hidden md:inline-block bg-gradient-to-r from-blue-500/30 to-indigo-500/30 text-blue-300 border border-blue-500/40 text-[9px] font-black px-1.5 py-0.5 rounded tracking-widest uppercase">
+            <span className="bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-500/30 text-[9px] font-black px-1.5 py-0.5 rounded tracking-widest uppercase">
               EA
             </span>
           </div>
-          <span className="hidden md:block text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1 font-mono">
-            VIN-CORP AI TRADING
+          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1 font-mono">
+            AI TRADING AUTOMATION
           </span>
         </div>
       )}
