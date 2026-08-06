@@ -114,8 +114,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
-  'http://127.0.0.1:3000',
-  'https://vinebot.netlify.app'
+  'http://127.0.0.1:3000'
 ];
 
 const corsOptions: cors.CorsOptions = {
@@ -127,8 +126,9 @@ const corsOptions: cors.CorsOptions = {
       allowedOrigins.includes(origin) ||
       origin === frontendUrl ||
       origin.includes('vercel.app') ||
+      origin.includes('hostinger') ||
+      origin.includes('vinebot') ||
       origin.includes('run.app') ||
-      origin.includes('netlify.app') ||
       origin.includes('railway.app') ||
       origin.includes('localhost:') ||
       origin.includes('127.0.0.1:')
@@ -844,18 +844,35 @@ const getAppBaseUrl = (req: Request): string => {
 const DEFAULT_GOOGLE_CLIENT_ID = '717234671364-bju7r7k2u8544plscriivsaq3tmk3ms2.apps.googleusercontent.com';
 const DEFAULT_GOOGLE_CLIENT_SECRET = ['GOCSPX', 'MAkEt5d7HFTbSn6V7VRpK5mqEf2K'].join('-');
 
-const getGoogleCallbackUrl = (): string => {
+const getGoogleCallbackUrl = (req?: Request): string => {
   if (process.env.GOOGLE_CALLBACK_URL) {
     return process.env.GOOGLE_CALLBACK_URL.trim();
   }
-  const frontendUrl = (process.env.CLIENT_URL || process.env.FRONTEND_URL || 'https://vinebot-app.vercel.app').trim().replace(/\/$/, '');
-  return `${frontendUrl}/auth/google/callback`;
+  let frontendUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL || process.env.APP_URL;
+  if (!frontendUrl && req) {
+    const originHeader = (req.headers.origin || req.headers.referer) as string | undefined;
+    if (originHeader) {
+      try {
+        const u = new URL(originHeader);
+        frontendUrl = u.origin;
+      } catch (e) {}
+    }
+    if (!frontendUrl) {
+      const host = req.get('host');
+      const protocol = req.secure || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
+      frontendUrl = host ? `${protocol}://${host}` : '';
+    }
+  }
+  if (!frontendUrl) {
+    frontendUrl = 'https://vinebot-app.vercel.app';
+  }
+  return `${frontendUrl.trim().replace(/\/$/, '')}/auth/google/callback`;
 };
 
 app.get('/api/auth/google/config', (req: Request, res: Response) => {
   const clientId = (process.env.GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID).trim().replace(/^["']|["']$/g, '').trim();
   const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || DEFAULT_GOOGLE_CLIENT_SECRET).trim().replace(/^["']|["']$/g, '').trim();
-  const expectedRedirectUri = getGoogleCallbackUrl();
+  const expectedRedirectUri = getGoogleCallbackUrl(req);
   
   res.json({ 
     configured: !!(clientId && clientSecret),
@@ -864,7 +881,7 @@ app.get('/api/auth/google/config', (req: Request, res: Response) => {
 });
 
 app.get(['/api/auth/google', '/api/auth/google/'], (req: Request, res: Response) => {
-  const defaultRedirectUri = getGoogleCallbackUrl();
+  const defaultRedirectUri = getGoogleCallbackUrl(req);
   res.redirect(`/api/auth/google/url?redirectUri=${encodeURIComponent(defaultRedirectUri)}`);
 });
 
@@ -880,7 +897,7 @@ app.get('/api/auth/google/url', (req: Request, res: Response) => {
     });
   }
   
-  const defaultRedirectUri = getGoogleCallbackUrl();
+  const defaultRedirectUri = getGoogleCallbackUrl(req);
   const finalRedirectUri = (redirectUri as string) || defaultRedirectUri;
   
   console.log(`[GOOGLE OAUTH] Constructing redirect_uri: "${finalRedirectUri}" (registered in console)`);

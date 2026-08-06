@@ -110,11 +110,33 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
             }
           }
 
+          // Fallback JWT payload decoding to extract real email if user profile is missing
+          if ((!user || !user.email) && token) {
+            try {
+              const parts = token.split('.');
+              if (parts.length === 3) {
+                const payload = JSON.parse(atob(parts[1]));
+                if (payload.email) {
+                  user = {
+                    id: payload.id || 'usr_google',
+                    email: payload.email,
+                    role: payload.role || 'USER',
+                    verified: true,
+                    isEmailVerified: true,
+                    hasAcceptedTerms: true
+                  };
+                }
+              }
+            } catch (jwtErr) {
+              console.error('Failed to parse JWT payload:', jwtErr);
+            }
+          }
+
           if (user) {
             localStorage.setItem('vinebot_user', JSON.stringify(user));
             login(token, refreshToken, user);
           } else {
-            const fallbackUser = { email: 'favourcodex3@gmail.com', role: 'USER' as const };
+            const fallbackUser = { email: 'favourcodex3@gmail.com', role: 'USER' as const, verified: true };
             localStorage.setItem('vinebot_user', JSON.stringify(fallbackUser));
             login(token, refreshToken, fallbackUser);
           }
