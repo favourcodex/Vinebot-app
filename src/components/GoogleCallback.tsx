@@ -86,11 +86,6 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
           }
         }
 
-        // Check fallback in localStorage if token not found in URL or code exchange
-        if (!token) {
-          token = localStorage.getItem('token') || localStorage.getItem('vinebot_token');
-        }
-
         if (token) {
           localStorage.setItem('token', token);
           localStorage.setItem('vinebot_token', token);

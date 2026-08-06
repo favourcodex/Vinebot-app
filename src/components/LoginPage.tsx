@@ -38,10 +38,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   onNavigate
 }) => {
   return (
-    <div className="min-h-screen lg:h-screen lg:max-h-screen overflow-y-auto lg:overflow-hidden bg-[#06080e] text-white flex flex-col lg:flex-row font-sans relative selection:bg-blue-500/30">
+    <div className="min-h-screen lg:h-screen lg:max-h-screen overflow-hidden bg-[#06080e] text-white flex flex-col lg:flex-row font-sans relative selection:bg-blue-500/30">
       
-      {/* ================= LEFT SIDE: VISUALS & BRANDING (60% width on LG) ================= */}
-      <div className="w-full lg:w-[60%] relative flex flex-col justify-between p-6 sm:p-10 lg:p-12 overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 bg-[#080b13] min-h-[320px] lg:h-full">
+      {/* ================= LEFT SIDE: VISUALS & BRANDING (60% width on LG - Hidden on Mobile) ================= */}
+      <div className="hidden lg:flex w-full lg:w-[60%] relative flex-col justify-between p-10 lg:p-12 overflow-hidden border-r border-white/10 bg-[#080b13] lg:h-full">
         
         {/* Background Radial Blobs */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-[#080b13] to-[#06080e] pointer-events-none" />
@@ -51,18 +51,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         {/* Grid pattern overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
 
-        {/* Top Header Badge & Return Home */}
+        {/* Top Header Badge */}
         <div className="relative z-10 flex items-center justify-between">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold tracking-wider uppercase">
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping" />
             VIN-CORP AI TRADING SYSTEMS
           </div>
-          <button 
-            onClick={() => onNavigate('/')}
-            className="lg:hidden inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition cursor-pointer bg-white/5 px-3 py-1.5 rounded-lg border border-white/10"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return Home
-          </button>
         </div>
 
         {/* Center Hero Content */}
@@ -108,7 +102,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </div>
 
         {/* Bottom Security Footer */}
-        <div className="relative z-10 pt-3 border-t border-white/10 hidden sm:flex items-center justify-between text-[11px] text-gray-400">
+        <div className="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-gray-400">
           <span className="flex items-center gap-1.5 font-medium">
             <ShieldAlert className="w-3.5 h-3.5 text-blue-400" /> Encrypted Credentials & MT5 API Security
           </span>
@@ -116,34 +110,35 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </div>
       </div>
 
-      {/* ================= RIGHT SIDE: SIGN-IN FORM (40% width on LG) ================= */}
-      <div className="w-full lg:w-[40%] flex flex-col justify-center px-6 sm:px-10 lg:px-12 py-8 bg-[#070a12] relative z-10 lg:h-full">
+      {/* ================= RIGHT SIDE: SIGN-IN FORM (100% Mobile, 40% Desktop) ================= */}
+      <div className="w-full lg:w-[40%] flex flex-col justify-center px-4 sm:px-10 lg:px-12 py-6 bg-[#070a12] relative z-10 min-h-screen lg:min-h-0 lg:h-full overflow-y-auto">
         
-        {/* Navigation Return Home */}
-        <div className="hidden lg:flex items-center justify-between mb-6">
-          <button 
-            onClick={() => { onNavigate('/'); setSentMagicLinkEmail(null); setAuthError(null); }}
-            className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return to Homepage
-          </button>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-blue-400/80 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded">
-            SECURE PORTAL
-          </span>
-        </div>
-
-        {/* Brand Header */}
-        <div className="text-center sm:text-left mb-6">
-          <div className="flex justify-center sm:justify-start mb-3">
-            <Logo size="lg" />
+        <div className="w-full max-w-md mx-auto lg:max-w-none">
+          {/* Navigation Return Home */}
+          <div className="flex items-center justify-between mb-6">
+            <button 
+              onClick={() => { onNavigate('/'); setSentMagicLinkEmail(null); setAuthError(null); }}
+              className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Return to Homepage
+            </button>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-blue-400/80 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded">
+              SECURE PORTAL
+            </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase font-sans">
-            Account Access
-          </h2>
-          <p className="mt-1 text-xs text-gray-400 max-w-sm">
-            Sign in to manage your automated MetaTrader 5 trading bots and active subscription license.
-          </p>
-        </div>
+
+          {/* Brand Header */}
+          <div className="text-center sm:text-left mb-6">
+            <div className="flex justify-center sm:justify-start mb-3">
+              <Logo size="lg" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase font-sans">
+              Account Access
+            </h2>
+            <p className="mt-1 text-xs text-gray-400 max-w-sm">
+              Sign in to manage your automated MetaTrader 5 trading bots and active subscription license.
+            </p>
+          </div>
 
         {/* Form Container */}
         {sentMagicLinkEmail ? (
@@ -279,6 +274,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
