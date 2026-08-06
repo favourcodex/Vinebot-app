@@ -20,21 +20,21 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const iconDimensions = {
-    sm: 'w-7 h-7',
-    md: 'w-9 h-9 sm:w-10 sm:h-10',
-    lg: 'w-11 h-11 sm:w-14 sm:h-14'
+    sm: 'w-6 h-6 sm:w-7 sm:h-7',
+    md: 'w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10',
+    lg: 'w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14'
   };
 
   const textSizes = {
-    sm: 'text-xs font-black',
-    md: 'text-sm font-black sm:text-base lg:text-lg',
-    lg: 'text-lg font-black sm:text-2xl'
+    sm: 'text-[11px] font-black',
+    md: 'text-xs sm:text-sm lg:text-base font-black',
+    lg: 'text-base sm:text-xl lg:text-2xl font-black'
   };
 
   return (
     <div 
       onClick={onClick}
-      className={`inline-flex items-center gap-3 select-none ${onClick ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''} ${className}`}
+      className={`inline-flex items-center gap-2 sm:gap-2.5 select-none shrink-0 ${onClick ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''} ${className}`}
     >
       {/* Precision High-Tech Vector Metallic VIN-CORP 'V' Emblem */}
       <svg 
