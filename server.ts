@@ -60,12 +60,12 @@ app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), asy
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!sig || !webhookSecret || !process.env.STRIPE_SECRET_KEY) {
+  if (!sig || !webhookSecret || (!process.env.PAYSTACK_SECRET_KEY && !process.env.STRIPE_SECRET_KEY)) {
     return res.status(400).send('Webhook configuration missing.');
   }
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
     const event = stripe.webhooks.constructEvent(req.body, sig as string, webhookSecret);
 
     if (event.type === 'checkout.session.completed') {
@@ -1398,9 +1398,9 @@ app.post(['/api/account/delete', '/api/user/delete'], authenticateToken, async (
     // 1. Cancel active Stripe subscriptions if present
     const sub = db.getSubscriptionForUser(userId);
     if (sub) {
-      if (process.env.STRIPE_SECRET_KEY && sub.stripeSubscriptionId && sub.stripeSubscriptionId.startsWith('sub_')) {
+      if ((process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY) && sub.stripeSubscriptionId && sub.stripeSubscriptionId.startsWith('sub_')) {
         try {
-          const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+          const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
           await stripe.subscriptions.cancel(sub.stripeSubscriptionId);
         } catch (stripeErr: any) {
           console.error('Stripe cancellation error during account delete:', stripeErr.message || stripeErr);
@@ -1594,16 +1594,16 @@ const handleCheckout = async (req: Request, res: Response) => {
     plan.id.includes('vip') || plan.name.toLowerCase().includes('vip') ? vipPriceId : proPriceId
   );
 
-  // Create a real Stripe checkout session using configured Price IDs
-  if (!process.env.STRIPE_SECRET_KEY) {
+  // Verify PAYSTACK_SECRET_KEY is configured on the server
+  if (!process.env.PAYSTACK_SECRET_KEY) {
     return res.status(500).json({
       success: false,
-      message: 'Stripe secret key (STRIPE_SECRET_KEY) is not configured on the server.'
+      message: 'Paystack secret key (PAYSTACK_SECRET_KEY) is not configured on the server.'
     });
   }
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
     
     const host = req.get('host') || '';
     const isHttps = (req.headers['x-forwarded-proto'] === 'https') || host.includes('.run.app') || host.includes('vercel.app');
