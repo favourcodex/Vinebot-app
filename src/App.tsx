@@ -22,6 +22,7 @@ import { VerifyEmailView } from './components/VerifyEmailView';
 import { GoogleCallback } from './components/GoogleCallback';
 import { Logo } from './components/common/Logo';
 import { Preloader } from './components/common/Preloader';
+import { AnimatePresence } from 'motion/react';
 import { 
   Bot, Lock, Mail, ChevronRight, User, KeyRound, 
   ArrowLeft, CheckCircle2, AlertTriangle, Sparkles, ShieldAlert
@@ -49,7 +50,7 @@ function AppContent() {
     setRoute(newRoute);
     setTimeout(() => {
       setIsRouteLoading(false);
-    }, 280);
+    }, 400);
   };
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
@@ -922,7 +923,15 @@ function AppContent() {
 
   return (
     <>
-      {isRouteLoading && <Preloader message="Synchronizing View..." subtext="Loading automated trading interface" />}
+      <AnimatePresence>
+        {isRouteLoading && (
+          <Preloader 
+            variant="overlay" 
+            message="Synchronizing View..." 
+            subtext="Loading automated trading interface" 
+          />
+        )}
+      </AnimatePresence>
       {renderView()}
     </>
   );
