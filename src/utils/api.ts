@@ -31,15 +31,25 @@ export const getApiUrl = (endpoint: string): string => {
 };
 
 export const apiFetch = async (endpoint: string, options?: RequestInit): Promise<Response> => {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem('vinebot_token') || localStorage.getItem('token')) : null;
+  const headers = new Headers(options?.headers || {});
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+  const reqOptions: RequestInit = {
+    ...options,
+    headers
+  };
+
   const primaryUrl = getApiUrl(endpoint);
   try {
-    return await fetch(primaryUrl, options);
+    return await fetch(primaryUrl, reqOptions);
   } catch (err) {
     // If primary absolute URL fetch failed (e.g., cross-origin network/CORS error or offline), retry with relative URL
     if (primaryUrl.startsWith('http')) {
       const relativeEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
       try {
-        return await fetch(relativeEndpoint, options);
+        return await fetch(relativeEndpoint, reqOptions);
       } catch (fallbackErr) {
         throw err; // throw original error if fallback also fails
       }
