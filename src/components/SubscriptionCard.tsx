@@ -108,32 +108,25 @@ export const SubscriptionCard: React.FC = () => {
     if (processing) return;
     setLoadingPlanId(plan.id);
     setProcessing(true);
-    setCheckoutError(null);
-
-    const priceId = plan.stripePriceId || (
-      plan.id.includes('vip') || plan.name.toLowerCase().includes('vip') 
-        ? (import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY')
-        : (import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V')
-    );
+    setMessage(null);
 
     try {
-      const res = await authApiRequest<{ url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
+      const res = await authApiRequest<{ url?: string; authorization_url?: string; checkoutUrl?: string }>('/api/payments/checkout', {
         method: 'POST',
-        body: JSON.stringify({ planId: plan.id, priceId })
+        body: JSON.stringify({ planId: plan.id })
       });
 
-      const redirectUrl = res.url || res.data?.url || res.data?.checkoutUrl;
+      const redirectUrl = res.url || res.authorization_url || res.data?.url || res.data?.authorization_url || res.data?.checkoutUrl;
       if (res.success && redirectUrl) {
         window.location.href = redirectUrl;
         return;
       } else {
-        const errText = res.message || 'Failed to create Stripe Checkout Session.';
+        const errText = res.message || 'Failed to initialize Paystack checkout session.';
         setMessage({ type: 'error', text: errText });
-        console.error('Stripe checkout session failed:', errText);
       }
     } catch (err: any) {
-      console.error('Stripe checkout API error:', err);
-      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Stripe Checkout Session.' });
+      console.error('Paystack checkout API error:', err);
+      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Paystack checkout session.' });
     } finally {
       setProcessing(false);
       setLoadingPlanId(null);
@@ -522,7 +515,7 @@ export const SubscriptionCard: React.FC = () => {
                 </div>
 
                 <div className="flex justify-between text-xs py-2">
-                  <span className="text-white/40 font-semibold">Stripe ID:</span>
+                  <span className="text-white/40 font-semibold">Paystack ID:</span>
                   <span className="font-mono text-white/60 text-[10px]">{sub.stripeSubscriptionId}</span>
                 </div>
 
@@ -687,7 +680,7 @@ export const SubscriptionCard: React.FC = () => {
                 <th className="py-3 px-4">Receipt ID</th>
                 <th className="py-3 px-4">Billing Date</th>
                 <th className="py-3 px-4">Amount</th>
-                <th className="py-3 px-4">Stripe Intent</th>
+                <th className="py-3 px-4">Payment Reference</th>
                 <th className="py-3 px-4">Status</th>
               </tr>
             </thead>

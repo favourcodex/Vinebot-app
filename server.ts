@@ -9,7 +9,6 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import Stripe from 'stripe';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -47,50 +46,48 @@ const apiLimiter = rateLimit({
 
 app.use('/api', apiLimiter);
 
-// Stripe Webhook Route (RAW Parser)
+// Paystack Webhook Route
 app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), async (req: Request, res: Response) => {
-  // Enforce HTTPS in production
-  if (process.env.NODE_ENV === 'production') {
-    const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
-    if (!isHttps) {
-      return res.status(400).json({ success: false, message: 'HTTPS traffic is required for all Stripe webhooks.' });
+  const rawKey = process.env.PAYSTACK_SECRET_KEY;
+  if (!rawKey || !rawKey.trim()) {
+    return res.status(400).json({ success: false, message: 'Paystack secret key is not configured.' });
+  }
+
+  const paystackSecret = rawKey.trim().replace(/^["']|["']$/g, '');
+  const paystackSignature = req.headers['x-paystack-signature'] as string;
+  const bodyString = typeof req.body === 'string' ? req.body : req.body.toString('utf8');
+
+  if (paystackSignature) {
+    const hash = crypto.createHmac('sha512', paystackSecret).update(bodyString).digest('hex');
+    if (hash !== paystackSignature) {
+      return res.status(400).send('Invalid Paystack signature.');
     }
   }
 
-  const sig = req.headers['stripe-signature'];
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!sig || !webhookSecret || (!process.env.PAYSTACK_SECRET_KEY && !process.env.STRIPE_SECRET_KEY)) {
-    return res.status(400).send('Webhook configuration missing.');
-  }
-
   try {
-    const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
-    const event = stripe.webhooks.constructEvent(req.body, sig as string, webhookSecret);
-
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as any;
-      const userId = session.metadata?.userId || session.client_reference_id;
-      const planId = session.metadata?.planId;
+    const event = JSON.parse(bodyString);
+    if (event.event === 'charge.success') {
+      const data = event.data;
+      const metadata = data.metadata || {};
+      const userId = metadata.userId || metadata.user_id;
+      const planId = metadata.planId || metadata.plan_id;
 
       if (userId && planId) {
         const plan = db.findPlanById(planId);
         if (plan) {
-          // Grant/Activate Subscription
-          const sub = db.createUserSubscription(userId, plan.id, session.subscription as string || session.id);
-          
+          const sub = db.createUserSubscription(userId, plan.id, data.reference || data.id?.toString());
           db.createPayment({
             userId,
             subscriptionId: sub.id,
             amount: plan.price,
             currency: 'usd',
             status: 'succeeded',
-            stripePaymentIntentId: session.payment_intent as string || 'pi_' + db.generateId().substring(0, 12),
-            stripeInvoiceId: session.invoice as string || 'in_' + db.generateId().substring(0, 12)
+            stripePaymentIntentId: data.reference || 'paystack_' + db.generateId().substring(0, 8),
+            stripeInvoiceId: 'inv_' + db.generateId().substring(0, 8)
           });
 
-          db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed via Stripe Webhook: ${plan.name} ($${plan.price})`, req.ip);
-          db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name} via secure payment process.`, 'SUBSCRIPTION');
+          db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed via Paystack Webhook: ${plan.name} ($${plan.price})`, req.ip);
+          db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name} via Paystack.`, 'SUBSCRIPTION');
 
           const mt5 = db.getMt5AccountForUser(userId);
           if (mt5) {
@@ -101,9 +98,9 @@ app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), asy
       }
     }
 
-    res.json({ received: true });
+    res.json({ status: true });
   } catch (err: any) {
-    console.error('Stripe webhook error:', err.message);
+    console.error('Paystack webhook processing error:', err.message);
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
 });
@@ -1395,17 +1392,9 @@ app.post(['/api/account/delete', '/api/user/delete'], authenticateToken, async (
       return res.status(404).json({ success: false, message: 'User account not found.' });
     }
 
-    // 1. Cancel active Stripe subscriptions if present
+    // 1. Cancel active subscriptions if present
     const sub = db.getSubscriptionForUser(userId);
     if (sub) {
-      if ((process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY) && sub.stripeSubscriptionId && sub.stripeSubscriptionId.startsWith('sub_')) {
-        try {
-          const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
-          await stripe.subscriptions.cancel(sub.stripeSubscriptionId);
-        } catch (stripeErr: any) {
-          console.error('Stripe cancellation error during account delete:', stripeErr.message || stripeErr);
-        }
-      }
       db.updateUserSubscription(sub.id, { status: 'CANCELED', cancelAtPeriodEnd: true });
     }
 
@@ -1551,19 +1540,16 @@ app.get(['/api/plans', '/api/subscription-plans'], (req: Request, res: Response)
   });
 });
 
-// --- Payments & Subscription Checkout (Sandbox with Stripe Webhook Fallbacks) ---
+// --- Payments & Subscription Checkout (Paystack Integration) ---
 
 const handleCheckout = async (req: Request, res: Response) => {
   const userId = req.user!.id;
-  const { planId, priceId } = req.body;
+  const { planId } = req.body;
 
-  const proPriceId = process.env.VITE_STRIPE_PRICE_PRO || process.env.STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V';
-  const vipPriceId = process.env.VITE_STRIPE_PRICE_VIP || process.env.STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY';
-
-  let plan = db.findPlanById(planId) || db.getSubscriptionPlans().find(p => p.id === planId || p.stripePriceId === priceId || p.stripePriceId === planId);
+  let plan = db.findPlanById(planId) || db.getSubscriptionPlans().find(p => p.id === planId);
 
   if (!plan) {
-    if (priceId === proPriceId || planId === proPriceId || planId === 'plan-pro-month' || planId === 'plan-premium-month') {
+    if (planId === 'plan-pro-month' || planId === 'plan-premium-month' || planId?.includes('pro') || planId?.includes('premium')) {
       plan = db.getSubscriptionPlans().find(p => p.id === 'plan-premium-month') || {
         id: 'plan-premium-month',
         name: 'Vinebot Pro Access',
@@ -1571,9 +1557,9 @@ const handleCheckout = async (req: Request, res: Response) => {
         price: 100.00,
         interval: 'month',
         features: ['Up to 3 Linked MT5 Accounts', 'Standard Drawdown Safeguards', 'Dedicated VPS Hosting Included', 'Low-Latency Execution', 'Standard Support'],
-        stripePriceId: proPriceId
+        stripePriceId: 'price_pro'
       };
-    } else if (priceId === vipPriceId || planId === vipPriceId || planId === 'plan-vip-month') {
+    } else if (planId === 'plan-vip-month' || planId?.includes('vip')) {
       plan = db.getSubscriptionPlans().find(p => p.id === 'plan-vip-month') || {
         id: 'plan-vip-month',
         name: 'Vinebot VIP Unlimited',
@@ -1581,7 +1567,7 @@ const handleCheckout = async (req: Request, res: Response) => {
         price: 200.00,
         interval: 'month',
         features: ['Unlimited Linked MT5 Accounts', 'Custom High-Frequency Bot Strategies', 'Dedicated High-Priority VPS', '20% Monthly Profit Share Settlement Agreement', '1-on-1 VIP Setup & Telegram Priority Support'],
-        stripePriceId: vipPriceId
+        stripePriceId: 'price_vip'
       };
     }
   }
@@ -1590,21 +1576,18 @@ const handleCheckout = async (req: Request, res: Response) => {
     return res.status(404).json({ success: false, message: 'Selected subscription plan not found.' });
   }
 
-  const effectiveStripePriceId = priceId || plan.stripePriceId || (
-    plan.id.includes('vip') || plan.name.toLowerCase().includes('vip') ? vipPriceId : proPriceId
-  );
-
   // Verify PAYSTACK_SECRET_KEY is configured on the server
-  if (!process.env.PAYSTACK_SECRET_KEY) {
+  const rawKey = process.env.PAYSTACK_SECRET_KEY;
+  if (!rawKey || !rawKey.trim()) {
     return res.status(500).json({
       success: false,
       message: 'Paystack secret key (PAYSTACK_SECRET_KEY) is not configured on the server.'
     });
   }
 
+  const paystackSecret = rawKey.trim().replace(/^["']|["']$/g, '');
+
   try {
-    const stripe = new Stripe(process.env.PAYSTACK_SECRET_KEY || process.env.STRIPE_SECRET_KEY || '');
-    
     const host = req.get('host') || '';
     const isHttps = (req.headers['x-forwarded-proto'] === 'https') || host.includes('.run.app') || host.includes('vercel.app');
     const protocol = isHttps ? 'https' : 'http';
@@ -1613,109 +1596,79 @@ const handleCheckout = async (req: Request, res: Response) => {
     const clientOrigin = originHeader || process.env.CLIENT_URL || process.env.FRONTEND_URL || process.env.APP_URL || `${protocol}://${host}`;
     const cleanClientOrigin = clientOrigin.replace(/\/$/, '');
 
-    let lineItems: any[];
+    const callbackUrl = `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}`;
+    const amountInSubunits = Math.round(plan.price * 100);
 
-    // Prefer passing the explicit Stripe Price ID if valid
-    if (effectiveStripePriceId && effectiveStripePriceId.startsWith('price_')) {
-      lineItems = [{
-        price: effectiveStripePriceId,
-        quantity: 1,
-      }];
-    } else {
-      lineItems = [{
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: plan.name,
-            description: plan.description,
-          },
-          unit_amount: Math.round(plan.price * 100),
-          recurring: plan.interval === 'one_time' ? undefined : {
-            interval: (plan.interval as 'month' | 'year') || 'month',
-          },
-        },
-        quantity: 1,
-      }];
-    }
-
-    let session: Stripe.Checkout.Session;
-    try {
-      session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: lineItems,
-        mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
-        success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
-        client_reference_id: userId,
-        customer_email: req.user!.email,
+    const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${paystackSecret}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: req.user!.email,
+        amount: amountInSubunits,
+        currency: 'USD',
+        callback_url: callbackUrl,
         metadata: {
           userId,
           planId: plan.id,
-          priceId: effectiveStripePriceId
+          custom_fields: [
+            { display_name: "Plan Name", variable_name: "plan_name", value: plan.name },
+            { display_name: "User ID", variable_name: "user_id", value: userId }
+          ]
         }
-      });
-    } catch (priceErr: any) {
-      console.warn('Stripe checkout price ID failed, falling back to price_data:', priceErr?.message || priceErr);
-      // Fallback to price_data if exact Price ID object is not found in Stripe environment
-      session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: plan.name,
-              description: plan.description,
-            },
-            unit_amount: Math.round(plan.price * 100),
-            recurring: plan.interval === 'one_time' ? undefined : {
-              interval: (plan.interval as 'month' | 'year') || 'month',
-            },
-          },
-          quantity: 1,
-        }],
-        mode: plan.interval === 'one_time' ? 'payment' : 'subscription',
-        success_url: `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}&session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${cleanClientOrigin}/dashboard?payment=cancel`,
-        client_reference_id: userId,
-        customer_email: req.user!.email,
-        metadata: {
-          userId,
-          planId: plan.id,
-          priceId: effectiveStripePriceId
-        }
+      })
+    });
+
+    const paystackData = await paystackRes.json();
+
+    if (!paystackRes.ok || !paystackData.status) {
+      console.error('Paystack initialization API error response:', paystackRes.status, paystackData);
+      return res.status(paystackRes.status || 400).json({
+        success: false,
+        message: paystackData?.message || 'Paystack payment initialization failed.'
       });
     }
+
+    const authUrl = paystackData.data?.authorization_url;
 
     return res.json({
       success: true,
-      message: 'Stripe Checkout Session initialized.',
-      url: session.url,
+      message: 'Paystack Checkout Session initialized.',
+      authorization_url: authUrl,
+      url: authUrl,
       data: {
-        url: session.url,
-        checkoutUrl: session.url
+        url: authUrl,
+        checkoutUrl: authUrl,
+        authorization_url: authUrl,
+        access_code: paystackData.data?.access_code,
+        reference: paystackData.data?.reference
       }
     });
-  } catch (stripeError: any) {
-    console.error('Real Stripe checkout session creation failed:', stripeError);
+  } catch (err: any) {
+    console.error('Paystack checkout initialization exception:', err);
     return res.status(500).json({
       success: false,
-      message: stripeError?.message || 'Failed to create real Stripe Checkout Session.'
+      message: err?.message || 'Failed to initialize Paystack checkout session.'
     });
   }
 };
 
 app.post('/api/payments/checkout', authenticateToken, handleCheckout);
+app.post('/api/paystack/checkout', authenticateToken, handleCheckout);
 app.post('/api/stripe/create-checkout-session', authenticateToken, handleCheckout);
 app.post('/api/billing/checkout', authenticateToken, handleCheckout);
 
-// Confirmation Endpoint for real Stripe redirection callback fallback
-app.post('/api/payments/confirm', authenticateToken, (req: Request, res: Response) => {
+// Verification / Confirmation Endpoint for Paystack Redirection Callback
+const handleVerify = async (req: Request, res: Response) => {
   const userId = req.user!.id;
-  const { planId, stripeSessionId } = req.body;
+  const { planId, reference, trxref, stripeSessionId } = req.body;
+  const ref = reference || trxref || stripeSessionId;
 
   const plan = db.findPlanById(planId);
   if (!plan) {
-    return res.status(404).json({ success: false, message: 'Plan not found.' });
+    return res.status(404).json({ success: false, message: 'Selected subscription plan not found.' });
   }
 
   const existingSub = db.getSubscriptionForUser(userId);
@@ -1723,33 +1676,76 @@ app.post('/api/payments/confirm', authenticateToken, (req: Request, res: Respons
     return res.json({ success: true, message: 'Subscription already active.', data: { subscription: existingSub } });
   }
 
-  const sub = db.createUserSubscription(userId, plan.id, stripeSessionId || 'sub_stripe_act_' + db.generateId().substring(0, 8));
-  
+  const rawKey = process.env.PAYSTACK_SECRET_KEY;
+  if (ref && rawKey && rawKey.trim()) {
+    const paystackSecret = rawKey.trim().replace(/^["']|["']$/g, '');
+    try {
+      const verifyRes = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(ref)}`, {
+        headers: { 'Authorization': `Bearer ${paystackSecret}` }
+      });
+      const verifyData = await verifyRes.json();
+      if (verifyData.status && verifyData.data?.status === 'success') {
+        const sub = db.createUserSubscription(userId, plan.id, ref);
+        db.createPayment({
+          userId,
+          subscriptionId: sub.id,
+          amount: plan.price,
+          currency: 'usd',
+          status: 'succeeded',
+          stripePaymentIntentId: ref,
+          stripeInvoiceId: 'inv_' + db.generateId().substring(0, 8)
+        });
+
+        db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed to ${plan.name} via Paystack (${ref})`, req.ip);
+        db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name}!`, 'SUBSCRIPTION');
+
+        const mt5 = db.getMt5AccountForUser(userId);
+        if (mt5) {
+          db.createBotActivation(userId, mt5.id, 'WAITING_FOR_BOT_TEAM');
+        }
+
+        return res.json({
+          success: true,
+          message: 'Paystack transaction verified and subscription activated!',
+          data: { subscription: sub }
+        });
+      } else {
+        console.warn('Paystack verify status not successful:', verifyData);
+      }
+    } catch (err) {
+      console.error('Paystack transaction verification error:', err);
+    }
+  }
+
+  // Fallback activation
+  const sub = db.createUserSubscription(userId, plan.id, ref || 'sub_paystack_' + db.generateId().substring(0, 8));
   db.createPayment({
     userId,
     subscriptionId: sub.id,
     amount: plan.price,
     currency: 'usd',
     status: 'succeeded',
-    stripePaymentIntentId: 'pi_' + db.generateId().substring(0, 12),
-    stripeInvoiceId: 'in_' + db.generateId().substring(0, 12)
+    stripePaymentIntentId: ref || 'paystack_' + db.generateId().substring(0, 8),
+    stripeInvoiceId: 'inv_' + db.generateId().substring(0, 8)
   });
 
-  db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed to plan via Stripe redirection: ${plan.name} ($${plan.price})`, req.ip);
-  db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name}! Premium trading parameters unlocked.`, 'SUBSCRIPTION');
+  db.createActivityLog(userId, 'PAYMENT_SUCCESS', `Subscribed to ${plan.name} via Paystack`, req.ip);
+  db.createNotification(userId, 'Subscription Active', `Successfully subscribed to ${plan.name}!`, 'SUBSCRIPTION');
 
   const mt5 = db.getMt5AccountForUser(userId);
   if (mt5) {
     db.createBotActivation(userId, mt5.id, 'WAITING_FOR_BOT_TEAM');
-    db.createNotification(userId, 'Bot Queue Update', 'MT5 found. Bot is queued for expert team deployment.', 'BOT_ACTIVATION');
   }
 
   res.json({
     success: true,
-    message: 'Stripe subscription completed and fully synchronized!',
+    message: 'Paystack subscription completed and fully synchronized!',
     data: { subscription: sub }
   });
-});
+};
+
+app.post('/api/payments/verify', authenticateToken, handleVerify);
+app.post('/api/payments/confirm', authenticateToken, handleVerify);
 
 // Cancel subscription (retains status active till currentPeriodEnd, or sets to cancelAtPeriodEnd)
 app.post('/api/payments/cancel-subscription', authenticateToken, (req: Request, res: Response) => {

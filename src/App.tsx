@@ -155,28 +155,28 @@ function AppContent() {
     return () => window.removeEventListener('message', handleMessage);
   }, [login]);
 
-  // Listen for Stripe Redirection Success Parameters (Dual Webhook/Redirect flow)
+  // Listen for Paystack Redirection Success Parameters
   useEffect(() => {
     if (state.isAuthenticated && route === '/dashboard') {
       const params = new URLSearchParams(window.location.search);
       const paymentStatus = params.get('payment');
       const planId = params.get('plan_id');
-      const sessionId = params.get('session_id');
+      const reference = params.get('reference') || params.get('trxref') || params.get('session_id');
 
-      if (paymentStatus === 'success' && planId) {
+      if ((paymentStatus === 'success' || reference) && planId) {
         // Clear query parameters from browser URL bar without reloading
         window.history.replaceState({}, document.title, window.location.pathname);
         
-        // Execute instant secure activation handshake with Stripe confirmation API
-        apiRequest('/api/payments/confirm', {
+        // Execute instant secure activation handshake with Paystack verification API
+        apiRequest('/api/payments/verify', {
           method: 'POST',
-          body: JSON.stringify({ planId, stripeSessionId: sessionId })
+          body: JSON.stringify({ planId, reference })
         }).then(res => {
           if (res.success) {
             setDashboardTab('subscription'); // Open billing tab to let them view plan
           }
         }).catch(err => {
-          console.error('Failed to confirm Stripe subscription:', err);
+          console.error('Failed to verify Paystack subscription:', err);
         });
       }
     }
