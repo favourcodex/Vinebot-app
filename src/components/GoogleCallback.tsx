@@ -119,7 +119,9 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
             localStorage.setItem('vinebot_user', JSON.stringify(user));
             login(token, refreshToken, user);
           } else {
-            login(token, refreshToken, { email: 'user@vinebot.io', role: 'USER' });
+            const fallbackUser = { email: 'favourcodex3@gmail.com', role: 'USER' as const };
+            localStorage.setItem('vinebot_user', JSON.stringify(fallbackUser));
+            login(token, refreshToken, fallbackUser);
           }
 
           // Check if window was opened as a popup

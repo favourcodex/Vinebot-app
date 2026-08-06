@@ -45,13 +45,22 @@ function AppContent() {
     return '/';
   });
 
+  const [minLoading, setMinLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleNavigate = (newRoute: string) => {
     if (newRoute === route) return;
     setIsRouteLoading(true);
     setRoute(newRoute);
     setTimeout(() => {
       setIsRouteLoading(false);
-    }, 400);
+    }, 1000);
   };
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
@@ -781,7 +790,7 @@ function AppContent() {
     }
   };
 
-  if (state.loading) {
+  if (state.loading || minLoading) {
     return <Preloader message="Authenticating User Session..." subtext="Connecting to VIN-CORP AI Trading nodes" />;
   }
 
