@@ -36,7 +36,7 @@
       "isBotActive": false,
       "role": "USER",
       "createdAt": "2026-07-17T12:04:22.601Z",
-      "updatedAt": "2026-08-06T22:35:06.441Z",
+      "updatedAt": "2026-08-06T22:41:30.465Z",
       "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI6Fmm0O-hcjVchL4YHVb28u7SQrwgTSRaW51jZ3qjCPNDaH6s=s96-c",
       "verificationToken": "3c3dce6c893a09fd1fbfdf51e9f0a15456d1bb832c072f28732aafffe57d2197:1786046683866"
     },
@@ -112,6 +112,13 @@
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
       "expiresAt": "2026-09-05T22:35:06.442Z",
       "createdAt": "2026-08-06T22:35:06.442Z"
+    },
+    {
+      "id": "054cbd44-8075-4c87-bf0d-8363bd10947d",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NjA5MCwiZXhwIjoxNzg4NjQ4MDkwfQ.eMTrz7zENQUmGCvbNdhlwywtixYGjq-yiu0YCwX0bHU",
+      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "expiresAt": "2026-09-05T22:41:30.477Z",
+      "createdAt": "2026-08-06T22:41:30.477Z"
     }
   ],
   "oauthAccounts": [],
@@ -269,6 +276,14 @@
       "details": "Successful Google OAuth session established",
       "ipAddress": "169.254.169.126",
       "createdAt": "2026-08-06T22:35:06.441Z"
+    },
+    {
+      "id": "d8ddda00-9ddf-42c2-ac55-5a3d135b83c0",
+      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "action": "LOGIN",
+      "details": "Successful Google OAuth session established",
+      "ipAddress": "169.254.169.126",
+      "createdAt": "2026-08-06T22:41:30.466Z"
     }
   ],
   "notifications": [
