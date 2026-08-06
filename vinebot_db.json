@@ -36,7 +36,7 @@
       "isBotActive": false,
       "role": "USER",
       "createdAt": "2026-07-17T12:04:22.601Z",
-      "updatedAt": "2026-08-06T19:49:43.866Z",
+      "updatedAt": "2026-08-06T22:01:38.549Z",
       "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI6Fmm0O-hcjVchL4YHVb28u7SQrwgTSRaW51jZ3qjCPNDaH6s=s96-c",
       "verificationToken": "3c3dce6c893a09fd1fbfdf51e9f0a15456d1bb832c072f28732aafffe57d2197:1786046683866"
     },
@@ -77,6 +77,13 @@
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
       "expiresAt": "2026-09-05T18:54:49.926Z",
       "createdAt": "2026-08-06T18:54:49.926Z"
+    },
+    {
+      "id": "fbfc108c-cb20-4434-8bf3-7f64ec7fafec",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1MzY5OCwiZXhwIjoxNzg4NjQ1Njk4fQ.8en-dfpdcQq9Y6Iy-KyB4lWhWk5hij6r49Pzblrz2sw",
+      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "expiresAt": "2026-09-05T22:01:38.556Z",
+      "createdAt": "2026-08-06T22:01:38.556Z"
     }
   ],
   "oauthAccounts": [],
@@ -194,6 +201,14 @@
       "details": "Magic link requested for email: favourcodex3@gmail.com",
       "ipAddress": "169.254.169.126",
       "createdAt": "2026-08-06T19:49:43.878Z"
+    },
+    {
+      "id": "8639993c-3017-41b3-a877-7899568be651",
+      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
+      "action": "LOGIN",
+      "details": "Successful Google OAuth session established",
+      "ipAddress": "169.254.169.126",
+      "createdAt": "2026-08-06T22:01:38.552Z"
     }
   ],
   "notifications": [
