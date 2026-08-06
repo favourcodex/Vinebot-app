@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
-import { Logo } from './common/Logo';
 import { 
   CreditCard, CheckCircle2, AlertTriangle, RefreshCw, 
   PlusCircle, ShieldCheck, DollarSign, ArrowRight, Zap, Ban, RotateCcw,
@@ -480,7 +479,6 @@ export const SubscriptionCard: React.FC = () => {
             Select or update your automated trading license and inspect payment histories.
           </p>
         </div>
-        <Logo size="md" className="hidden sm:inline-flex shrink-0" />
       </div>
 
       {message && (
