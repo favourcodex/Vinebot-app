@@ -26,7 +26,7 @@ const DEFAULT_PLANS: SubscriptionPlan[] = [
       'Low-Latency Execution',
       'Standard Support'
     ],
-    stripePriceId: import.meta.env.VITE_STRIPE_PRICE_PRO || 'price_1TyWQWEAAe7A6uScDtJotb0V'
+    stripePriceId: 'price_pro'
   },
   {
     id: 'plan-vip-month',
@@ -41,7 +41,7 @@ const DEFAULT_PLANS: SubscriptionPlan[] = [
       '20% Monthly Profit Share Settlement Agreement',
       '1-on-1 VIP Setup & Telegram Priority Support'
     ],
-    stripePriceId: import.meta.env.VITE_STRIPE_PRICE_VIP || 'price_1TyWWuEAAe7A6uScQMi6hlWY'
+    stripePriceId: 'price_vip'
   }
 ];
 
