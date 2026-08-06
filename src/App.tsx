@@ -469,15 +469,12 @@ function AppContent() {
           <LoginPage
             email={email}
             setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
             submitting={submitting}
             authError={authError}
             setAuthError={setAuthError}
             sentMagicLinkEmail={sentMagicLinkEmail}
             setSentMagicLinkEmail={setSentMagicLinkEmail}
             handleMagicLinkSubmit={handleMagicLinkSubmit}
-            handleLoginSubmit={handleLoginSubmit}
             handleGoogleAuth={handleGoogleAuth}
             googleConfigured={googleConfigured}
             onNavigate={handleNavigate}

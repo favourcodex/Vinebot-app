@@ -744,103 +744,12 @@ app.post('/api/auth/register', async (req: Request, res: Response) => {
   }
 });
 
-// Login
+// Login (Password authentication disabled for security)
 app.post('/api/auth/login', async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: 'Email and password are required.' });
-  }
-
-  try {
-    const cleanEmail = email.trim().toLowerCase();
-    let user = db.findUserByEmail(cleanEmail);
-    const isAdminAccount = cleanEmail === 'admin@vinebot.app' || cleanEmail === 'vinindustry0@gmail.com';
-    const isSafeAdmin = isAdminAccount && password === 'admin';
-
-    if (isSafeAdmin) {
-      if (!user) {
-        console.log('[SAFEGUARD] Database lookup for admin missing, creating admin user');
-        user = db.createUser(cleanEmail, '$2b$10$VdrTr9XW2XhHw1Eg3fj8FuC5aqLfiYDY3bycaCOGdwpXW6rT14G4m', 'ADMIN', true);
-        db.updateUser(user.id, { isEmailVerified: true, hasAcceptedTerms: true });
-      } else {
-        user.role = 'ADMIN';
-        user.verified = true;
-        user.isEmailVerified = true;
-        user.hasAcceptedTerms = true;
-        db.updateUser(user.id, { role: 'ADMIN', verified: true, isEmailVerified: true, hasAcceptedTerms: true });
-      }
-    } else {
-      if (!user || !user.passwordHash) {
-        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-      }
-
-      const isMatch = await bcrypt.compare(password, user.passwordHash);
-      if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-      }
-
-      if (isAdminAccount) {
-        user.role = 'ADMIN';
-        user.verified = true;
-        user.isEmailVerified = true;
-        user.hasAcceptedTerms = true;
-        db.updateUser(user.id, { role: 'ADMIN', verified: true, isEmailVerified: true, hasAcceptedTerms: true });
-      }
-    }
-
-    // Generate JWT Access Token (1 hour validity)
-    const accessToken = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      JWT_ACCESS_SECRET,
-      { expiresIn: '1h' }
-    );
-
-    // Generate JWT Refresh Token (30 days validity)
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '30d' }
-    );
-
-    db.createRefreshToken(user.id, refreshToken);
-    db.createActivityLog(user.id, 'LOGIN', 'Successful user login credentials provided', req.ip);
-
-    const isProd = process.env.NODE_ENV === 'production';
-    res.cookie('token', accessToken, {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? 'none' : 'strict',
-      maxAge: 60 * 60 * 1000 // 1 hour
-    });
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? 'none' : 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
-    });
-
-    res.json({
-      success: true,
-      message: 'Login successful.',
-      data: {
-        token: accessToken,
-        refreshToken,
-        user: {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-          verified: user.verified,
-          isEmailVerified: user.isEmailVerified || false,
-          hasAcceptedTerms: user.hasAcceptedTerms || false,
-          profilePicture: user.profilePicture,
-          createdAt: user.createdAt
-        }
-      }
-    });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message || 'Server error during login.' });
-  }
+  return res.status(400).json({ 
+    success: false, 
+    message: 'Password authentication has been permanently disabled for security. Please sign in using Magic Link or Google Single Sign-On.' 
+  });
 });
 
 // Refresh Token
