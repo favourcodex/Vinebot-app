@@ -1072,17 +1072,17 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
         // Raw text response
       }
 
-      console.warn(`[Google OAuth Notice] Code exchange failed: ${errorDetail}`);
-      console.warn('[Google OAuth Notice] To enable live Google OAuth sign-in, please ensure valid GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET credentials are configured in your environment.');
-      console.warn('[Google OAuth Notice] Activating authenticated Google user session fallback for preview environment.');
-
-      email = 'google.user@vinebot.app';
-      profilePicture = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
+      console.error(`[Google OAuth Error] Code exchange failed: ${errorDetail}`);
+      const oAuthErr = 'Google authentication failed. Please verify GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET configuration or use Magic Link sign in.';
+      if (req.headers.accept?.includes('application/json')) {
+        return res.status(400).json({ success: false, error: oAuthErr });
+      }
+      return res.redirect(`${clientUrl}/auth/google/callback?error=${encodeURIComponent(oAuthErr)}`);
     } else {
-      const tokenData = await tokenResponse.json() as { access_token: string };
+      const tokenData = await tokenResponse.json() as { access_token: string; id_token?: string };
       const accessToken = tokenData.access_token;
       
-      // 2. Fetch Google User Profile
+      // 2. Fetch Google User Profile with fallback to userinfo v2/v3 APIs
       const profileResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
@@ -1093,8 +1093,20 @@ app.get(['/auth/google/callback', '/auth/google/callback/', '/api/auth/google/ca
         throw new Error(`Failed to fetch user profile from Google: ${profileErr}`);
       }
       
-      const googleProfile = await profileResponse.json() as { email: string, picture?: string, name?: string, id: string };
-      email = googleProfile.email.toLowerCase();
+      const googleProfile = await profileResponse.json() as { 
+        email?: string; 
+        emails?: Array<{ value: string }>; 
+        picture?: string; 
+        name?: string; 
+        id?: string; 
+      };
+
+      const extractedEmail = googleProfile.email || (googleProfile.emails && googleProfile.emails[0]?.value);
+      if (!extractedEmail || !extractedEmail.includes('@')) {
+        throw new Error('Google authentication succeeded but no valid user email was provided by Google.');
+      }
+
+      email = extractedEmail.trim().toLowerCase();
       profilePicture = googleProfile.picture;
     }
     
