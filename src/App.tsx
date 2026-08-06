@@ -21,6 +21,7 @@ import { OnboardingTerms } from './components/OnboardingTerms';
 import { VerifyEmailView } from './components/VerifyEmailView';
 import { GoogleCallback } from './components/GoogleCallback';
 import { Logo } from './components/common/Logo';
+import { Preloader } from './components/common/Preloader';
 import { 
   Bot, Lock, Mail, ChevronRight, User, KeyRound, 
   ArrowLeft, CheckCircle2, AlertTriangle, Sparkles, ShieldAlert
@@ -28,6 +29,7 @@ import {
 
 function AppContent() {
   const { state, login, apiRequest, logout } = useAuth();
+  const [isRouteLoading, setIsRouteLoading] = useState(false);
   
   // State-based routing with initial path support to handle direct browser visits
   const [route, setRoute] = useState<string>(() => {
@@ -40,6 +42,15 @@ function AppContent() {
     }
     return '/';
   });
+
+  const handleNavigate = (newRoute: string) => {
+    if (newRoute === route) return;
+    setIsRouteLoading(true);
+    setRoute(newRoute);
+    setTimeout(() => {
+      setIsRouteLoading(false);
+    }, 280);
+  };
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
 
@@ -905,7 +916,16 @@ function AppContent() {
     }
   };
 
-  return <>{renderView()}</>;
+  if (state.loading) {
+    return <Preloader message="Authenticating User Session..." subtext="Connecting to VIN-CORP AI Trading nodes" />;
+  }
+
+  return (
+    <>
+      {isRouteLoading && <Preloader message="Synchronizing View..." subtext="Loading automated trading interface" />}
+      {renderView()}
+    </>
+  );
 }
 
 export default function App() {

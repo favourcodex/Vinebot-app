@@ -117,12 +117,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         body: JSON.stringify({ planId: plan.id })
       });
 
-      const redirectUrl = res.url || res.authorization_url || res.data?.url || res.data?.authorization_url || res.data?.checkoutUrl;
-      if (res.success && redirectUrl) {
+      const redirectUrl = res.authorization_url || res.data?.authorization_url || res.url || res.data?.url || res.data?.checkoutUrl;
+      if ((res.success || redirectUrl) && redirectUrl) {
         window.location.href = redirectUrl;
         return;
       } else {
-        console.error('Paystack checkout session failed:', res.message);
+        console.error('Paystack checkout session failed:', res.error || res.message);
       }
     } catch (err) {
       console.error('Checkout error:', err);

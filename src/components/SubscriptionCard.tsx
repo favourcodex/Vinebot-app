@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { Logo } from './common/Logo';
 import { 
   CreditCard, CheckCircle2, AlertTriangle, RefreshCw, 
   PlusCircle, ShieldCheck, DollarSign, ArrowRight, Zap, Ban, RotateCcw,
@@ -116,17 +117,17 @@ export const SubscriptionCard: React.FC = () => {
         body: JSON.stringify({ planId: plan.id })
       });
 
-      const redirectUrl = res.url || res.authorization_url || res.data?.url || res.data?.authorization_url || res.data?.checkoutUrl;
-      if (res.success && redirectUrl) {
+      const redirectUrl = res.authorization_url || res.data?.authorization_url || res.url || res.data?.url || res.data?.checkoutUrl;
+      if ((res.success || redirectUrl) && redirectUrl) {
         window.location.href = redirectUrl;
         return;
       } else {
-        const errText = res.message || 'Failed to initialize Paystack checkout session.';
+        const errText = res.error || res.message || 'Payment service unavailable. Please check backend API configuration.';
         setMessage({ type: 'error', text: errText });
       }
     } catch (err: any) {
       console.error('Paystack checkout API error:', err);
-      setMessage({ type: 'error', text: err?.message || 'Failed to initialize Paystack checkout session.' });
+      setMessage({ type: 'error', text: err?.message || 'Payment service unavailable. Please check backend API configuration.' });
     } finally {
       setProcessing(false);
       setLoadingPlanId(null);
@@ -468,13 +469,18 @@ export const SubscriptionCard: React.FC = () => {
     <div className="space-y-10 animate-fade-in" id="subscription-card-view">
       
       {/* Header Info */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-          <CreditCard className="w-6 h-6 text-blue-400" /> Billing & Subscription Center
-        </h1>
-        <p className="text-white/40 text-xs mt-1">
-          Select or update your automated trading license and inspect payment histories.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2.5 mb-1">
+            <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
+              <CreditCard className="w-6 h-6 text-blue-400" /> Billing & Subscription Center
+            </h1>
+          </div>
+          <p className="text-white/40 text-xs mt-1">
+            Select or update your automated trading license and inspect payment histories.
+          </p>
+        </div>
+        <Logo size="md" className="hidden sm:inline-flex shrink-0" />
       </div>
 
       {message && (

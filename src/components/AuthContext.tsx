@@ -152,8 +152,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const apiRequest = async <T = any>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> => {
     const headers = new Headers(options.headers || {});
-    if (state.token) {
-      headers.set('Authorization', `Bearer ${state.token}`);
+    const activeToken = state.token || localStorage.getItem('vinebot_token') || localStorage.getItem('token');
+    
+    if (activeToken) {
+      headers.set('Authorization', `Bearer ${activeToken}`);
     }
     if (!(options.body instanceof FormData) && !headers.has('Content-Type')) {
       headers.set('Content-Type', 'application/json');
@@ -165,8 +167,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers
       });
 
-      if ((response.status === 401 || response.status === 403) && state.isAuthenticated) {
-        // Automatic logout on unauthenticated
+      // Only perform automatic logout if /api/auth/me specifically returns 401 Unauthorized
+      if (response.status === 401 && endpoint.includes('/api/auth/me')) {
         logout();
         return { success: false, message: 'Session expired. Please login again.' };
       }
@@ -175,7 +177,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return data;
     } catch (err: any) {
       console.error('API request error:', err);
-      return { success: false, message: 'Network connection error. Please try again.' };
+      return { success: false, message: 'Network connection notice. Please try again.' };
     }
   };
 

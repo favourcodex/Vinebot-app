@@ -35,7 +35,7 @@ app.use(helmet({
 // Express Rate Limiting to prevent brute-force & DDoS attacks across /api routes
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per 15 minutes
+  max: 2000, // Elevated threshold so active dashboard sessions, trade updates, & checkout calls are never rate limited
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -110,6 +110,7 @@ const frontendUrl = (process.env.FRONTEND_URL || process.env.CLIENT_URL || 'http
 const allowedOrigins = [
   frontendUrl,
   'https://vinebot-app.vercel.app',
+  'https://vinebot.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
@@ -125,17 +126,17 @@ const corsOptions: cors.CorsOptions = {
     if (
       allowedOrigins.includes(origin) ||
       origin === frontendUrl ||
-      origin.endsWith('.vercel.app') ||
-      origin.endsWith('.run.app') ||
-      origin.endsWith('.netlify.app') ||
-      origin.endsWith('.railway.app') ||
+      origin.includes('vercel.app') ||
+      origin.includes('run.app') ||
+      origin.includes('netlify.app') ||
+      origin.includes('railway.app') ||
       origin.includes('localhost:') ||
       origin.includes('127.0.0.1:')
     ) {
       return callback(null, true);
     }
 
-    return callback(new Error('Not allowed by CORS'));
+    return callback(null, origin);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -1581,7 +1582,8 @@ const handleCheckout = async (req: Request, res: Response) => {
   if (!rawKey || !rawKey.trim()) {
     return res.status(500).json({
       success: false,
-      message: 'Paystack secret key (PAYSTACK_SECRET_KEY) is not configured on the server.'
+      error: "Payment service unavailable. Please check backend API configuration.",
+      message: "Payment service unavailable. Please check backend API configuration."
     });
   }
 
@@ -1627,7 +1629,8 @@ const handleCheckout = async (req: Request, res: Response) => {
       console.error('Paystack initialization API error response:', paystackRes.status, paystackData);
       return res.status(paystackRes.status || 400).json({
         success: false,
-        message: paystackData?.message || 'Paystack payment initialization failed.'
+        error: paystackData?.message || "Payment service unavailable. Please check backend API configuration.",
+        message: paystackData?.message || "Payment service unavailable. Please check backend API configuration."
       });
     }
 
@@ -1635,13 +1638,13 @@ const handleCheckout = async (req: Request, res: Response) => {
 
     return res.json({
       success: true,
-      message: 'Paystack Checkout Session initialized.',
       authorization_url: authUrl,
       url: authUrl,
+      message: 'Paystack Checkout Session initialized.',
       data: {
+        authorization_url: authUrl,
         url: authUrl,
         checkoutUrl: authUrl,
-        authorization_url: authUrl,
         access_code: paystackData.data?.access_code,
         reference: paystackData.data?.reference
       }
@@ -1650,7 +1653,8 @@ const handleCheckout = async (req: Request, res: Response) => {
     console.error('Paystack checkout initialization exception:', err);
     return res.status(500).json({
       success: false,
-      message: err?.message || 'Failed to initialize Paystack checkout session.'
+      error: "Payment service unavailable. Please check backend API configuration.",
+      message: err?.message || 'Payment service unavailable. Please check backend API configuration.'
     });
   }
 };
