@@ -1599,7 +1599,14 @@ const handleCheckout = async (req: Request, res: Response) => {
     const cleanClientOrigin = clientOrigin.replace(/\/$/, '');
 
     const callbackUrl = `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}`;
-    const amountInSubunits = Math.round(plan.price * 100);
+    
+    // Paystack currency configuration (defaults to 'NGN' with sub-units/kobo or dynamic currency)
+    const requestedCurrency = (process.env.PAYSTACK_CURRENCY || 'NGN').toUpperCase();
+    let amountInSubunits = Math.round(plan.price * 100);
+    if (requestedCurrency === 'NGN') {
+      const exchangeRate = Number(process.env.PAYSTACK_USD_NGN_RATE || 1500);
+      amountInSubunits = Math.round(plan.price * exchangeRate * 100);
+    }
 
     const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',
@@ -1610,7 +1617,7 @@ const handleCheckout = async (req: Request, res: Response) => {
       body: JSON.stringify({
         email: req.user!.email,
         amount: amountInSubunits,
-        currency: 'USD',
+        currency: requestedCurrency,
         callback_url: callbackUrl,
         metadata: {
           userId,

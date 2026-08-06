@@ -39,8 +39,8 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   // Absolute path for deployment consistency + direct bundler import fallback
-  const primarySrc = "/assets/vc-logo.png";
-  const fallbackSrc = vcLogoAsset || "/logo.png";
+  const primarySrc = vcLogoAsset || "/assets/logo.png";
+  const fallbackSrc = "/assets/vc-logo.png";
 
   return (
     <div 
@@ -53,7 +53,6 @@ export const Logo: React.FC<LogoProps> = ({
             src={primarySrc}
             alt="VC / VIN-CORP Vinebot EA"
             className={`${heightClasses[size]} object-contain max-w-full drop-shadow-[0_2px_12px_rgba(59,130,246,0.3)] ${imageClassName}`}
-            style={{ mixBlendMode: 'multiply' }}
             onError={(e) => {
               // Try secondary source before switching to text fallback
               const target = e.currentTarget;

@@ -43,6 +43,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   });
 
+  const tryRefreshToken = async (): Promise<string | null> => {
+    const refreshToken = localStorage.getItem('vinebot_refresh');
+    if (!refreshToken) return null;
+
+    try {
+      const res = await apiFetch('/api/auth/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.data?.token) {
+          const newToken = data.data.token;
+          const newRefresh = data.data.refreshToken || refreshToken;
+          localStorage.setItem('vinebot_token', newToken);
+          localStorage.setItem('token', newToken);
+          localStorage.setItem('vinebot_refresh', newRefresh);
+          
+          setState(prev => ({
+            ...prev,
+            token: newToken,
+            isAuthenticated: true
+          }));
+          return newToken;
+        }
+      }
+    } catch (e) {
+      console.warn('Token refresh attempt failed:', e);
+    }
+    return null;
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('vinebot_user');
     const storedToken = localStorage.getItem('vinebot_token') || localStorage.getItem('token');
@@ -82,6 +116,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               return;
             }
           }
+          if (res.status === 401) {
+            const refreshedToken = await tryRefreshToken();
+            if (refreshedToken) {
+              const meRes = await apiFetch('/api/auth/me', {
+                headers: { 'Authorization': `Bearer ${refreshedToken}` }
+              });
+              if (meRes.ok) {
+                const meData = await meRes.json();
+                if (meData?.success && meData?.data) {
+                  localStorage.setItem('vinebot_user', JSON.stringify(meData.data));
+                  setState({
+                    user: meData.data,
+                    token: refreshedToken,
+                    isAuthenticated: true,
+                    loading: false
+                  });
+                  return;
+                }
+              }
+            }
+          }
+
           if (res.status === 401 && !storedUser) {
             localStorage.removeItem('vinebot_user');
             localStorage.removeItem('vinebot_token');
@@ -162,15 +218,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const response = await apiFetch(endpoint, {
+      let response = await apiFetch(endpoint, {
         ...options,
         headers
       });
 
-      // Only perform automatic logout if /api/auth/me specifically returns 401 Unauthorized
-      if (response.status === 401 && endpoint.includes('/api/auth/me')) {
-        logout();
-        return { success: false, message: 'Session expired. Please login again.' };
+      if (response.status === 401) {
+        const refreshedToken = await tryRefreshToken();
+        if (refreshedToken) {
+          headers.set('Authorization', `Bearer ${refreshedToken}`);
+          response = await apiFetch(endpoint, {
+            ...options,
+            headers
+          });
+        } else if (endpoint.includes('/api/auth/me')) {
+          logout();
+          return { success: false, message: 'Session expired. Please login again.' };
+        }
       }
 
       const data = await response.json();

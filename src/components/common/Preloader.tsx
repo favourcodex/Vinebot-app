@@ -10,14 +10,24 @@ import { Logo } from './Logo';
 interface PreloaderProps {
   message?: string;
   subtext?: string;
+  variant?: 'fullscreen' | 'overlay';
 }
 
 export const Preloader: React.FC<PreloaderProps> = ({
   message = 'Loading VIN-CORP Systems...',
-  subtext = 'Connecting to high-frequency trading & session nodes'
+  subtext = 'Connecting to high-frequency trading & session nodes',
+  variant = 'fullscreen'
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070a11] text-white selection:bg-blue-500/30">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${
+        variant === 'overlay' ? 'bg-[#070a11]/90 backdrop-blur-md' : 'bg-[#070a11]'
+      } text-white selection:bg-blue-500/30`}
+    >
       {/* Background Subtle Gradient Blobs */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-600/10 rounded-full blur-2xl pointer-events-none" />
@@ -89,7 +99,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
