@@ -240,14 +240,12 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
         </div>
 
         {/* Standalone V Graphic Emblem on right side of System Command Center banner */}
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 h-40 w-auto pointer-events-none z-10 flex items-center justify-end opacity-90 object-contain">
-          <img 
-            src="/vincorp_v_emblem.png" 
-            alt="VIN-CORP V Emblem" 
-            referrerPolicy="no-referrer"
-            className="h-full w-auto object-contain filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
-          />
-        </div>
+        <img 
+          src="/vincorp_v_emblem.png" 
+          alt="VIN-CORP V Emblem" 
+          referrerPolicy="no-referrer"
+          className="absolute -right-4 -top-8 w-40 md:w-56 h-auto opacity-90 object-contain pointer-events-none z-10 filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
+        />
       </div>
 
       {/* Top Cards Grid */}
