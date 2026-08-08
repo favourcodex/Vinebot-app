@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         
         {/* LEFT: VC Logo */}
         <div className="flex items-center gap-2 shrink-0">
-          <Logo size="md" onClick={() => handleNavClick('/')} imageClassName="h-10 sm:h-12 lg:h-14 mix-blend-screen bg-transparent" />
+          <Logo size="md" onClick={() => handleNavClick('/')} imageClassName="h-14 sm:h-16 lg:h-18 mix-blend-screen bg-transparent" />
         </div>
 
         {/* DESKTOP NAV LINKS (hidden on mobile/tablet < 1024px) */}
