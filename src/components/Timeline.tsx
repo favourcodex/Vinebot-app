@@ -55,7 +55,7 @@ export const Timeline: React.FC = () => {
       case 'ACTIVE': return 'text-emerald-400 border-emerald-500/35 bg-emerald-500/10 status-glow';
       case 'PENDING_PAYMENT': return 'text-amber-400 border-amber-500/35 bg-amber-500/10';
       case 'PAYMENT_CONFIRMED': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
-      case 'WAITING_FOR_BOT_TEAM': return 'text-purple-400 border-purple-500/35 bg-purple-500/10';
+      case 'WAITING_FOR_BOT_TEAM': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
       case 'IN_PROGRESS': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
       case 'PAUSED': return 'text-gray-400 border-gray-500/35 bg-gray-500/10';
       case 'FAILED': return 'text-red-400 border-red-500/35 bg-red-500/10';
