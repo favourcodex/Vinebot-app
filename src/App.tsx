@@ -39,8 +39,11 @@ function AppContent() {
     if (path === '/admin' || path === '/admin-login') {
       return '/admin';
     }
-    if (['/verify-email', '/auth/callback', '/auth/google/callback', '/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/onboarding/terms'].includes(path)) {
-      return path;
+    if (path === '/risk-disclosure' || path === '/risk') {
+      return '/risk';
+    }
+    if (['/login', '/register', '/terms', '/privacy', '/cookie-policy', '/dashboard', '/verify-email', '/auth/callback', '/auth/google/callback', '/onboarding/terms'].includes(path)) {
+      return path === '/register' ? '/login' : path;
     }
     return '/';
   });
@@ -55,13 +58,37 @@ function AppContent() {
   }, []);
 
   const handleNavigate = (newRoute: string) => {
-    if (newRoute === route) return;
+    const targetRoute = newRoute === '/risk-disclosure' ? '/risk' : newRoute;
+    if (targetRoute === route) return;
     setIsRouteLoading(true);
-    setRoute(newRoute);
+    setRoute(targetRoute);
+    if (window.location.pathname !== targetRoute) {
+      window.history.pushState({}, '', targetRoute);
+    }
     setTimeout(() => {
       setIsRouteLoading(false);
     }, 1000);
   };
+
+  // Popstate listener & history sync
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/risk-disclosure' || path === '/risk') {
+        setRoute('/risk');
+      } else {
+        setRoute(path);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (window.location.pathname !== route) {
+      window.history.pushState({}, '', route);
+    }
+  }, [route]);
   const [dashboardTab, setDashboardTab] = useState<string>('dashboard');
   const [adminTab, setAdminTab] = useState<AdminTab>('overview');
 
@@ -94,7 +121,7 @@ function AppContent() {
 
   // Sync route on auth state
   useEffect(() => {
-    const isPublicLegal = ['/terms', '/privacy', '/cookie-policy', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
+    const isPublicLegal = ['/login', '/terms', '/privacy', '/cookie-policy', '/risk', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
     if (isPublicLegal) return;
 
     if (state.isAuthenticated) {
@@ -470,7 +497,7 @@ function AppContent() {
   const renderView = () => {
     switch (route) {
       case '/':
-        return <LandingPage onNavigate={setRoute} />;
+        return <LandingPage onNavigate={handleNavigate} />;
       
       case '/auth':
       case '/login':
@@ -735,29 +762,30 @@ function AppContent() {
         );
 
       case '/terms':
-        return <TermsPage onBack={() => setRoute('/')} />;
+        return <TermsPage onBack={() => handleNavigate('/')} />;
 
       case '/privacy':
-        return <PrivacyPage onBack={() => setRoute('/')} />;
+        return <PrivacyPage onBack={() => handleNavigate('/')} />;
 
       case '/cookie-policy':
-        return <CookiePolicyPage onBack={() => setRoute('/')} />;
+        return <CookiePolicyPage onBack={() => handleNavigate('/')} />;
 
+      case '/risk':
       case '/risk-disclosure':
-        return <RiskDisclosurePage onBack={() => setRoute('/')} />;
+        return <RiskDisclosurePage onBack={() => handleNavigate('/')} />;
 
       case '/verify-email':
       case '/auth/callback':
-        return <VerifyEmailView onNavigate={setRoute} />;
+        return <VerifyEmailView onNavigate={handleNavigate} />;
 
       case '/auth/google/callback':
-        return <GoogleCallback onNavigate={setRoute} />;
+        return <GoogleCallback onNavigate={handleNavigate} />;
 
       case '/onboarding/terms':
         return (
           <OnboardingTerms 
-            onComplete={() => setRoute('/dashboard')} 
-            onLogout={() => { logout(); setRoute('/'); }} 
+            onComplete={() => handleNavigate('/dashboard')} 
+            onLogout={() => { logout(); handleNavigate('/'); }} 
           />
         );
 

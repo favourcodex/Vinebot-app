@@ -214,8 +214,13 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
       
       {/* System Command Center Banner Panel (Matching Mobile Screenshot Layout) */}
       <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* Mobile Top-Right V Emblem Positioned Absolute behind/beside text */}
+        <div className="md:hidden absolute top-2 right-2 w-36 h-36 opacity-80 pointer-events-none z-0">
+          <VEmblemGraphic className="w-full h-full" imageClassName="w-full h-full object-contain filter brightness-125 contrast-125" />
+        </div>
+
         {/* Subtle Circuit Trace Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
           <svg className="w-full h-full" viewBox="0 0 600 200" fill="none">
             <path d="M0 80 H200 L250 130 H400 L450 70 H600" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
             <path d="M0 140 H150 L200 90 H350 L400 150 H600" stroke="white" strokeWidth="1" />
@@ -226,7 +231,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
         </div>
 
         {/* Left Side Info & Actions */}
-        <div className="relative z-10 max-w-lg">
+        <div className="relative z-10 max-w-lg pr-12 md:pr-0">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">System Command Center</h1>
           <p className="text-neutral-400 text-xs sm:text-sm mt-2 leading-relaxed">
             Configure parameters, inspect audit trails, and oversee automated trading VPS state.
@@ -239,8 +244,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        {/* Right Side Crisp VIN-CORP V Emblem Graphic */}
-        <div className="relative z-10 shrink-0 w-full md:w-64 h-36 md:h-44 flex items-center justify-center md:justify-end">
+        {/* Desktop Right Side Crisp VIN-CORP V Emblem Graphic */}
+        <div className="hidden md:flex relative z-10 shrink-0 w-64 h-44 items-center justify-end">
           <VEmblemGraphic className="w-full h-full max-w-[240px]" imageClassName="w-full h-full object-contain filter brightness-125 contrast-125" />
         </div>
       </div>
