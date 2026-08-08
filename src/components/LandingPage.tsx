@@ -203,16 +203,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
           </motion.div>
 
-          {/* RIGHT COLUMN: VIN-CORP CIRCUIT / CANDLESTICK EMBLEM GRAPHIC */}
+          {/* RIGHT COLUMN: VIN-CORP LOGO GRAPHIC */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             className="lg:col-span-5 relative flex justify-center items-center"
           >
-            <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden border border-[#262626] bg-[#0a0a0a] p-6 shadow-2xl shadow-black flex items-center justify-center group">
-              <VEmblemGraphic className="w-full h-full" imageClassName="w-full h-full object-contain filter brightness-110 contrast-125 transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent pointer-events-none" />
+            <div className="relative max-w-[480px] md:max-w-[520px] w-full h-auto mx-auto flex items-center justify-center">
+              <img 
+                src="/vincorp_logo.png" 
+                alt="VIN-CORP AI TRADING AUTOMATION" 
+                referrerPolicy="no-referrer"
+                className="w-full h-auto object-contain filter brightness-110 contrast-125 mix-blend-screen bg-transparent"
+              />
             </div>
           </motion.div>
 

@@ -239,8 +239,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        {/* Standalone V Graphic Emblem (circuit left side, long candlestick arrow right side) - VERY LARGE */}
-        <div className="absolute -right-4 -top-6 h-48 md:h-64 w-auto pointer-events-none z-10 flex items-center justify-end opacity-90 md:opacity-100">
+        {/* Standalone V Graphic Emblem on right side of System Command Center banner */}
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 h-40 w-auto pointer-events-none z-10 flex items-center justify-end opacity-90 object-contain">
           <img 
             src="/vincorp_v_emblem.png" 
             alt="VIN-CORP V Emblem" 
