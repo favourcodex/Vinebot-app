@@ -8,7 +8,7 @@ import React from 'react';
 interface LogoProps {
   className?: string;
   imageClassName?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showText?: boolean;
   onClick?: () => void;
 }
@@ -20,10 +20,10 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const iconDimensions = {
-    sm: 'h-8 sm:h-9',
-    md: 'h-11 sm:h-12 lg:h-14',
+    sm: 'h-10 sm:h-12',
+    md: 'h-12 sm:h-14 lg:h-16',
     lg: 'h-16 sm:h-20 lg:h-24',
-    xl: 'h-20 sm:h-24 lg:h-28'
+    xl: 'h-24 sm:h-28 lg:h-32'
   };
 
   return (
