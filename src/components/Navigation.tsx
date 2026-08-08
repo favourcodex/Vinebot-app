@@ -74,8 +74,8 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       <aside className="hidden md:flex w-64 bg-[#080808] border-r border-white/5 flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
         <div>
           {/* Brand Logo */}
-          <div className="p-6 flex items-center justify-start gap-3">
-            <Logo size="md" />
+          <div className="p-5 flex items-center justify-start gap-3 border-b border-white/5">
+            <Logo size="md" imageClassName="h-11 sm:h-12 lg:h-14 mix-blend-screen bg-transparent" />
           </div>
 
           {/* Section title */}
@@ -159,7 +159,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               {/* Drawer Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                  <Logo size="sm" />
+                  <Logo size="md" imageClassName="h-10 sm:h-12 mix-blend-screen bg-transparent" />
                 </div>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
@@ -225,15 +225,15 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       {/* Main Content Pane Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Menu Header (Top Bar with Hamburger menu) */}
-        <header className="md:hidden h-14 border-b border-white/5 bg-[#080808] flex items-center justify-between px-4 sticky top-0 z-20 shrink-0 w-full">
+        <header className="md:hidden h-16 border-b border-white/5 bg-[#080808] flex items-center justify-between px-4 sticky top-0 z-20 shrink-0 w-full">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
+              className="w-9 h-9 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
             >
-              <Menu className="w-4 h-4" />
+              <Menu className="w-5 h-5" />
             </button>
-            <span className="text-xs font-bold tracking-tight text-white uppercase">{currentTab.replace('-', ' ')}</span>
+            <Logo size="sm" imageClassName="h-9 sm:h-10 mix-blend-screen bg-transparent" />
           </div>
 
           <div className="flex items-center gap-3">
