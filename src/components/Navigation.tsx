@@ -75,7 +75,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
         <div>
           {/* Brand Logo */}
           <div className="p-5 flex items-center justify-start gap-3 border-b border-white/5">
-            <Logo size="md" imageClassName="h-11 sm:h-12 lg:h-14 mix-blend-screen bg-transparent" />
+            <Logo size="md" imageClassName="h-12 sm:h-14 lg:h-16 mix-blend-screen bg-transparent" />
           </div>
 
           {/* Section title */}
@@ -159,7 +159,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               {/* Drawer Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                  <Logo size="md" imageClassName="h-10 sm:h-12 mix-blend-screen bg-transparent" />
+                  <Logo size="md" imageClassName="h-12 sm:h-14 mix-blend-screen bg-transparent" />
                 </div>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
@@ -233,7 +233,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
             >
               <Menu className="w-5 h-5" />
             </button>
-            <Logo size="sm" imageClassName="h-9 sm:h-10 mix-blend-screen bg-transparent" />
+            <Logo size="sm" imageClassName="h-11 sm:h-12 mix-blend-screen bg-transparent" />
           </div>
 
           <div className="flex items-center gap-3">

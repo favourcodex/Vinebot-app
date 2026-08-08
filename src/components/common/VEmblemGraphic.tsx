@@ -30,10 +30,10 @@ export const VEmblemGraphic: React.FC<VEmblemGraphicProps> = ({
         <circle cx="250" cy="90" r="3" fill="white" />
       </svg>
 
-      {/* Crisp White V Emblem Image with mix-blend-screen for 100% transparency */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+      {/* Crisp White Standalone V Emblem Image (NO TEXT) */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
         <img 
-          src="/vincorp_logo.png" 
+          src="/vincorp_v_emblem.png" 
           alt="VIN-CORP V Emblem" 
           referrerPolicy="no-referrer"
           className={`filter brightness-125 contrast-125 mix-blend-screen bg-transparent ${imageClassName}`}

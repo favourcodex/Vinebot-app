@@ -44,7 +44,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
           {/* Brand Logo & Admin Badge */}
           <div className="p-5 border-b border-rose-500/10">
             <div className="flex items-center gap-3">
-              <Logo size="md" imageClassName="h-10 sm:h-12 mix-blend-screen bg-transparent" />
+              <Logo size="md" imageClassName="h-12 sm:h-14 mix-blend-screen bg-transparent" />
             </div>
             <div className="mt-3 bg-rose-500/15 border border-rose-500/30 text-rose-400 text-[9px] font-extrabold px-2.5 py-1 rounded tracking-widest uppercase flex items-center justify-center gap-1.5 shadow-sm">
               <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" /> Operations Console

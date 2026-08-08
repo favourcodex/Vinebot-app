@@ -212,13 +212,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
   return (
     <div className="space-y-8 animate-fade-in" id="dashboard-home">
       
-      {/* System Command Center Banner Panel (Matching Mobile Screenshot Layout) */}
-      <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        {/* Mobile Top-Right V Emblem Positioned Absolute behind/beside text */}
-        <div className="md:hidden absolute top-2 right-2 w-36 h-36 opacity-80 pointer-events-none z-0">
-          <VEmblemGraphic className="w-full h-full" imageClassName="w-full h-full object-contain filter brightness-125 contrast-125" />
-        </div>
-
+      {/* System Command Center Banner Panel */}
+      <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 min-h-[160px]">
         {/* Subtle Circuit Trace Background */}
         <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
           <svg className="w-full h-full" viewBox="0 0 600 200" fill="none">
@@ -244,9 +239,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        {/* Desktop Right Side Crisp VIN-CORP V Emblem Graphic */}
-        <div className="hidden md:flex relative z-10 shrink-0 w-64 h-44 items-center justify-end">
-          <VEmblemGraphic className="w-full h-full max-w-[240px]" imageClassName="w-full h-full object-contain filter brightness-125 contrast-125" />
+        {/* Standalone V Graphic Emblem (circuit left side, long candlestick arrow right side) - VERY LARGE */}
+        <div className="absolute -right-4 -top-6 h-48 md:h-64 w-auto pointer-events-none z-10 flex items-center justify-end opacity-90 md:opacity-100">
+          <img 
+            src="/vincorp_v_emblem.png" 
+            alt="VIN-CORP V Emblem" 
+            referrerPolicy="no-referrer"
+            className="h-full w-auto object-contain filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
+          />
         </div>
       </div>
 
