@@ -30,29 +30,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   };
 
   return (
-    <header className="border-b border-[#1b202e]/80 bg-[#0c0f17]/90 backdrop-blur-md sticky top-0 z-40 relative w-full">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-14 sm:h-16 flex items-center justify-between w-full">
+    <header className="border-b border-[#262626] bg-[#050505]/90 backdrop-blur-md sticky top-0 z-40 relative w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between w-full">
         
-        {/* LEFT: VC Logo + VINEBOT text */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          <Logo size="md" showText={true} onClick={() => handleNavClick('/')} />
+        {/* LEFT: VC Logo */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Logo size="md" onClick={() => handleNavClick('/')} imageClassName="h-10 sm:h-12 lg:h-14 mix-blend-screen bg-transparent" />
         </div>
 
         {/* DESKTOP NAV LINKS (hidden on mobile/tablet < 1024px) */}
-        <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-sm text-gray-400 font-medium">
+        <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-sm text-neutral-400 font-medium">
           <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('#features'); }} className="hover:text-white transition cursor-pointer">Features</a>
           <a href="#pricing" onClick={(e) => { e.preventDefault(); handleNavClick('#pricing'); }} className="hover:text-white transition cursor-pointer">Pricing</a>
           <a href="#faq" onClick={(e) => { e.preventDefault(); handleNavClick('#faq'); }} className="hover:text-white transition cursor-pointer">FAQ</a>
           <a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('#contact'); }} className="hover:text-white transition cursor-pointer">Contact</a>
         </nav>
 
-        {/* RIGHT: AUTH / CTA BUTTONS (Only ONE button on mobile, both on desktop lg+) */}
+        {/* RIGHT: AUTH / CTA BUTTONS */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {isAuthenticated ? (
             <button 
               id="nav-dashboard-btn"
               onClick={() => handleNavClick('/dashboard')}
-              className="px-3 py-1.5 text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all shadow-md cursor-pointer whitespace-nowrap"
+              className="px-4 py-1.5 text-xs sm:text-sm font-bold bg-white text-black hover:bg-neutral-200 rounded-lg transition-all shadow-md cursor-pointer whitespace-nowrap"
             >
               Dashboard
             </button>
@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             <button 
               id="nav-login-btn"
               onClick={() => handleNavClick('/login')}
-              className="px-3 py-1.5 text-xs sm:text-sm font-semibold text-gray-200 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition cursor-pointer whitespace-nowrap"
+              className="px-4 py-1.5 text-xs sm:text-sm font-semibold text-neutral-200 hover:text-white bg-[#121212] hover:bg-[#1a1a1a] rounded-lg border border-[#262626] transition cursor-pointer whitespace-nowrap"
             >
               Sign In
             </button>
@@ -70,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             <button 
               id="nav-register-btn"
               onClick={() => handleNavClick('/register')}
-              className="hidden lg:inline-flex px-3.5 py-1.5 text-xs font-bold sm:text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-all shadow-md shadow-indigo-600/20 items-center gap-1 cursor-pointer uppercase tracking-wide whitespace-nowrap shrink-0"
+              className="hidden lg:inline-flex px-4 py-1.5 text-xs font-bold sm:text-sm bg-white text-black hover:bg-neutral-200 rounded-lg transition-all shadow-md items-center gap-1 cursor-pointer uppercase tracking-wide whitespace-nowrap shrink-0"
             >
               <span>Get Started</span>
               <ChevronRight className="w-3.5 h-3.5" />

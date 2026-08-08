@@ -36,9 +36,9 @@
       "isBotActive": false,
       "role": "USER",
       "createdAt": "2026-07-17T12:04:22.601Z",
-      "updatedAt": "2026-08-06T22:47:58.487Z",
+      "updatedAt": "2026-07-29T10:46:42.013Z",
       "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI6Fmm0O-hcjVchL4YHVb28u7SQrwgTSRaW51jZ3qjCPNDaH6s=s96-c",
-      "verificationToken": "3c3dce6c893a09fd1fbfdf51e9f0a15456d1bb832c072f28732aafffe57d2197:1786046683866"
+      "verificationToken": "63742fdf192bbadc8ded4b7df68a40b43f84f9049dd34f355f9ff05ecb18447d:1785204328954"
     },
     {
       "id": "504d0deb-28df-4995-91ed-a0a3d67acda9",
@@ -70,62 +70,6 @@
       "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
       "expiresAt": "2026-08-28T10:46:42.017Z",
       "createdAt": "2026-07-29T10:46:42.017Z"
-    },
-    {
-      "id": "f52b881f-8b52-4378-adbf-f0fe0dbe33c4",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA0MjQ4OSwiZXhwIjoxNzg4NjM0NDg5fQ.5Fj31kgptMfmti3xUL3uH5dfz4TPUWxzmonhsgAqeBY",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T18:54:49.926Z",
-      "createdAt": "2026-08-06T18:54:49.926Z"
-    },
-    {
-      "id": "fbfc108c-cb20-4434-8bf3-7f64ec7fafec",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1MzY5OCwiZXhwIjoxNzg4NjQ1Njk4fQ.8en-dfpdcQq9Y6Iy-KyB4lWhWk5hij6r49Pzblrz2sw",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:01:38.556Z",
-      "createdAt": "2026-08-06T22:01:38.556Z"
-    },
-    {
-      "id": "af8f11ed-0c1d-4cff-ad58-4d56d6ab4de4",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NDM5NSwiZXhwIjoxNzg4NjQ2Mzk1fQ.LBHebLYm135h9rAdFB8JHOUwbw3zrMVE3ed3OAyLMF4",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:13:15.875Z",
-      "createdAt": "2026-08-06T22:13:15.875Z"
-    },
-    {
-      "id": "726ecbd6-5e95-41b8-bc1b-f2ef3d323b38",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NTQwOSwiZXhwIjoxNzg4NjQ3NDA5fQ.z-sWfaJyy-F918x0UBQO0bOkOAgrP2RViWbWeKUTXmI",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:30:09.094Z",
-      "createdAt": "2026-08-06T22:30:09.094Z"
-    },
-    {
-      "id": "5936bf3f-4f3d-48ad-ad00-01e4ecaa4fd6",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NTUwNSwiZXhwIjoxNzg4NjQ3NTA1fQ.B8tJDy0jWljJjy_zyye77e22JTE7vpZwGD_5bcOk8bk",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:31:45.067Z",
-      "createdAt": "2026-08-06T22:31:45.067Z"
-    },
-    {
-      "id": "6a14a7b6-df09-42cc-b060-1874afbfa1ce",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NTcwNiwiZXhwIjoxNzg4NjQ3NzA2fQ.8XSsiD9tcczNizTAxRmOQ3CzHlV1YvWEbaJ4Nkwxzr4",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:35:06.442Z",
-      "createdAt": "2026-08-06T22:35:06.442Z"
-    },
-    {
-      "id": "054cbd44-8075-4c87-bf0d-8363bd10947d",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NjA5MCwiZXhwIjoxNzg4NjQ4MDkwfQ.eMTrz7zENQUmGCvbNdhlwywtixYGjq-yiu0YCwX0bHU",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:41:30.477Z",
-      "createdAt": "2026-08-06T22:41:30.477Z"
-    },
-    {
-      "id": "66ef19e0-8062-4391-ac12-017851572257",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYzYmNhNGNmLTRmZWEtNGNiNy04OTA1LTVjOGM0YTMyOTFhMCIsImlhdCI6MTc4NjA1NjQ3OCwiZXhwIjoxNzg4NjQ4NDc4fQ.Xi8oxjZPVztieD-izHAqwRoqh8Ib4oMnBBRkrrmt57E",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "expiresAt": "2026-09-05T22:47:58.493Z",
-      "createdAt": "2026-08-06T22:47:58.493Z"
     }
   ],
   "oauthAccounts": [],
@@ -227,78 +171,6 @@
       "details": "Successful Google OAuth session established",
       "ipAddress": "127.0.0.1",
       "createdAt": "2026-07-29T10:46:42.014Z"
-    },
-    {
-      "id": "0ea7a54c-c985-485c-892e-beb647eb65de",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T18:54:49.923Z"
-    },
-    {
-      "id": "3afc14cd-ea98-4e61-94a0-88670cde5d2e",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "MAGIC_LINK_REQUESTED",
-      "details": "Magic link requested for email: favourcodex3@gmail.com",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T19:49:43.878Z"
-    },
-    {
-      "id": "8639993c-3017-41b3-a877-7899568be651",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:01:38.552Z"
-    },
-    {
-      "id": "23a217dc-2495-4797-b567-4e6a8c6aa9f1",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:13:15.871Z"
-    },
-    {
-      "id": "6e94f38d-7fe7-40e9-b2f3-e4e54f821e99",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:30:09.090Z"
-    },
-    {
-      "id": "9fe535ea-b6d8-4545-873e-03f9416a407d",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:31:45.066Z"
-    },
-    {
-      "id": "84a4a282-a18a-4aa0-a88b-bbab7df6780a",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:35:06.441Z"
-    },
-    {
-      "id": "d8ddda00-9ddf-42c2-ac55-5a3d135b83c0",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:41:30.466Z"
-    },
-    {
-      "id": "29d4c07f-fd8d-4e6f-8313-a0a410a2abaa",
-      "userId": "f3bca4cf-4fea-4cb7-8905-5c8c4a3291a0",
-      "action": "LOGIN",
-      "details": "Successful Google OAuth session established",
-      "ipAddress": "169.254.169.126",
-      "createdAt": "2026-08-06T22:47:58.489Z"
     }
   ],
   "notifications": [
