@@ -175,7 +175,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
       case 'PAYMENT_CONFIRMED':
         return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">PAYMENT VERIFIED</span>;
       case 'WAITING_FOR_BOT_TEAM':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full">AWAITING DEPLOYMENT</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">AWAITING DEPLOYMENT</span>;
       case 'IN_PROGRESS':
         return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">VPS PROVISIONING</span>;
       case 'PAUSED':
@@ -315,11 +315,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
 
         {/* Bot Activation Status Card */}
         <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">AUTOMATION THREAD</span>
-              <Bot className="w-5 h-5 text-purple-400" />
+              <span className="text-[11px] font-bold text-blue-400 uppercase tracking-wider">AUTOMATION THREAD</span>
+              <Bot className="w-5 h-5 text-blue-400" />
             </div>
             {bot ? (
               <div>
@@ -331,7 +331,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                 </p>
                 <button 
                   onClick={() => onTabChange('bot-status')}
-                  className="text-[10px] font-semibold text-purple-400 hover:text-purple-300 mt-2.5 flex items-center gap-1 cursor-pointer"
+                  className="text-[10px] font-semibold text-blue-400 hover:text-blue-300 mt-2.5 flex items-center gap-1 cursor-pointer"
                 >
                   View deployment timeline &rarr;
                 </button>

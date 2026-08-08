@@ -39,8 +39,8 @@ export const Preloader: React.FC<PreloaderProps> = ({
           transition={{ duration: 0.4 }}
           className="mb-8 flex items-center justify-center bg-transparent"
         >
-          <div className="relative inline-flex items-center justify-center bg-transparent h-24 md:h-32 w-auto shrink-0">
-            <Logo size="xl" imageClassName="h-full w-auto object-contain mix-blend-screen bg-transparent filter brightness-110" />
+          <div className="relative inline-flex items-center justify-center bg-transparent h-32 md:h-48 w-auto shrink-0 max-w-[400px]">
+            <Logo size="2xl" imageClassName="h-full w-auto object-contain mix-blend-screen bg-transparent filter brightness-110" />
           </div>
         </motion.div>
 
