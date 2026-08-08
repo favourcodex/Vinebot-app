@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Shield, Cpu, Activity, CheckCircle2, ChevronRight, HelpCircle, ArrowRight, Layers, Loader2, Sparkles, Server } from 'lucide-react';
-import chromeLiquidHero from '../assets/images/chrome_liquid_hero_1786178289443.jpg';
+import { VEmblemGraphic } from './common/VEmblemGraphic';
 import { Logo } from './common/Logo';
 import { Navbar } from './Navbar';
 import { useAuth } from './AuthContext';
@@ -203,21 +203,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
           </motion.div>
 
-          {/* RIGHT COLUMN: 3D METALLIC LIQUID GRAPHIC (MATCHING REFERENCE TEMPLATE) */}
+          {/* RIGHT COLUMN: VIN-CORP CIRCUIT / CANDLESTICK EMBLEM GRAPHIC */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             className="lg:col-span-5 relative flex justify-center items-center"
           >
-            <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden border border-[#262626] bg-[#0a0a0a] p-2 shadow-2xl shadow-black">
-              <img 
-                src={chromeLiquidHero} 
-                alt="3D Metallic Chrome Liquid Graphic" 
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover rounded-2xl filter brightness-105 contrast-110 transform hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-40 pointer-events-none" />
+            <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden border border-[#262626] bg-[#0a0a0a] p-6 shadow-2xl shadow-black flex items-center justify-center group">
+              <VEmblemGraphic className="w-full h-full" imageClassName="w-full h-full object-contain filter brightness-110 contrast-125 transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>
 

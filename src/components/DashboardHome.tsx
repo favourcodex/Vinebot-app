@@ -14,6 +14,7 @@ import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid 
 } from 'recharts';
 import { UserSubscription, Mt5Account, BotActivation, ActivityLog, SubscriptionPlan, BotActivationStatus } from '../types';
+import { VEmblemGraphic } from './common/VEmblemGraphic';
 
 interface DashboardHomeProps {
   onTabChange: (tab: string) => void;
@@ -211,107 +212,132 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
   return (
     <div className="space-y-8 animate-fade-in" id="dashboard-home">
       
-      {/* Greetings bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">System Command Center</h1>
-          <p className="text-white/40 text-xs mt-1">Configure parameters, inspect audit trails, and oversee automated trading VPS state.</p>
+      {/* System Command Center Banner Panel (Matching Mobile Screenshot Layout) */}
+      <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* Subtle Circuit Trace Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <svg className="w-full h-full" viewBox="0 0 600 200" fill="none">
+            <path d="M0 80 H200 L250 130 H400 L450 70 H600" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
+            <path d="M0 140 H150 L200 90 H350 L400 150 H600" stroke="white" strokeWidth="1" />
+            <circle cx="250" cy="130" r="3" fill="white" />
+            <circle cx="200" cy="90" r="3" fill="white" />
+            <circle cx="400" cy="150" r="3" fill="white" />
+          </svg>
         </div>
-        <button 
-          onClick={fetchDashboardData}
-          className="px-3.5 py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold text-white flex items-center gap-1.5 cursor-pointer transition-colors"
-        >
-          <RefreshCw className="w-3.5 h-3.5" /> Refresh Systems
-        </button>
+
+        {/* Left Side Info & Actions */}
+        <div className="relative z-10 max-w-lg">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">System Command Center</h1>
+          <p className="text-neutral-400 text-xs sm:text-sm mt-2 leading-relaxed">
+            Configure parameters, inspect audit trails, and oversee automated trading VPS state.
+          </p>
+          <button 
+            onClick={fetchDashboardData}
+            className="mt-4 px-4 py-2 rounded-xl bg-[#121212] hover:bg-[#1a1a1a] border border-white/15 text-xs font-semibold text-white flex items-center gap-2 cursor-pointer transition-all shadow-md active:scale-95"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-white" /> Refresh Systems
+          </button>
+        </div>
+
+        {/* Right Side Crisp VIN-CORP V Emblem Graphic */}
+        <div className="relative z-10 shrink-0 w-full md:w-64 h-36 md:h-44 flex items-center justify-center md:justify-end">
+          <VEmblemGraphic className="w-full h-full max-w-[240px]" imageClassName="w-full h-full object-contain filter brightness-125 contrast-125" />
+        </div>
       </div>
 
       {/* Top Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Subscription Status Card */}
-        <div className="glass-card p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full" />
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest">Active Plan</span>
-            <CreditCard className="w-4 h-4 text-blue-400" />
-          </div>
-          {sub ? (
-            <div>
-              <p className="text-lg font-bold text-white tracking-tight">{activePlan?.name || 'Professional Bot'}</p>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                <span className="text-[10px] font-mono font-semibold text-emerald-400">Subscription Active</span>
+        {/* Active Plan Card */}
+        <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold text-blue-500 uppercase tracking-wider">ACTIVE PLAN</span>
+              <CreditCard className="w-5 h-5 text-blue-500" />
+            </div>
+            {sub ? (
+              <div>
+                <p className="text-lg font-bold text-white tracking-tight">{activePlan?.name || 'Professional Bot'}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="text-[10px] font-mono font-semibold text-emerald-400">Subscription Active</span>
+                </div>
+                <p className="text-[9px] text-white/40 font-medium mt-4">
+                  Renews on: {new Date(sub.currentPeriodEnd).toLocaleDateString()}
+                </p>
               </div>
-              <p className="text-[9px] text-white/40 font-medium mt-4">
-                Renews on: {new Date(sub.currentPeriodEnd).toLocaleDateString()}
-              </p>
-            </div>
-          ) : (
-            <div>
-              <p className="text-sm font-bold text-white/40">No Active Subscription</p>
-              <button 
-                onClick={() => onTabChange('subscription')}
-                className="mt-4 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-[10px] tracking-wide rounded-lg flex items-center gap-1 transition-colors"
-              >
-                <PlusCircle className="w-3.5 h-3.5" /> Subscribe Now
-              </button>
-            </div>
-          )}
+            ) : (
+              <div>
+                <p className="text-base font-bold text-white tracking-tight">No Active Subscription</p>
+                <button 
+                  onClick={() => onTabChange('subscription')}
+                  className="mt-4 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-wide rounded-xl flex items-center gap-1.5 transition-all shadow-lg shadow-blue-900/30 cursor-pointer"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" /> Subscribe Now
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* MT5 Account Card */}
-        <div className="glass-card p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full" />
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest">MT5 Broker Connection</span>
-            <Database className="w-4 h-4 text-emerald-400" />
+        <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">MT5 BROKER CONNECTION</span>
+              <Database className="w-5 h-5 text-emerald-400" />
+            </div>
+            {mt5 ? (
+              <div>
+                <p className="text-lg font-bold text-white tracking-tight">#{mt5.accountNumber}</p>
+                <p className="text-[10px] text-white/60 font-medium mt-1">Broker: {mt5.brokerName}</p>
+                <p className="text-[9px] text-white/40 font-mono mt-4 truncate">Server: {mt5.serverName}</p>
+              </div>
+            ) : (
+              <div>
+                <p className="text-base font-bold text-white tracking-tight">No Broker Linked</p>
+                <button 
+                  onClick={() => onTabChange('mt5')}
+                  className="mt-4 px-4 py-2.5 bg-[#121212] hover:bg-[#1a1a1a] border border-white/15 text-white font-semibold text-xs tracking-wide rounded-xl flex items-center gap-2 transition-all shadow-md cursor-pointer"
+                >
+                  <Database className="w-3.5 h-3.5 text-emerald-400" /> Link MT5 Account
+                </button>
+              </div>
+            )}
           </div>
-          {mt5 ? (
-            <div>
-              <p className="text-lg font-bold text-white tracking-tight">#{mt5.accountNumber}</p>
-              <p className="text-[10px] text-white/60 font-medium mt-1">Broker: {mt5.brokerName}</p>
-              <p className="text-[9px] text-white/40 font-mono mt-4 truncate">Server: {mt5.serverName}</p>
-            </div>
-          ) : (
-            <div>
-              <p className="text-sm font-bold text-white/40">No Broker Linked</p>
-              <button 
-                onClick={() => onTabChange('mt5')}
-                className="mt-4 px-3 py-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold text-[10px] tracking-wide rounded-lg flex items-center gap-1 transition-colors"
-              >
-                <Database className="w-3.5 h-3.5" /> Link MT5 Account
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* Bot Activation Status */}
-        <div className="glass-card p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full" />
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest">Automation Thread</span>
-            <Bot className="w-4 h-4 text-blue-400" />
+        {/* Bot Activation Status Card */}
+        <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">AUTOMATION THREAD</span>
+              <Bot className="w-5 h-5 text-purple-400" />
+            </div>
+            {bot ? (
+              <div>
+                <div className="mt-1">{getBotStatusBadge(bot.status)}</div>
+                <p className="text-[10px] text-white/60 mt-3.5 leading-relaxed">
+                  {bot.status === 'ACTIVE' 
+                    ? 'Expert Advisor is currently running on Node VPS, executing buy/sell parameters 24/5.'
+                    : 'Awaiting administrative verification and VM provisioning.'}
+                </p>
+                <button 
+                  onClick={() => onTabChange('bot-status')}
+                  className="text-[10px] font-semibold text-purple-400 hover:text-purple-300 mt-2.5 flex items-center gap-1 cursor-pointer"
+                >
+                  View deployment timeline &rarr;
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p className="text-base font-bold text-white tracking-tight">Bot Inactive</p>
+                <p className="text-[10px] text-white/40 mt-2">Complete subscription and configure MT5 parameters to queue your bot.</p>
+              </div>
+            )}
           </div>
-          {bot ? (
-            <div>
-              <div className="mt-1">{getBotStatusBadge(bot.status)}</div>
-              <p className="text-[10px] text-white/60 mt-3.5 leading-relaxed">
-                {bot.status === 'ACTIVE' 
-                  ? 'Expert Advisor is currently running on Node VPS, executing buy/sell parameters 24/5.'
-                  : 'Awaiting administrative verification and VM provisioning.'}
-              </p>
-              <button 
-                onClick={() => onTabChange('bot-status')}
-                className="text-[10px] font-semibold text-blue-400 hover:text-blue-300 mt-2.5 flex items-center gap-1 cursor-pointer"
-              >
-                View deployment timeline &rarr;
-              </button>
-            </div>
-          ) : (
-            <div>
-              <p className="text-sm font-bold text-white/40">Bot Inactive</p>
-              <p className="text-[10px] text-white/40 mt-2">Complete subscription and configure MT5 parameters to queue your bot.</p>
-            </div>
-          )}
         </div>
       </div>
 

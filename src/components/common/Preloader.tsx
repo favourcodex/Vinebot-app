@@ -31,46 +31,26 @@ export const Preloader: React.FC<PreloaderProps> = ({
       {/* Background Subtle Monochrome Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
-      <div className="relative flex flex-col items-center max-w-sm px-6 text-center">
+      <div className="relative flex flex-col items-center max-w-md px-6 text-center">
         {/* Animated Brand Logo */}
-        <div className="relative mb-8 flex items-center justify-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="flex items-center justify-center bg-transparent"
-          >
-            <Logo size="xl" imageClassName="h-20 sm:h-24 lg:h-28 max-w-[280px] sm:max-w-[340px] mix-blend-screen bg-transparent" />
-          </motion.div>
-        </div>
-
-        {/* Dynamic Loading Message */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm font-semibold text-gray-200 tracking-wide mb-1"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="mb-8 flex items-center justify-center bg-transparent"
         >
-          {message}
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-xs text-neutral-400 max-w-xs leading-relaxed mb-6"
-        >
-          {subtext}
-        </motion.p>
+          <Logo size="xl" imageClassName="h-24 sm:h-28 lg:h-32 max-w-[320px] sm:max-w-[380px] object-contain mix-blend-screen bg-transparent filter brightness-110" />
+        </motion.div>
 
-        {/* High-Precision Monochrome Loading Bar */}
-        <div className="w-48 h-1 bg-neutral-900 rounded-full overflow-hidden relative border border-neutral-800">
+        {/* High-Precision Monochrome Minimalist Progress Bar */}
+        <div className="w-56 sm:w-64 h-1 bg-neutral-900/90 rounded-full overflow-hidden relative border border-neutral-800/80 shadow-inner">
           <motion.div
-            className="h-full bg-white rounded-full"
+            className="h-full bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]"
             animate={{
               x: ['-100%', '100%']
             }}
             transition={{
-              duration: 1.4,
+              duration: 1.3,
               repeat: Infinity,
               ease: 'easeInOut'
             }}
