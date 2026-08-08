@@ -215,13 +215,32 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
       {/* System Command Center Banner Panel */}
       <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 min-h-[160px]">
         {/* Subtle Circuit Trace Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
-          <svg className="w-full h-full" viewBox="0 0 600 200" fill="none">
-            <path d="M0 80 H200 L250 130 H400 L450 70 H600" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
-            <path d="M0 140 H150 L200 90 H350 L400 150 H600" stroke="white" strokeWidth="1" />
-            <circle cx="250" cy="130" r="3" fill="white" />
-            <circle cx="200" cy="90" r="3" fill="white" />
-            <circle cx="400" cy="150" r="3" fill="white" />
+        <div className="absolute inset-0 pointer-events-none opacity-25 z-0">
+          <svg className="w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none" fill="none">
+            {/* Top trace line */}
+            <path d="M0 40 H180 L230 80 H420 L480 30 H750" stroke="white" strokeWidth="1" strokeDasharray="4 2" opacity="0.6" />
+            {/* Middle main PCB trace line */}
+            <path d="M0 100 H140 L190 140 H380 L440 80 H620 L660 120 H800" stroke="white" strokeWidth="1.2" opacity="0.8" />
+            {/* Bottom trace line */}
+            <path d="M0 160 H260 L310 110 H500 L550 170 H800" stroke="white" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.5" />
+            {/* Secondary branches */}
+            <path d="M190 140 V170 H220" stroke="white" strokeWidth="0.8" opacity="0.6" />
+            <path d="M440 80 V40 H470" stroke="white" strokeWidth="0.8" opacity="0.6" />
+            {/* PCB Trace Nodes / Terminal Points */}
+            <circle cx="180" cy="40" r="2.5" fill="white" />
+            <circle cx="230" cy="80" r="2.5" fill="white" />
+            <circle cx="420" cy="80" r="2.5" fill="white" />
+            <circle cx="480" cy="30" r="2.5" fill="white" />
+            <circle cx="140" cy="100" r="3" fill="white" />
+            <circle cx="190" cy="140" r="3" fill="white" />
+            <circle cx="380" cy="140" r="3" fill="white" />
+            <circle cx="440" cy="80" r="3" fill="white" />
+            <circle cx="620" cy="80" r="2.5" fill="white" />
+            <circle cx="260" cy="160" r="2" fill="white" />
+            <circle cx="310" cy="110" r="2" fill="white" />
+            <circle cx="500" cy="110" r="2" fill="white" />
+            <circle cx="220" cy="170" r="2" fill="white" />
+            <circle cx="470" cy="40" r="2" fill="white" />
           </svg>
         </div>
 
@@ -239,12 +258,12 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        {/* Standalone V Graphic Emblem on right side of System Command Center banner */}
+        {/* Standalone V Graphic Emblem on right side of System Command Center banner (NO text underneath) */}
         <img 
           src="/vincorp_v_emblem.png" 
           alt="VIN-CORP V Emblem" 
           referrerPolicy="no-referrer"
-          className="absolute -right-4 -top-8 w-40 md:w-56 h-auto opacity-90 object-contain pointer-events-none z-10 filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
+          className="absolute right-2 bottom-0 top-0 h-full w-auto object-contain opacity-95 pointer-events-none z-10 filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
         />
       </div>
 
