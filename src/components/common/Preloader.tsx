@@ -32,14 +32,16 @@ export const Preloader: React.FC<PreloaderProps> = ({
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
       <div className="relative flex flex-col items-center max-w-md px-6 text-center">
-        {/* Animated Brand Logo */}
+        {/* Animated Brand Logo Container */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
           className="mb-8 flex items-center justify-center bg-transparent"
         >
-          <Logo size="xl" imageClassName="h-24 sm:h-28 lg:h-32 max-w-[320px] sm:max-w-[380px] object-contain mix-blend-screen bg-transparent filter brightness-110" />
+          <div className="relative inline-flex items-center justify-center bg-transparent h-24 md:h-32 w-auto shrink-0">
+            <Logo size="xl" imageClassName="h-full w-auto object-contain mix-blend-screen bg-transparent filter brightness-110" />
+          </div>
         </motion.div>
 
         {/* High-Precision Monochrome Minimalist Progress Bar */}

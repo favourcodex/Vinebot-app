@@ -20,10 +20,10 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const iconDimensions = {
-    sm: 'h-10 sm:h-12',
-    md: 'h-12 sm:h-14 lg:h-16',
-    lg: 'h-16 sm:h-20 lg:h-24',
-    xl: 'h-24 sm:h-28 lg:h-32'
+    sm: 'h-10 md:h-12 w-auto',
+    md: 'h-12 md:h-16 w-auto',
+    lg: 'h-16 md:h-20 w-auto',
+    xl: 'h-24 md:h-32 w-auto'
   };
 
   return (
@@ -31,12 +31,14 @@ export const Logo: React.FC<LogoProps> = ({
       onClick={onClick}
       className={`inline-flex items-center gap-2 select-none shrink-0 bg-transparent ${onClick ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''} ${className}`}
     >
-      <img 
-        src="/vincorp_logo.png"
-        alt="VIN-CORP AI TRADING AUTOMATION" 
-        referrerPolicy="no-referrer"
-        className={`${iconDimensions[size]} w-auto object-contain shrink-0 filter brightness-100 mix-blend-screen bg-transparent ${imageClassName}`}
-      />
+      <div className={`relative inline-flex items-center justify-center bg-transparent shrink-0 ${iconDimensions[size]}`}>
+        <img 
+          src="/vincorp_logo.png"
+          alt="VIN-CORP AI TRADING AUTOMATION" 
+          referrerPolicy="no-referrer"
+          className={`h-full w-auto object-contain bg-transparent filter brightness-100 mix-blend-screen ${imageClassName}`}
+        />
+      </div>
     </div>
   );
 };
