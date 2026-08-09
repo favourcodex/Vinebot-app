@@ -20,8 +20,8 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const iconDimensions = {
-    sm: 'h-8 md:h-10 w-auto',
-    md: 'h-10 md:h-12 w-auto',
+    sm: 'h-9 md:h-12 w-auto',
+    md: 'h-9 md:h-12 w-auto',
     lg: 'h-14 md:h-16 w-auto',
     xl: 'h-20 md:h-28 w-auto',
     '2xl': 'h-24 md:h-32 w-auto'

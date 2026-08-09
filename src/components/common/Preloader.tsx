@@ -43,7 +43,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
             src={fullLogo}
             alt="VIN-CORP AI TRADING AUTOMATION"
             referrerPolicy="no-referrer"
-            className="h-24 md:h-32 w-auto object-contain"
+            className="h-32 md:h-48 w-auto object-contain animate-pulse"
           />
         </motion.div>
 

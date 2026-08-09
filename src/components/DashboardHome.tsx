@@ -14,7 +14,7 @@ import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid 
 } from 'recharts';
 import { UserSubscription, Mt5Account, BotActivation, ActivityLog, SubscriptionPlan, BotActivationStatus } from '../types';
-import logo from '../assets/vincorp_full_logo.png';
+import vEmblem from '../assets/vincorp_v_emblem.png';
 
 interface DashboardHomeProps {
   onTabChange: (tab: string) => void;
@@ -213,10 +213,10 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
     <div className="space-y-8 animate-fade-in" id="dashboard-home">
       
       {/* System Command Center Banner Panel */}
-      <div className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 sm:p-8 overflow-hidden shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 min-h-[160px]">
+      <div className="relative overflow-hidden bg-[#0d0d0e] p-6 md:p-8 rounded-2xl border border-white/5">
 
         {/* Left Side Info & Actions */}
-        <div className="relative z-10 max-w-lg pr-12 md:pr-0">
+        <div className="relative z-10 max-w-lg pr-0 md:pr-0">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">System Command Center</h1>
           <p className="text-neutral-400 text-xs sm:text-sm mt-2 leading-relaxed">
             Configure parameters, inspect audit trails, and oversee automated trading VPS state.
@@ -229,14 +229,12 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 h-32 md:h-44 w-auto overflow-hidden pointer-events-none z-10">
-          <img 
-            src={logo}
-            alt="VIN-CORP AI TRADING AUTOMATION" 
-            referrerPolicy="no-referrer"
-            className="h-32 md:h-44 w-auto object-contain object-right"
-          />
-        </div>
+        <img
+          src={vEmblem}
+          alt="VIN-CORP V Emblem"
+          referrerPolicy="no-referrer"
+          className="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 h-[120%] max-h-[220px] w-auto object-contain opacity-80 pointer-events-none select-none pr-4"
+        />
       </div>
 
       {/* Top Cards Grid */}
