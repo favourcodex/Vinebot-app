@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
+import fullLogo from '../../assets/vincorp_full_logo.png';
 
 interface LogoProps {
   className?: string;
   imageClassName?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  showText?: boolean;
   onClick?: () => void;
 }
 
@@ -34,7 +34,7 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <div className={`relative inline-flex items-center justify-center bg-transparent shrink-0 ${iconDimensions[size] || iconDimensions.md}`}>
         <img 
-          src="/vincorp_full_logo.png"
+          src={fullLogo}
           alt="VIN-CORP AI TRADING AUTOMATION" 
           referrerPolicy="no-referrer"
           className={`h-full w-auto object-contain bg-transparent filter brightness-100 mix-blend-screen ${imageClassName}`}

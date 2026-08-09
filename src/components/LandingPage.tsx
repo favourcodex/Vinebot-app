@@ -6,10 +6,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Shield, Cpu, Activity, CheckCircle2, ChevronRight, HelpCircle, ArrowRight, Layers, Loader2, Sparkles, Server } from 'lucide-react';
-import { VEmblemGraphic } from './common/VEmblemGraphic';
 import { Logo } from './common/Logo';
 import { Navbar } from './Navbar';
 import { useAuth } from './AuthContext';
+import fullLogo from '../assets/vincorp_full_logo.png';
 
 interface LandingPageProps {
   onNavigate: (route: string) => void;
@@ -212,10 +212,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           >
             <div className="relative max-w-[480px] md:max-w-[540px] w-full h-auto mx-auto flex items-center justify-center">
               <img 
-                src="/vincorp_full_logo.png" 
+                src={fullLogo}
                 alt="VIN-CORP AI TRADING AUTOMATION" 
                 referrerPolicy="no-referrer"
-                className="w-full h-auto object-contain filter brightness-110 contrast-125 mix-blend-screen bg-transparent"
+                className="max-w-[480px] md:max-w-[540px] w-full h-auto mx-auto object-contain"
               />
             </div>
           </motion.div>

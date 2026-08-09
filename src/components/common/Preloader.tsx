@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Logo } from './Logo';
+import fullLogo from '../../assets/vincorp_full_logo.png';
 
 interface PreloaderProps {
   message?: string;
@@ -39,9 +39,12 @@ export const Preloader: React.FC<PreloaderProps> = ({
           transition={{ duration: 0.4 }}
           className="mb-8 flex items-center justify-center bg-transparent"
         >
-          <div className="relative inline-flex items-center justify-center bg-transparent h-24 md:h-32 w-auto shrink-0 max-w-[420px]">
-            <Logo size="2xl" imageClassName="h-full w-auto object-contain mix-blend-screen bg-transparent filter brightness-110" />
-          </div>
+          <img
+            src={fullLogo}
+            alt="VIN-CORP AI TRADING AUTOMATION"
+            referrerPolicy="no-referrer"
+            className="h-24 md:h-32 w-auto object-contain"
+          />
         </motion.div>
 
         {/* High-Precision Monochrome Minimalist Progress Bar */}
