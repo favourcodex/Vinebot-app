@@ -128,10 +128,10 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
 
   return (
     <div className="bg-[#07090d] min-h-screen text-gray-200 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans relative">
-      <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-indigo-500/5 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-900/5 via-transparent to-transparent pointer-events-none" />
       
       <div className="sm:mx-auto sm:w-full sm:max-w-2xl text-center relative z-10">
-        <div className="w-14 h-14 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl flex items-center justify-center mx-auto mb-4 text-indigo-400">
+        <div className="w-14 h-14 bg-purple-900/20 border border-purple-800/30 rounded-2xl flex items-center justify-center mx-auto mb-4 text-purple-300">
           <ShieldAlert className="w-7 h-7" />
         </div>
         <h2 className="text-2xl font-extrabold tracking-tight text-white uppercase">User Onboarding Compliance</h2>
@@ -147,15 +147,15 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
           <div className="flex items-center justify-center gap-2 mb-8 border-b border-[#1b202e] pb-6">
             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold ${
               currentStep === 'email' 
-                ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' 
-                : 'bg-emerald-500/5 border-emerald-500/10 text-emerald-400 opacity-60'
+                ? 'bg-purple-900/10 border-purple-800/20 text-purple-300' 
+                : 'bg-purple-900/20 border-purple-800/10 text-purple-300 opacity-60'
             }`}>
               <Mail className="w-3.5 h-3.5" /> Step 1: Verify Email
             </div>
             <div className="w-8 h-px bg-[#1b202e]" />
             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold ${
               currentStep === 'terms' 
-                ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' 
+                ? 'bg-purple-900/10 border-purple-800/20 text-purple-300' 
                 : 'bg-white/5 border-white/5 text-gray-500'
             }`}>
               <Scale className="w-3.5 h-3.5" /> Step 2: Accept Terms
@@ -169,7 +169,7 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
             <div className="space-y-6">
               <div className="text-center space-y-2">
                 <p className="text-sm font-semibold text-white">We sent a secure validation token link to:</p>
-                <div className="inline-block bg-[#080a0e] border border-white/5 px-4 py-2 rounded-xl text-xs font-mono text-indigo-300 font-semibold select-all">
+                <div className="inline-block bg-[#080a0e] border border-white/5 px-4 py-2 rounded-xl text-xs font-mono text-purple-300 font-semibold select-all">
                   {user?.email}
                 </div>
                 <p className="text-xs text-gray-400 max-w-md mx-auto mt-2 leading-relaxed">
@@ -181,13 +181,13 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
               {emailStatus.message && (
                 <div className={`p-4 rounded-xl text-xs flex items-start gap-2.5 border ${
                   emailStatus.type === 'success'
-                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                    ? 'bg-purple-900/20 border-purple-800/25 text-purple-300'
                     : emailStatus.type === 'warning'
                     ? 'bg-amber-500/10 border-amber-500/20 text-amber-400'
                     : 'bg-red-500/10 border-red-500/20 text-red-400'
                 }`}>
                   {emailStatus.type === 'success' ? (
-                    <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 shrink-0 text-purple-300 mt-0.5" />
                   ) : (
                     <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                   )}
@@ -209,7 +209,7 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
                 <button
                   onClick={handleResendEmail}
                   disabled={resending}
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-semibold text-xs tracking-wider rounded-lg transition uppercase flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-indigo-600/10"
+                  className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-semibold text-xs tracking-wider rounded-lg transition uppercase flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-purple-600/10"
                 >
                   {resending ? (
                     <RefreshCw className="w-4 h-4 animate-spin" />
@@ -259,7 +259,7 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
               <div className="bg-[#080a0e] border border-[#1b202e] rounded-xl p-4 h-56 overflow-y-auto text-xs space-y-4 text-gray-400 select-none scrollbar-thin">
                 <div className="border-b border-[#1b202e] pb-2 mb-2">
                   <h3 className="font-bold text-white text-xs tracking-wide uppercase font-mono">TERMS AND CONDITIONS OF USE: VINEBOT</h3>
-                  <p className="text-[10px] text-indigo-400 mt-0.5">Effective Date: July 20, 2026</p>
+                  <p className="text-[10px] text-purple-300 mt-0.5">Effective Date: July 20, 2026</p>
                 </div>
 
                 <div className="space-y-2">
@@ -323,11 +323,11 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
               <div className="space-y-4">
                 <label className="flex items-start gap-3 cursor-pointer select-none">
                   <input
-                    type="checkbox"
-                    checked={checkedRisk}
-                    onChange={e => setCheckedRisk(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded text-indigo-600 bg-[#080a0e] border-[#232a39] focus:ring-0 focus:ring-offset-0 focus:outline-none cursor-pointer"
-                  />
+                      type="checkbox"
+                      checked={checkedRisk}
+                      onChange={e => setCheckedRisk(e.target.checked)}
+                      className="mt-1 w-4 h-4 rounded text-purple-600 bg-[#080a0e] border-[#232a39] focus:ring-0 focus:ring-offset-0 focus:outline-none cursor-pointer"
+                    />
                   <span className="text-[11px] text-gray-300 leading-normal">
                     <span className="font-bold text-[#ef4444] uppercase tracking-wide mr-1">[Mandatory]</span> 
                     I acknowledge that automated trading carries extreme financial risk and Vinebot provides no investment advice.
@@ -336,11 +336,11 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
 
                 <label className="flex items-start gap-3 cursor-pointer select-none">
                   <input
-                    type="checkbox"
-                    checked={checkedTerms}
-                    onChange={e => setCheckedTerms(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded text-indigo-600 bg-[#080a0e] border-[#232a39] focus:ring-0 focus:ring-offset-0 focus:outline-none cursor-pointer"
-                  />
+                      type="checkbox"
+                      checked={checkedTerms}
+                      onChange={e => setCheckedTerms(e.target.checked)}
+                      className="mt-1 w-4 h-4 rounded text-purple-600 bg-[#080a0e] border-[#232a39] focus:ring-0 focus:ring-offset-0 focus:outline-none cursor-pointer"
+                    />
                   <span className="text-[11px] text-gray-300 leading-normal">
                     <span className="font-bold text-[#ef4444] uppercase tracking-wide mr-1">[Mandatory]</span> 
                     I have read and agree to the Terms and Conditions, Privacy Policy, and Cookie Policy.
@@ -352,7 +352,7 @@ export const OnboardingTerms: React.FC<OnboardingTermsProps> = ({ onComplete, on
               <button
                 onClick={handleAcceptTerms}
                 disabled={!checkedRisk || !checkedTerms || savingTerms}
-                className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-[#1b202e] disabled:text-gray-500 disabled:opacity-60 text-white font-semibold text-xs tracking-wider rounded-lg transition uppercase flex items-center justify-center gap-1 cursor-pointer shadow-lg"
+                className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:bg-[#1b202e] disabled:text-gray-500 disabled:opacity-60 text-white font-semibold text-xs tracking-wider rounded-lg transition uppercase flex items-center justify-center gap-1 cursor-pointer shadow-lg"
               >
                 {savingTerms ? 'Storing Acceptance Record...' : 'Accept & Continue to Dashboard'}
                 <ArrowRight className="w-4 h-4" />

@@ -39,7 +39,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
     <div className="bg-[#050505] text-[#E5E5E5] min-h-screen flex flex-col md:flex-row font-sans selection:bg-rose-500/30 selection:text-white">
       
       {/* Desktop Admin Operations Sidebar */}
-      <aside className="hidden md:flex w-64 bg-[#08080c] border-r border-rose-500/15 flex-col justify-between shrink-0 h-screen sticky top-0 z-30 shadow-2xl">
+      <aside className="hidden lg:flex w-64 bg-[#08080c] border-r border-rose-500/15 flex-col justify-between shrink-0 h-screen sticky top-0 z-30 shadow-2xl">
         <div>
           {/* Brand Logo & Admin Badge */}
           <div className="p-5 border-b border-rose-500/10">
@@ -105,7 +105,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
       </aside>
 
       {/* Mobile Top Navigation Header */}
-      <div className="md:hidden bg-[#08080c] border-b border-rose-500/15 p-4 flex items-center justify-between sticky top-0 z-40">
+      <div className="lg:hidden bg-[#08080c] border-b border-rose-500/15 p-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
           <Logo size="sm" />
           <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
@@ -122,7 +122,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex">
+        <div className="lg:hidden fixed inset-0 z-50 flex">
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <div className="relative flex flex-col w-72 max-w-xs bg-[#08080c] border-r border-rose-500/20 h-full p-4 justify-between shadow-2xl z-50">
             <div>
@@ -170,7 +170,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
       )}
 
       {/* Main Operations Console Content Canvas */}
-      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+      <main className="flex-1 w-full min-w-0 px-4 md:px-6 lg:px-8 overflow-y-auto">
         {children}
       </main>
 

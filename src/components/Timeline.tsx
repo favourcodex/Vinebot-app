@@ -52,11 +52,11 @@ export const Timeline: React.FC = () => {
 
   const getStatusColor = (status: BotActivationStatus) => {
     switch (status) {
-      case 'ACTIVE': return 'text-emerald-400 border-emerald-500/35 bg-emerald-500/10 status-glow';
+      case 'ACTIVE': return 'text-purple-300 border-purple-800/35 bg-purple-900/20 status-glow';
       case 'PENDING_PAYMENT': return 'text-amber-400 border-amber-500/35 bg-amber-500/10';
-      case 'PAYMENT_CONFIRMED': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
-      case 'WAITING_FOR_BOT_TEAM': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
-      case 'IN_PROGRESS': return 'text-blue-400 border-blue-500/35 bg-blue-500/10';
+      case 'PAYMENT_CONFIRMED': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';
+      case 'WAITING_FOR_BOT_TEAM': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';
+      case 'IN_PROGRESS': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';
       case 'PAUSED': return 'text-gray-400 border-gray-500/35 bg-gray-500/10';
       case 'FAILED': return 'text-red-400 border-red-500/35 bg-red-500/10';
       default: return 'text-red-400/85 border-red-500/20 bg-red-500/5';
@@ -79,7 +79,7 @@ export const Timeline: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-            <Cpu className="w-6 h-6 text-blue-400" /> MT5 Bot Operation Timeline
+            <Cpu className="w-6 h-6 text-purple-300" /> MT5 Bot Operation Timeline
           </h1>
           <p className="text-white/40 text-xs mt-1">
             Track your container provisioning, algorithm validation, and active execution parameters.
@@ -96,7 +96,7 @@ export const Timeline: React.FC = () => {
       {message && (
         <div className={`p-4 rounded-xl text-xs flex items-center gap-2.5 ${
           message.type === 'success' 
-            ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' 
+            ? 'bg-purple-900/20 border border-purple-800/25 text-purple-300' 
             : 'bg-red-500/10 border border-red-500/25 text-red-400'
         }`}>
           {message.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
@@ -125,13 +125,13 @@ export const Timeline: React.FC = () => {
                   <div key={idx} className="flex gap-4 relative">
                     {activeLine && (
                       <div className={`absolute left-3.5 top-6 bottom-0 w-0.5 ${
-                        event.completed ? 'bg-blue-600' : 'bg-white/5'
+                        event.completed ? 'bg-purple-600' : 'bg-white/5'
                       }`} />
                     )}
 
                     <div className={`w-7.5 h-7.5 rounded-full flex items-center justify-center border z-10 shrink-0 ${
                       event.completed 
-                        ? 'bg-blue-600/15 border-blue-500 text-blue-400 status-glow' 
+                        ? 'bg-purple-600/15 border-purple-800 text-purple-300 status-glow' 
                         : 'bg-[#050505] border-white/10 text-white/40'
                     }`}>
                       {event.completed ? (
@@ -150,7 +150,7 @@ export const Timeline: React.FC = () => {
                       </div>
                       <p className="text-[10px] text-white/60 mt-1.5 leading-relaxed">{event.description}</p>
                       {event.byUser && (
-                        <span className="text-[8px] font-mono text-blue-400/85 bg-white/5 px-1.5 py-0.5 rounded mt-1.5 inline-block border border-white/5">
+                        <span className="text-[8px] font-mono text-purple-300/85 bg-white/5 px-1.5 py-0.5 rounded mt-1.5 inline-block border border-white/5">
                           Verified: {event.byUser}
                         </span>
                       )}
@@ -169,7 +169,7 @@ export const Timeline: React.FC = () => {
               <button 
                 onClick={handleTriggerActivation}
                 disabled={requesting}
-                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-[10px] tracking-wider uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 inline-block"
+                className="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] tracking-wider uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 inline-block"
               >
                 {requesting ? 'Initializing Pipeline Thread...' : 'Queue Bot Activation'}
               </button>
@@ -181,7 +181,7 @@ export const Timeline: React.FC = () => {
         <div className="space-y-6">
           <div className="glass-card p-6">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-blue-400" /> Platform Dispatch Notes
+              <MessageSquare className="w-4 h-4 text-purple-300" /> Platform Dispatch Notes
             </h3>
             <p className="text-white/40 text-[10px] border-b border-white/5 pb-3 mb-4">Official parameters issued by bot administrators.</p>
 

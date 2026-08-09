@@ -70,7 +70,7 @@ export const VerifyEmailView: React.FC<VerifyEmailViewProps> = ({ onNavigate }) 
 
   return (
     <div className="bg-[#07090d] min-h-screen text-gray-200 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans relative">
-      <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-900/10 via-transparent to-transparent pointer-events-none" />
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
         <div className="flex items-center justify-center mb-6">
@@ -84,19 +84,19 @@ export const VerifyEmailView: React.FC<VerifyEmailViewProps> = ({ onNavigate }) 
           
           {status === 'loading' && (
             <div className="flex flex-col items-center justify-center py-6 space-y-4">
-              <Loader2 className="w-10 h-10 text-indigo-400 animate-spin" />
+              <Loader2 className="w-10 h-10 text-purple-300 animate-spin" />
               <p className="text-xs text-gray-300 font-mono tracking-wide">{message}</p>
             </div>
           )}
 
           {status === 'success' && (
             <div className="flex flex-col items-center justify-center py-6 space-y-4">
-              <div className="w-14 h-14 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/10">
+              <div className="w-14 h-14 bg-purple-900/20 border border-purple-800/25 text-purple-300 rounded-full flex items-center justify-center shadow-lg shadow-purple-900/10">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <p className="text-base font-bold text-white uppercase tracking-wide">Authentication Confirmed</p>
-              <p className="text-xs text-emerald-300 leading-relaxed px-4">{message}</p>
-              <div className="inline-flex items-center gap-1.5 text-[11px] text-indigo-300 bg-indigo-950/60 border border-indigo-800/40 px-3 py-1 rounded-full">
+              <p className="text-xs text-purple-300 leading-relaxed px-4">{message}</p>
+              <div className="inline-flex items-center gap-1.5 text-[11px] text-purple-300 bg-purple-950/60 border border-purple-800/40 px-3 py-1 rounded-full">
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Connecting to MetaTrader Node...
               </div>
             </div>
@@ -112,7 +112,7 @@ export const VerifyEmailView: React.FC<VerifyEmailViewProps> = ({ onNavigate }) 
 
               <button
                 onClick={() => onNavigate('/login')}
-                className="mt-4 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold uppercase transition inline-flex items-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/20"
+                className="mt-4 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold uppercase transition inline-flex items-center gap-2 cursor-pointer shadow-lg shadow-purple-600/20"
               >
                 Request New Magic Link <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -120,7 +120,7 @@ export const VerifyEmailView: React.FC<VerifyEmailViewProps> = ({ onNavigate }) 
           )}
 
           <div className="border-t border-[#1b202e] pt-6 text-[10px] text-gray-500 font-mono flex items-center justify-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" /> VINEBOT TRUST SHIELD &bull; AES-256 ENCRYPTED
+            <ShieldCheck className="w-3.5 h-3.5 text-purple-300" /> VINEBOT TRUST SHIELD &bull; AES-256 ENCRYPTED
           </div>
         </div>
       </div>

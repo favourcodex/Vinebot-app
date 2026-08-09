@@ -191,7 +191,7 @@ export const TradeHistory: React.FC = () => {
           <button 
             onClick={downloadCSV}
             disabled={filteredTrades.length === 0}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-lg text-xs font-semibold transition uppercase cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-lg text-xs font-semibold transition uppercase cursor-pointer"
             id="btn-download-csv"
             title="Export filtered trades to CSV"
           >
@@ -217,11 +217,11 @@ export const TradeHistory: React.FC = () => {
         <div className="bg-[#0e1118] border border-[#1b202e] rounded-xl p-4 flex items-center justify-between">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Cumulative P&L</span>
-            <div className={`text-lg font-mono font-bold flex items-center ${totalPnL >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className={`text-lg font-mono font-bold flex items-center ${totalPnL >= 0 ? 'text-purple-300' : 'text-rose-400'}`}>
               {totalPnL >= 0 ? '+' : ''}${totalPnL.toFixed(2)}
             </div>
-          </div>
-          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${totalPnL >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : 'bg-rose-500/10 border border-rose-500/20 text-rose-400'}`}>
+            </div>
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${totalPnL >= 0 ? 'bg-purple-900/20 border border-purple-800/20 text-purple-300' : 'bg-rose-500/10 border border-rose-500/20 text-rose-400'}`}>
             {totalPnL >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
           </div>
         </div>
@@ -234,7 +234,7 @@ export const TradeHistory: React.FC = () => {
               {winRate.toFixed(1)}%
             </div>
           </div>
-          <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-purple-900/10 border border-purple-800/20 text-purple-300 rounded-lg flex items-center justify-center">
             <Award className="w-5 h-5" />
           </div>
         </div>
@@ -247,9 +247,9 @@ export const TradeHistory: React.FC = () => {
               {totalTrades}
             </div>
           </div>
-          <div className="w-10 h-10 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center">
-            <BarChart2 className="w-5 h-5" />
-          </div>
+          <div className="w-10 h-10 bg-purple-900/10 border border-purple-800/20 text-purple-300 rounded-lg flex items-center justify-center">
+              <BarChart2 className="w-5 h-5" />
+            </div>
         </div>
 
         {/* Stat Card 4: Active Positions */}
@@ -318,13 +318,13 @@ export const TradeHistory: React.FC = () => {
                           </div>
                           <div className="flex justify-between gap-4">
                             <span className="text-gray-400">Trade P&L:</span>
-                            <span className={`font-bold ${isProfit ? 'text-emerald-400' : 'text-rose-400'}`}>
+                            <span className={`font-bold ${isProfit ? 'text-purple-300' : 'text-rose-400'}`}>
                               {isProfit ? '+' : ''}${data.pnl.toFixed(2)}
                             </span>
                           </div>
                           <div className="flex justify-between gap-4 pt-1 border-t border-[#1b202e] font-sans">
                             <span className="text-gray-400 font-mono text-[10px] uppercase">Equity:</span>
-                            <span className={`font-bold ${data.cumulativePnL >= 0 ? 'text-indigo-400' : 'text-rose-400'}`}>
+                            <span className={`font-bold ${data.cumulativePnL >= 0 ? 'text-purple-300' : 'text-rose-400'}`}>
                               ${data.cumulativePnL.toFixed(2)}
                             </span>
                           </div>
@@ -337,10 +337,10 @@ export const TradeHistory: React.FC = () => {
                 <Line
                   type="monotone"
                   dataKey="cumulativePnL"
-                  stroke="#6366f1"
+                  stroke="#8b5cf6"
                   strokeWidth={2.5}
-                  dot={{ r: 4, stroke: '#6366f1', strokeWidth: 1.5, fill: '#0e1118' }}
-                  activeDot={{ r: 6, stroke: '#6366f1', strokeWidth: 2, fill: '#fff' }}
+                  dot={{ r: 4, stroke: '#8b5cf6', strokeWidth: 1.5, fill: '#0e1118' }}
+                  activeDot={{ r: 6, stroke: '#8b5cf6', strokeWidth: 2, fill: '#fff' }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -359,7 +359,7 @@ export const TradeHistory: React.FC = () => {
               placeholder="Search Symbol (e.g. EURUSD)"
               value={searchSymbol}
               onChange={(e) => setSearchSymbol(e.target.value)}
-              className="w-full bg-[#090b10] border border-[#1b202e] rounded-lg pl-9 pr-3 py-2 text-xs font-mono text-gray-200 placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition"
+              className="w-full bg-[#090b10] border border-[#1b202e] rounded-lg pl-9 pr-3 py-2 text-xs font-mono text-gray-200 placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
               id="filter-search-symbol"
             />
           </div>
@@ -370,7 +370,7 @@ export const TradeHistory: React.FC = () => {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value as any)}
-              className="bg-[#090b10] border border-[#1b202e] rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
+              className="bg-[#090b10] border border-[#1b202e] rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 focus:outline-none focus:border-purple-500 cursor-pointer"
               id="filter-direction-select"
             >
               <option value="ALL">ALL DIRECTIONS</option>
@@ -385,7 +385,7 @@ export const TradeHistory: React.FC = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as any)}
-              className="bg-[#090b10] border border-[#1b202e] rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 focus:outline-none focus:border-indigo-500 cursor-pointer"
+              className="bg-[#090b10] border border-[#1b202e] rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 focus:outline-none focus:border-purple-500 cursor-pointer"
               id="filter-status-select"
             >
               <option value="ALL">ALL STATUSES</option>
@@ -397,7 +397,7 @@ export const TradeHistory: React.FC = () => {
 
         {/* Dynamic filter count indicator */}
         <div className="text-[10px] font-mono text-gray-400 uppercase tracking-wider self-end md:self-auto">
-          Found: <span className="text-indigo-400 font-bold">{totalFiltered}</span> trades
+          Found: <span className="text-purple-300 font-bold">{totalFiltered}</span> trades
         </div>
       </div>
 
@@ -451,9 +451,9 @@ export const TradeHistory: React.FC = () => {
                       {trade.symbol}
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                         trade.type === 'BUY' 
-                          ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' 
+                          ? 'bg-purple-900/20 border border-purple-800/20 text-purple-300' 
                           : 'bg-rose-500/10 border border-rose-500/20 text-rose-400'
                       }`}>
                         {trade.type}
@@ -470,7 +470,7 @@ export const TradeHistory: React.FC = () => {
                     </td>
                     <td className={`p-4 font-bold ${
                       trade.pnl > 0 
-                        ? 'text-emerald-400' 
+                        ? 'text-purple-300' 
                         : trade.pnl < 0 
                           ? 'text-rose-400' 
                           : 'text-gray-400'

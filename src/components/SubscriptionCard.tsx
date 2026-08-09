@@ -262,7 +262,7 @@ export const SubscriptionCard: React.FC = () => {
           <div className="lg:col-span-5 bg-[#080a0e] border-r border-[#151a24] p-8 flex flex-col justify-between">
             <div className="space-y-8">
               <div>
-                <p className="text-[11px] font-bold text-blue-400 font-mono tracking-widest uppercase">Vinebot Systems, Inc.</p>
+                <p className="text-[11px] font-bold text-purple-300 font-mono tracking-widest uppercase">Vinebot Systems, Inc.</p>
                 <h2 className="text-2xl font-extrabold text-white mt-2 tracking-tight">{checkoutPlan.name}</h2>
                 <p className="text-white/40 text-xs mt-1 leading-relaxed">{checkoutPlan.description}</p>
               </div>
@@ -281,7 +281,7 @@ export const SubscriptionCard: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-white/40 text-[11px]">
                   <span>Setup Fees & Node Provisioning</span>
-                  <span className="text-emerald-400">FREE</span>
+                  <span className="text-purple-300">FREE</span>
                 </div>
                 <div className="flex justify-between text-white/40 text-[11px]">
                   <span>Sales Tax (0.00%)</span>
@@ -289,7 +289,7 @@ export const SubscriptionCard: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-white font-bold border-t border-[#151a24] pt-4 text-sm">
                   <span>Total Due Today</span>
-                  <span className="text-blue-400">${checkoutPlan.price.toFixed(2)}</span>
+                  <span className="text-purple-300">${checkoutPlan.price.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -332,7 +332,7 @@ export const SubscriptionCard: React.FC = () => {
                   {/* Simulated Card Info */}
                   <div>
                     <label className="block text-[10px] font-bold text-white/55 uppercase tracking-wider mb-1.5">Card Information</label>
-                    <div className="bg-[#080a0e] border border-[#1b202e] focus-within:border-blue-500 rounded-lg overflow-hidden transition-colors">
+                    <div className="bg-[#080a0e] border border-[#1b202e] focus-within:border-purple-500 rounded-lg overflow-hidden transition-colors">
                       <div className="flex items-center px-3.5 py-2.5 border-b border-[#1b202e]">
                         <CreditCard className="w-4 h-4 text-white/40 mr-2.5 shrink-0" />
                         <input 
@@ -375,7 +375,7 @@ export const SubscriptionCard: React.FC = () => {
                       value={cardName} 
                       onChange={(e) => setCardName(e.target.value)}
                       required
-                      className="w-full bg-[#080a0e] border border-[#1b202e] focus:border-blue-500 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/25 focus:outline-none transition-colors"
+                      className="w-full bg-[#080a0e] border border-[#1b202e] focus:border-purple-500 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/25 focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -399,7 +399,7 @@ export const SubscriptionCard: React.FC = () => {
                         placeholder="10001"
                         value={cardZip} 
                         onChange={(e) => setCardZip(e.target.value)}
-                        className="w-full bg-[#080a0e] border border-[#1b202e] focus:border-blue-500 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/25 focus:outline-none transition-colors"
+                        className="w-full bg-[#080a0e] border border-[#1b202e] focus:border-purple-500 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/25 focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -409,7 +409,7 @@ export const SubscriptionCard: React.FC = () => {
                   <button
                     type="submit"
                     disabled={processing}
-                    className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold tracking-wider uppercase shadow-lg shadow-blue-600/15 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold tracking-wider uppercase shadow-lg shadow-purple-600/15 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Lock className="w-3.5 h-3.5" /> Pay ${checkoutPlan.price.toFixed(2)} Securely
                   </button>
@@ -420,9 +420,9 @@ export const SubscriptionCard: React.FC = () => {
             {/* Checkout processing State */}
             {checkoutStep === 'processing' && (
               <div className="h-full flex flex-col items-center justify-center py-20 text-center animate-fade-in" id="mock-stripe-processing">
-                <div className="relative mb-6">
-                  <div className="w-16 h-16 rounded-full border-2 border-blue-500/20 border-t-2 border-t-blue-500 animate-spin" />
-                  <Lock className="w-5 h-5 text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="relative mb-6">
+                  <div className="w-16 h-16 rounded-full border-2 border-purple-500/20 border-t-2 border-t-purple-500 animate-spin" />
+                  <Lock className="w-5 h-5 text-purple-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                 </div>
                 <h3 className="text-base font-bold text-white tracking-tight">Authorizing Payment</h3>
                 <p className="text-white/40 text-[10px] max-w-xs mt-2.5 leading-relaxed">
@@ -434,11 +434,11 @@ export const SubscriptionCard: React.FC = () => {
             {/* Checkout Success Screen */}
             {checkoutStep === 'success' && (
               <div className="h-full flex flex-col items-center justify-center py-20 text-center animate-fade-in" id="mock-stripe-success">
-                <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/25 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/5">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-400 animate-bounce" />
+                <div className="w-16 h-16 bg-purple-900/20 border border-purple-800/25 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-purple-900/5">
+                  <CheckCircle2 className="w-8 h-8 text-purple-300 animate-bounce" />
                 </div>
                 <h3 className="text-base font-bold text-white tracking-tight">Payment Authorized!</h3>
-                <p className="text-emerald-400 text-xs font-mono mt-1 font-bold">STRIPE_SETTLEMENT_SUCCESS</p>
+                <p className="text-purple-300 text-xs font-mono mt-1 font-bold">STRIPE_SETTLEMENT_SUCCESS</p>
                 <p className="text-white/40 text-[10px] max-w-xs mt-3 leading-relaxed">
                   Sandbox payment verified and settled successfully. We are provisioning your automated low-latency VPS nodes now.
                 </p>
@@ -472,7 +472,7 @@ export const SubscriptionCard: React.FC = () => {
         <div>
           <div className="flex items-center gap-2.5 mb-1">
             <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-              <CreditCard className="w-6 h-6 text-blue-400" /> Billing & Subscription Center
+              <CreditCard className="w-6 h-6 text-purple-300" /> Billing & Subscription Center
             </h1>
           </div>
           <p className="text-white/40 text-xs mt-1">
@@ -482,9 +482,9 @@ export const SubscriptionCard: React.FC = () => {
       </div>
 
       {message && (
-        <div className={`p-4 rounded-xl text-xs flex items-center gap-2.5 ${
+            <div className={`p-4 rounded-xl text-xs flex items-center gap-2.5 ${
           message.type === 'success' 
-            ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' 
+            ? 'bg-purple-900/20 border border-purple-800/25 text-purple-300' 
             : 'bg-red-500/10 border border-red-500/25 text-red-400'
         }`}>
           {message.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
@@ -498,7 +498,7 @@ export const SubscriptionCard: React.FC = () => {
         {/* Active Subscription Details (Column 1) */}
         <div className="lg:col-span-1 space-y-6">
           <div className="glass-card p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-900/10 blur-2xl rounded-full" />
             <h2 className="text-xs font-bold text-white/40 uppercase tracking-widest border-b border-white/5 pb-3 mb-4">
               Licence Agreement
             </h2>
@@ -506,15 +506,15 @@ export const SubscriptionCard: React.FC = () => {
             {sub ? (
               <div className="space-y-4">
                 <div>
-                  <p className="text-[10px] text-blue-400 font-bold uppercase tracking-wider font-mono">Selected Plan</p>
+                  <p className="text-[10px] text-purple-300 font-bold uppercase tracking-wider font-mono">Selected Plan</p>
                   <p className="text-xl font-extrabold text-white mt-1 tracking-tight">{activePlan?.name || 'Vinebot Pro Access'}</p>
                 </div>
 
                 <div className="flex justify-between text-xs py-2 border-y border-white/5">
                   <span className="text-white/40 font-semibold">Status:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span className="font-bold text-emerald-400 font-mono text-[10px] uppercase">Active</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                    <span className="font-bold text-purple-300 font-mono text-[10px] uppercase">Active</span>
                   </div>
                 </div>
 
@@ -545,7 +545,7 @@ export const SubscriptionCard: React.FC = () => {
                     <button
                       onClick={handleResumeSub}
                       disabled={processing}
-                      className="w-full py-2.5 bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/20 hover:border-emerald-500 rounded-lg text-[10px] font-bold tracking-wide uppercase flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2.5 bg-purple-900/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-800/20 hover:border-purple-700 rounded-lg text-[10px] font-bold tracking-wide uppercase flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" /> Resume Auto-Renew
                     </button>
@@ -572,7 +572,7 @@ export const SubscriptionCard: React.FC = () => {
                   </p>
                 </div>
                 <p className="text-[10px] text-white/40 leading-relaxed bg-[#080a0e]/60 p-2.5 rounded-lg border border-white/5">
-                  Please select a plan from <span className="text-blue-400 font-semibold uppercase font-mono text-[9px]">"Change Plan Options"</span> to activate your high-frequency cloud bot.
+                  Please select a plan from <span className="text-purple-300 font-semibold uppercase font-mono text-[9px]">"Change Plan Options"</span> to activate your high-frequency cloud bot.
                 </p>
               </div>
             )}
@@ -599,7 +599,7 @@ export const SubscriptionCard: React.FC = () => {
                       isVip
                         ? 'border-amber-500/50 bg-gradient-to-b from-amber-500/10 via-white/5 to-white/5 shadow-xl shadow-amber-500/10'
                         : isCurrent
-                          ? 'border-blue-500 bg-white/10 shadow-lg shadow-blue-500/5'
+                          ? 'border-purple-500 bg-white/10 shadow-lg shadow-purple-500/5'
                           : 'border-white/10 bg-white/5 hover:border-white/20'
                     }`}
                   >
@@ -633,7 +633,7 @@ export const SubscriptionCard: React.FC = () => {
                       <ul className="space-y-2.5 border-t border-white/5 pt-4 mb-6">
                         {p.features.map((f, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-[10px] text-white/70">
-                            <CheckCircle2 className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${isVip ? 'text-amber-400' : 'text-blue-400'}`} />
+                            <CheckCircle2 className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${isVip ? 'text-amber-400' : 'text-purple-300'}`} />
                             <span>{f}</span>
                           </li>
                         ))}
@@ -646,12 +646,12 @@ export const SubscriptionCard: React.FC = () => {
                       disabled={isCurrent || processing}
                       className={`w-full py-2.5 rounded-lg text-[10px] font-bold tracking-wide uppercase transition-all flex items-center justify-center gap-1.5 ${
                         isCurrent 
-                          ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20' 
+                          ? 'bg-purple-600/10 text-purple-300 border border-purple-500/20' 
                           : isLoading
-                            ? 'bg-blue-600/50 text-white/80 cursor-wait'
+                            ? 'bg-purple-600/50 text-white/80 cursor-wait'
                             : isVip
                               ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold shadow-lg shadow-amber-500/20 cursor-pointer'
-                              : 'bg-blue-600 text-white hover:bg-blue-500 shadow-md shadow-blue-600/10 cursor-pointer'
+                              : 'bg-purple-600 text-white hover:bg-purple-500 shadow-md shadow-purple-600/10 cursor-pointer'
                       }`}
                     >
                       {isLoading && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
@@ -696,12 +696,12 @@ export const SubscriptionCard: React.FC = () => {
               ) : (
                 payments.map((p) => (
                   <tr key={p.id} className="hover:bg-white/5">
-                    <td className="py-3.5 px-4 font-mono text-[10px] text-blue-400">{p.id.substring(0, 8)}</td>
+                    <td className="py-3.5 px-4 font-mono text-[10px] text-purple-300">{p.id.substring(0, 8)}</td>
                     <td className="py-3.5 px-4 text-[10px]">{new Date(p.createdAt).toLocaleDateString()}</td>
                     <td className="py-3.5 px-4 font-bold font-sans">${p.amount.toFixed(2)}</td>
                     <td className="py-3.5 px-4 font-mono text-[9px] text-white/40">{p.stripePaymentIntentId || 'N/A'}</td>
                     <td className="py-3.5 px-4">
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[9px] font-bold text-emerald-400 uppercase">
+                      <span className="px-2 py-0.5 rounded-full bg-purple-900/20 border border-purple-800/30 text-[9px] font-bold text-purple-300 uppercase"> 
                         Succeeded
                       </span>
                     </td>

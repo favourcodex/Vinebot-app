@@ -15,6 +15,7 @@ import {
 } from 'recharts';
 import { UserSubscription, Mt5Account, BotActivation, ActivityLog, SubscriptionPlan, BotActivationStatus } from '../types';
 import vEmblem from '../assets/vincorp_v_emblem.png';
+import bannerBg from '../assets/vincorp_banner_bg.png';
 
 interface DashboardHomeProps {
   onTabChange: (tab: string) => void;
@@ -58,17 +59,17 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="bg-[#0c0e17] border border-white/15 p-3.5 rounded-xl shadow-2xl text-xs space-y-2 z-50 min-w-[180px] backdrop-blur-md">
         <div className="flex justify-between items-center pb-1.5 border-b border-white/10">
           <span className="text-[10px] font-mono text-gray-400 font-bold uppercase tracking-wide">{data.date}</span>
-          <span className="text-[9px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20 font-semibold">{data.trades} trades</span>
+          <span className="text-[9px] font-mono text-purple-300 bg-purple-950/10 px-1.5 py-0.5 rounded border border-purple-800/20 font-semibold">{data.trades} trades</span>
         </div>
         <div className="flex items-center justify-between gap-4">
           <span className="text-gray-400 text-[11px]">Daily P&L:</span>
-          <span className={`font-mono font-bold text-xs ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+          <span className={`font-mono font-bold text-xs ${isPositive ? 'text-purple-300' : 'text-red-400'}`}>
             {isPositive ? '+' : ''}${data.profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
         </div>
         <div className="flex items-center justify-between gap-4 pt-1.5 border-t border-white/5">
           <span className="text-gray-300 font-semibold text-[11px]">Cumulative:</span>
-          <span className="font-mono font-bold text-xs text-blue-400">
+          <span className="font-mono font-bold text-xs text-purple-300">
             ${data.cumulativePnL.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
         </div>
@@ -169,17 +170,17 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
   const getBotStatusBadge = (status: BotActivationStatus) => {
     switch (status) {
       case 'ACTIVE':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full status-glow">ACTIVE</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-950/40 border border-purple-800/30 text-purple-300 rounded-full status-glow">ACTIVE</span>;
       case 'PENDING_PAYMENT':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full">PENDING PAYMENT</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-950/30 border border-purple-800/20 text-purple-300 rounded-full">PENDING PAYMENT</span>;
       case 'PAYMENT_CONFIRMED':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">PAYMENT VERIFIED</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-950/30 border border-purple-800/20 text-purple-300 rounded-full">PAYMENT VERIFIED</span>;
       case 'WAITING_FOR_BOT_TEAM':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">AWAITING DEPLOYMENT</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-950/30 border border-purple-800/20 text-purple-300 rounded-full">AWAITING DEPLOYMENT</span>;
       case 'IN_PROGRESS':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">VPS PROVISIONING</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-950/30 border border-purple-800/20 text-purple-300 rounded-full">VPS PROVISIONING</span>;
       case 'PAUSED':
-        return <span className="px-2.5 py-1 text-[10px] font-bold bg-gray-500/10 border border-gray-500/30 text-gray-400 rounded-full">PAUSED</span>;
+        return <span className="px-2.5 py-1 text-[10px] font-bold bg-white/5 border border-white/10 text-white/60 rounded-full">PAUSED</span>;
       case 'FAILED':
         return <span className="px-2.5 py-1 text-[10px] font-bold bg-red-500/10 border border-red-500/30 text-red-400 rounded-full">FAILED</span>;
       case 'CANCELLED':
@@ -213,17 +214,33 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
     <div className="space-y-8 animate-fade-in" id="dashboard-home">
       
       {/* System Command Center Banner Panel */}
-      <div className="relative overflow-hidden bg-[#0d0d0e] p-6 md:p-8 rounded-2xl border border-white/5">
+      <div className="relative overflow-hidden bg-[#0a0a0c] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-900/10 via-transparent to-transparent p-6 md:p-8 rounded-2xl border border-white/5">
+
+        {/* Banner background image (right side) */}
+        <img
+          src={bannerBg}
+          alt="VIN-CORP banner"
+          referrerPolicy="no-referrer"
+          className="absolute right-0 top-0 bottom-0 h-full w-auto max-w-[60%] object-cover object-right opacity-30 md:opacity-90 pointer-events-none select-none z-0"
+        />
+
+        {/* subtle circuit SVG overlay behind emblem */}
+        <svg className="absolute right-40 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none z-10 w-[420px] h-[220px]" viewBox="0 0 420 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 40 H120 L160 80 H260 L300 40 H420" stroke="white" strokeWidth="1" opacity="0.5" />
+          <path d="M0 120 H100 L140 160 H260 L320 100 H420" stroke="white" strokeWidth="1" opacity="0.6" />
+          <circle cx="120" cy="40" r="2.5" fill="white" />
+          <circle cx="260" cy="80" r="2.5" fill="white" />
+        </svg>
 
         {/* Left Side Info & Actions */}
-        <div className="relative z-10 max-w-lg pr-0 md:pr-0">
+        <div className="relative z-20 max-w-lg pr-0 md:pr-0">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">System Command Center</h1>
           <p className="text-neutral-400 text-xs sm:text-sm mt-2 leading-relaxed">
             Configure parameters, inspect audit trails, and oversee automated trading VPS state.
           </p>
           <button 
             onClick={fetchDashboardData}
-            className="mt-4 px-4 py-2 rounded-xl bg-[#121212] hover:bg-[#1a1a1a] border border-white/15 text-xs font-semibold text-white flex items-center gap-2 cursor-pointer transition-all shadow-md active:scale-95"
+            className="mt-4 px-4 py-2 rounded-xl bg-purple-700/10 hover:bg-purple-700/20 border border-white/10 text-xs font-semibold text-white flex items-center gap-2 cursor-pointer transition-all shadow-md active:scale-95"
           >
             <RefreshCw className="w-3.5 h-3.5 text-white" /> Refresh Systems
           </button>
@@ -233,7 +250,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           src={vEmblem}
           alt="VIN-CORP V Emblem"
           referrerPolicy="no-referrer"
-          className="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 h-[120%] max-h-[220px] w-auto object-contain opacity-80 pointer-events-none select-none pr-4"
+          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 h-28 sm:h-36 md:h-44 w-auto object-contain opacity-70 md:opacity-90 pointer-events-none select-none z-30"
         />
       </div>
 
@@ -241,18 +258,18 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Active Plan Card */}
         <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-900/20 blur-3xl rounded-full pointer-events-none" />
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-bold text-blue-500 uppercase tracking-wider">ACTIVE PLAN</span>
-              <CreditCard className="w-5 h-5 text-blue-500" />
+              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-wider">ACTIVE PLAN</span>
+              <CreditCard className="w-5 h-5 text-purple-300" />
             </div>
             {sub ? (
               <div>
                 <p className="text-lg font-bold text-white tracking-tight">{activePlan?.name || 'Professional Bot'}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                  <span className="text-[10px] font-mono font-semibold text-emerald-400">Subscription Active</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping" />
+                  <span className="text-[10px] font-mono font-semibold text-purple-300">Subscription Active</span>
                 </div>
                 <p className="text-[9px] text-white/40 font-medium mt-4">
                   Renews on: {new Date(sub.currentPeriodEnd).toLocaleDateString()}
@@ -263,7 +280,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                 <p className="text-base font-bold text-white tracking-tight">No Active Subscription</p>
                 <button 
                   onClick={() => onTabChange('subscription')}
-                  className="mt-4 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-wide rounded-xl flex items-center gap-1.5 transition-all shadow-lg shadow-blue-900/30 cursor-pointer"
+                  className="mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs tracking-wide rounded-xl flex items-center gap-1.5 transition-all shadow-lg shadow-purple-900/30 cursor-pointer"
                 >
                   <PlusCircle className="w-3.5 h-3.5" /> Subscribe Now
                 </button>
@@ -274,11 +291,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
 
         {/* MT5 Account Card */}
         <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-900/20 blur-3xl rounded-full pointer-events-none" />
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">MT5 BROKER CONNECTION</span>
-              <Database className="w-5 h-5 text-emerald-400" />
+              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-wider">MT5 BROKER CONNECTION</span>
+              <Database className="w-5 h-5 text-purple-300" />
             </div>
             {mt5 ? (
               <div>
@@ -293,7 +310,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                   onClick={() => onTabChange('mt5')}
                   className="mt-4 px-4 py-2.5 bg-[#121212] hover:bg-[#1a1a1a] border border-white/15 text-white font-semibold text-xs tracking-wide rounded-xl flex items-center gap-2 transition-all shadow-md cursor-pointer"
                 >
-                  <Database className="w-3.5 h-3.5 text-emerald-400" /> Link MT5 Account
+                  <Database className="w-3.5 h-3.5 text-purple-300" /> Link MT5 Account
                 </button>
               </div>
             )}
@@ -302,11 +319,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
 
         {/* Bot Activation Status Card */}
         <div className="rounded-2xl bg-[#0a0a0a] border border-white/10 p-6 relative overflow-hidden shadow-xl flex flex-col justify-between">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-900/20 blur-3xl rounded-full pointer-events-none" />
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-bold text-blue-400 uppercase tracking-wider">AUTOMATION THREAD</span>
-              <Bot className="w-5 h-5 text-blue-400" />
+              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-wider">AUTOMATION THREAD</span>
+              <Bot className="w-5 h-5 text-purple-300" />
             </div>
             {bot ? (
               <div>
@@ -318,7 +335,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                 </p>
                 <button 
                   onClick={() => onTabChange('bot-status')}
-                  className="text-[10px] font-semibold text-blue-400 hover:text-blue-300 mt-2.5 flex items-center gap-1 cursor-pointer"
+                  className="text-[10px] font-semibold text-purple-300 hover:text-purple-200 mt-2.5 flex items-center gap-1 cursor-pointer"
                 >
                   View deployment timeline &rarr;
                 </button>
@@ -339,9 +356,9 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/5">
           <div>
             <div className="flex items-center gap-2.5">
-              <TrendingUp className="w-5 h-5 text-blue-400" />
+              <TrendingUp className="w-5 h-5 text-purple-300" />
               <h2 className="text-base font-bold text-white tracking-tight">30-Day P&L Performance</h2>
-              <span className="px-2.5 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[10px] font-bold uppercase tracking-wider rounded-md flex items-center gap-1 shadow-sm shadow-amber-500/5">
+              <span className="px-2.5 py-0.5 bg-purple-900/20 border border-purple-800/30 text-purple-300 font-mono text-[10px] font-bold uppercase tracking-wider rounded-md flex items-center gap-1 shadow-sm shadow-purple-900/5">
                 <Sparkles className="w-3 h-3" /> Coming Soon
               </span>
             </div>
@@ -357,7 +374,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                 disabled
                 className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all ${
                   tf === '30D' 
-                    ? 'bg-blue-600/50 text-white' 
+                    ? 'bg-purple-600/50 text-white' 
                     : 'text-gray-400'
                 }`}
               >
@@ -370,12 +387,12 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
         {/* Sleek Modern "Coming Soon" Placeholder Card */}
         <div className="my-6 p-8 sm:p-12 rounded-2xl bg-gradient-to-b from-[#0b0e17] to-[#07090e] border border-white/10 text-center flex flex-col items-center justify-center relative overflow-hidden group">
           {/* Subtle Background Glow Elements */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-500/10 blur-[90px] rounded-full pointer-events-none" />
-          <div className="absolute -top-12 -right-12 w-48 h-48 bg-indigo-500/5 blur-2xl rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-900/20 blur-[90px] rounded-full pointer-events-none" />
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-800/5 blur-2xl rounded-full pointer-events-none" />
 
           {/* Icon Badge */}
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4 shadow-xl shadow-blue-950/40 relative z-10 group-hover:scale-105 transition-transform duration-300">
-            <BarChart2 className="w-7 h-7 text-blue-400" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600/20 to-purple-500/10 border border-purple-800/30 flex items-center justify-center text-purple-300 mb-4 shadow-xl shadow-purple-950/40 relative z-10 group-hover:scale-105 transition-transform duration-300">
+            <BarChart2 className="w-7 h-7 text-purple-300" />
           </div>
 
           {/* Title & Description */}
@@ -383,7 +400,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
             Live Performance Tracking Activation
           </h3>
           <p className="text-gray-400 text-xs sm:text-sm max-w-lg leading-relaxed relative z-10 mb-6">
-            Live performance tracking and interactive P&L analytics will activate automatically once your <span className="text-blue-400 font-semibold">MT5 trading account</span> or bot is connected and actively executing trades.
+            Live performance tracking and interactive P&L analytics will activate automatically once your <span className="text-purple-300 font-semibold">MT5 trading account</span> or bot is connected and actively executing trades.
           </p>
 
           {/* Status Badge Tag */}
@@ -398,23 +415,23 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
             <div className="flex items-center justify-between text-gray-400 text-[11px] mb-1">
               <span>Total Net Profit</span>
-              <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+              <DollarSign className="w-3.5 h-3.5 text-purple-300" />
             </div>
-            <p className="text-lg sm:text-xl font-mono font-bold text-emerald-400">
+            <p className="text-lg sm:text-xl font-mono font-bold text-purple-300">
               +${metrics.totalProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
           <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
             <div className="flex items-center justify-between text-gray-400 text-[11px] mb-1">
               <span>Win Rate</span>
-              <Percent className="w-3.5 h-3.5 text-blue-400" />
+              <Percent className="w-3.5 h-3.5 text-purple-300" />
             </div>
             <p className="text-lg sm:text-xl font-mono font-bold text-white">{metrics.winRate}%</p>
           </div>
           <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
             <div className="flex items-center justify-between text-gray-400 text-[11px] mb-1">
               <span>Total Executions</span>
-              <BarChart2 className="w-3.5 h-3.5 text-indigo-400" />
+              <BarChart2 className="w-3.5 h-3.5 text-purple-300" />
             </div>
             <p className="text-lg sm:text-xl font-mono font-bold text-white">{metrics.totalTrades}</p>
           </div>
@@ -457,7 +474,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-6">
             <div>
               <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Activity className="w-4 h-4 text-blue-400" /> Active VPS Deployment Queue
+                <Activity className="w-4 h-4 text-purple-300" /> Active VPS Deployment Queue
               </h2>
               <p className="text-white/40 text-[10px] mt-0.5">Real-time terminal updates from quantitative deployment logs.</p>
             </div>
@@ -477,7 +494,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
                   )}
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 border z-10 ${
                     event.completed 
-                      ? 'bg-blue-600/20 border-blue-500 text-blue-400' 
+                      ? 'bg-purple-600/20 border-purple-500 text-purple-300'
                       : 'bg-white/5 border-white/10 text-white/40'
                   }`}>
                     <span className="w-1.5 h-1.5 rounded-full bg-current" />
@@ -514,7 +531,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
         {/* User Session Audit Activity Trail */}
         <div className="glass-card p-6">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-1 flex items-center gap-2">
-            <Clock className="w-4 h-4 text-emerald-400" /> Local Audit Trail
+            <Clock className="w-4 h-4 text-purple-300" /> Local Audit Trail
           </h2>
           <p className="text-white/40 text-[10px] border-b border-white/5 pb-4 mb-4">Immutable logs of important security actions.</p>
 
@@ -525,7 +542,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
               logs.map((log) => (
                 <div key={log.id} className="text-xs">
                   <div className="flex justify-between items-baseline gap-2">
-                    <span className="font-bold text-blue-400 font-mono tracking-wide text-[10px] uppercase">{log.action}</span>
+                    <span className="font-bold text-purple-300 font-mono tracking-wide text-[10px] uppercase">{log.action}</span>
                     <span className="text-[8px] font-mono text-white/40 shrink-0">{new Date(log.createdAt).toLocaleDateString()}</span>
                   </div>
                   <p className="text-white/60 text-[10px] mt-0.5 leading-relaxed truncate">{log.details}</p>

@@ -71,7 +71,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
     <div className="bg-[#050505] text-[#E5E5E5] min-h-screen flex flex-col md:flex-row font-sans">
       
       {/* Desktop Sidebar Navigation */}
-      <aside className="hidden md:flex w-64 bg-[#080808] border-r border-white/5 flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
+      <aside className="hidden lg:flex w-64 bg-[#080808] border-r border-white/5 flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
         <div>
           {/* Brand Logo */}
           <div className="p-5 flex items-center justify-start gap-3 border-b border-white/5">
@@ -146,7 +146,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
 
       {/* Mobile Menu Drawer Overlay & Content */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex">
+        <div className="lg:hidden fixed inset-0 z-50 flex">
           {/* Backdrop overlay */}
           <div 
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
@@ -225,7 +225,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       {/* Main Content Pane Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Menu Header (Top Bar with Hamburger menu) */}
-        <header className="md:hidden h-16 border-b border-white/5 bg-[#080808] flex items-center justify-between px-4 sticky top-0 z-20 shrink-0 w-full">
+        <header className="lg:hidden h-16 border-b border-white/5 bg-[#080808] flex items-center justify-between px-4 sticky top-0 z-20 shrink-0 w-full">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -245,7 +245,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               >
                 <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-blue-500 text-[9px] font-bold text-white flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-600 text-[9px] font-bold text-white flex items-center justify-center">
                     {unreadCount}
                   </span>
                 )}
@@ -259,7 +259,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                     {unreadCount > 0 && (
                       <button 
                         onClick={() => handleMarkRead()}
-                        className="text-[9px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-0.5 cursor-pointer"
+                        className="text-[9px] font-bold text-purple-300 hover:text-purple-200 flex items-center gap-0.5 cursor-pointer"
                       >
                         Mark all read
                       </button>
@@ -279,7 +279,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                             {!n.read && (
                               <button 
                                 onClick={() => handleMarkRead(n.id)}
-                                className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white shrink-0 cursor-pointer"
+                                className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-purple-600 hover:text-white shrink-0 cursor-pointer"
                               >
                                 <Check className="w-2.5 h-2.5" />
                               </button>
@@ -297,7 +297,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
         </header>
 
         {/* Top Header bar (Desktop) */}
-        <header className="h-16 border-b border-white/5 bg-[#050505] px-8 items-center justify-between hidden md:flex shrink-0">
+        <header className="h-16 border-b border-white/5 bg-[#050505] px-8 items-center justify-between hidden lg:flex shrink-0">
           <div className="flex items-center gap-4 text-sm">
             <span className="text-white/40">Organization</span>
             <span className="text-white/20">/</span>
@@ -320,7 +320,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               >
                 <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-blue-500 text-[8px] font-bold text-white flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-purple-600 text-[8px] font-bold text-white flex items-center justify-center animate-pulse">
                     {unreadCount}
                   </span>
                 )}
@@ -334,7 +334,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                     {unreadCount > 0 && (
                       <button 
                         onClick={() => handleMarkRead()}
-                        className="text-[10px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 cursor-pointer"
+                        className="text-[10px] font-bold text-purple-300 hover:text-purple-200 flex items-center gap-1 cursor-pointer"
                       >
                         <CheckSquare className="w-3 h-3" /> Mark all read
                       </button>
@@ -354,7 +354,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                             {!n.read && (
                               <button 
                                 onClick={() => handleMarkRead(n.id)}
-                                className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white shrink-0 cursor-pointer"
+                                className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-purple-600 hover:text-white shrink-0 cursor-pointer"
                                 title="Mark read"
                               >
                                 <Check className="w-2.5 h-2.5" />
@@ -390,7 +390,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                   <p className="font-bold text-white uppercase tracking-wider text-[10px]">Security Notice: Email Verification Pending</p>
                   <p className="text-white/60 text-[10px] mt-0.5">Please verify your email address to unlock full automated MetaTrader 5 bot attachment features.</p>
                   {verifyMsg && (
-                    <p className="text-emerald-400 font-bold mt-1 text-[10px]">{verifyMsg}</p>
+                    <p className="text-purple-300 font-bold mt-1 text-[10px]">{verifyMsg}</p>
                   )}
                 </div>
               </div>

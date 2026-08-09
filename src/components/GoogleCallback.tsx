@@ -203,7 +203,7 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
       <div className="max-w-md w-full glass-card p-8 text-center border border-white/10 rounded-2xl shadow-2xl bg-[#0d1017]">
         {status === 'processing' && (
           <div className="space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto text-blue-400">
+            <div className="w-12 h-12 rounded-2xl bg-purple-900/10 border border-purple-800/20 flex items-center justify-center mx-auto text-purple-300">
               <Loader2 className="w-6 h-6 animate-spin" />
             </div>
             <h2 className="text-lg font-bold">Authenticating with Google</h2>
@@ -213,7 +213,7 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
 
         {status === 'success' && (
           <div className="space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
+            <div className="w-12 h-12 rounded-2xl bg-purple-900/20 border border-purple-800/25 flex items-center justify-center mx-auto text-purple-300">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <h2 className="text-lg font-bold">Authentication Successful</h2>
@@ -234,7 +234,7 @@ export const GoogleCallback: React.FC<GoogleCallbackProps> = ({ onNavigate }) =>
                 if (onNavigate) onNavigate('/');
                 else window.location.href = '/';
               }}
-              className="mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white rounded-lg transition shadow-lg shadow-blue-500/20"
+              className="mt-4 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white rounded-lg transition shadow-lg shadow-purple-600/20"
             >
               Return to Login
             </button>

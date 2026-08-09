@@ -243,7 +243,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
           onClick={fetchAdminData}
           className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-bold text-white flex items-center gap-2 cursor-pointer transition shadow-sm"
         >
-          <RefreshCw className="w-3.5 h-3.5 text-blue-400" /> Refresh Operations Feed
+          <RefreshCw className="w-3.5 h-3.5 text-purple-300" /> Refresh Operations Feed
         </button>
       </div>
 
@@ -251,7 +251,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
       {message && (
         <div className={`p-4 rounded-xl text-xs font-medium flex items-center gap-3 shadow-lg ${
           message.type === 'success' 
-            ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400' 
+            ? 'bg-purple-900/20 border border-purple-800/30 text-purple-300' 
             : 'bg-red-500/10 border border-red-500/30 text-red-400'
         }`}>
           {message.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
@@ -264,7 +264,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         <div className="glass-card p-4">
           <div className="flex items-center justify-between text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">
             <span>Total Members</span>
-            <Users className="w-3.5 h-3.5 text-blue-400" />
+            <Users className="w-3.5 h-3.5 text-purple-300" />
           </div>
           <p className="text-2xl font-black text-white">{stats?.totalUsers || 0}</p>
           <p className="text-[10px] text-white/30 mt-1">Registered Accounts</p>
@@ -273,25 +273,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         <div className="glass-card p-4">
           <div className="flex items-center justify-between text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">
             <span>Active Licences</span>
-            <CheckSquare className="w-3.5 h-3.5 text-emerald-400" />
+            <CheckSquare className="w-3.5 h-3.5 text-purple-300" />
           </div>
-          <p className="text-2xl font-black text-white">{stats?.activeSubscriptions || 0}</p>
-          <p className="text-[10px] text-emerald-400/80 mt-1">Active Subscriptions</p>
+          <p className="text-2xl font-black text-purple-300">{stats?.activeSubscriptions || 0}</p>
+          <p className="text-[10px] text-purple-300/80 mt-1">Active Subscriptions</p>
         </div>
 
         <div className="glass-card p-4">
           <div className="flex items-center justify-between text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">
             <span>Active Bots</span>
-            <Power className="w-3.5 h-3.5 text-emerald-400" />
+            <Power className="w-3.5 h-3.5 text-purple-300" />
           </div>
-          <p className="text-2xl font-black text-emerald-400">{stats?.activeBots || 0}</p>
-          <p className="text-[10px] text-emerald-400/80 mt-1">Live Trading Bots</p>
+          <p className="text-2xl font-black text-purple-300">{stats?.activeBots || 0}</p>
+          <p className="text-[10px] text-purple-300/80 mt-1">Live Trading Bots</p>
         </div>
 
         <div className="glass-card p-4">
           <div className="flex items-center justify-between text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">
             <span>Total Revenue</span>
-            <CreditCard className="w-3.5 h-3.5 text-blue-400" />
+            <CreditCard className="w-3.5 h-3.5 text-purple-300" />
           </div>
           <p className="text-2xl font-black text-white">${(stats?.totalRevenue || 0).toFixed(2)}</p>
           <p className="text-[10px] text-white/30 mt-1">Processed Payments</p>
@@ -336,7 +336,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
               <select
                 value={statusFilter}
                 onChange={e => setStatusFilter(e.target.value)}
-                className="bg-[#050505] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+                className="bg-[#050505] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 cursor-pointer"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="ACTIVE_BOT">Active Bot</option>
@@ -349,7 +349,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
             {view === 'logs' && (
               <button 
                 onClick={handleExportCSV}
-                className="px-3.5 py-2 bg-emerald-600/10 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 hover:text-white text-xs font-bold rounded-xl flex items-center gap-2 cursor-pointer transition-all shrink-0 shadow-sm"
+                className="px-3.5 py-2 bg-purple-900/20 hover:bg-purple-600 border border-purple-800/30 hover:border-purple-700 text-purple-300 hover:text-white text-xs font-bold rounded-xl flex items-center gap-2 cursor-pointer transition-all shrink-0 shadow-sm"
               >
                 <Download className="w-3.5 h-3.5" /> Export Audit CSV
               </button>
@@ -362,7 +362,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                   placeholder={`Search ${view}...`}
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full bg-[#050505] border border-white/10 rounded-xl pl-8 pr-4 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-xl pl-8 pr-4 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
                 />
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40" />
               </div>
@@ -380,7 +380,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                 <div className="bg-[#0c0d12] border border-rose-500/20 p-5 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
                     <span className="flex items-center gap-2"><Server className="w-4 h-4 text-rose-400" /> Core Engine Status</span>
-                    <span className="bg-emerald-500/20 text-emerald-400 text-[9px] px-2 py-0.5 rounded font-mono font-bold">100% ONLINE</span>
+                    <span className="bg-purple-900/20 text-purple-300 text-[9px] px-2 py-0.5 rounded font-mono font-bold">100% ONLINE</span>
                   </div>
                   <p className="text-xs text-white/50">Low-latency Execution Bridge actively monitoring MT5 webhooks and queue dispatches.</p>
                 </div>
@@ -395,8 +395,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
 
                 <div className="bg-[#0c0d12] border border-rose-500/20 p-5 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
-                    <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Security & Auth Node</span>
-                    <span className="bg-emerald-500/20 text-emerald-400 text-[9px] px-2 py-0.5 rounded font-mono font-bold">VERIFIED</span>
+                    <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-purple-300" /> Security & Auth Node</span>
+                    <span className="bg-purple-900/20 text-purple-300 text-[9px] px-2 py-0.5 rounded font-mono font-bold">VERIFIED</span>
                   </div>
                   <p className="text-xs text-white/50">JWT Token Security & Role-Based Access Control active across all endpoints.</p>
                 </div>
@@ -464,7 +464,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                             <div>
                               <p className="font-bold text-white flex items-center gap-2">
                                 {u.email}
-                                {u.verified && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />}
+                                {u.verified && <CheckCircle2 className="w-3.5 h-3.5 text-purple-300" />}
                               </p>
                               <p className="text-[10px] text-white/30 font-mono">ID: {u.id.substring(0, 12)}...</p>
                             </div>
@@ -476,14 +476,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                         </td>
 
                         <td className="py-3.5 px-4 font-mono font-bold text-[10px] tracking-wider">
-                          <span className={`px-2 py-0.5 rounded ${u.role === 'ADMIN' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-white/5 text-blue-400 border border-white/10'}`}>
+                          <span className={`px-2 py-0.5 rounded ${u.role === 'ADMIN' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-white/5 text-purple-300 border border-white/10'}`}>
                             {u.role}
                           </span>
                         </td>
 
                         <td className="py-3.5 px-4 font-semibold text-white/85">
                           {u.subscription ? (
-                            <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded text-[10px]">
+                            <span className="text-purple-300 font-bold bg-purple-900/20 px-2 py-0.5 rounded text-[10px]">
                               {u.subscription.planId.replace('plan-', '').replace('-month', '').toUpperCase()}
                             </span>
                           ) : (
@@ -493,7 +493,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
 
                         <td className="py-3.5 px-4 font-mono text-[11px]">
                           {u.mt5 ? (
-                            <span className="text-blue-400 font-bold flex items-center gap-1">
+                            <span className="text-purple-300 font-bold flex items-center gap-1">
                               #{u.mt5.accountNumber} <span className="text-[9px] text-white/30">({u.mt5.brokerName})</span>
                             </span>
                           ) : (
@@ -507,7 +507,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                             disabled={updatingId === u.id}
                             className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition ${
                               u.isBotActive 
-                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30' 
+                                ? 'bg-purple-900/20 text-purple-300 border border-purple-800/40 hover:bg-purple-900/30' 
                                 : 'bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20'
                             }`}
                           >
@@ -536,8 +536,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
           {/* TAB 2: MT5 CREDENTIALS DESK */}
           {view === 'mt5' && (
             <div className="space-y-4">
-              <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-xs text-blue-300 flex items-center gap-3">
-                <Mail className="w-4 h-4 shrink-0 text-blue-400" />
+              <div className="p-3 bg-purple-900/20 border border-purple-800/20 rounded-xl text-xs text-purple-300 flex items-center gap-3">
+                <Mail className="w-4 h-4 shrink-0 text-purple-300" />
                 <span>
                   <strong>Automated Alert Desk:</strong> Every submitted MT5 account triggers an instant automated credential alert email dispatched directly to <strong>vinindustry0@gmail.com</strong>.
                 </span>
@@ -570,12 +570,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                           <td className="py-3.5 px-4 font-bold text-white">{acc.userEmail}</td>
                           <td className="py-3.5 px-4 font-semibold text-purple-300">{acc.brokerName}</td>
                           <td className="py-3.5 px-4 font-mono text-white/70">{acc.serverName}</td>
-                          <td className="py-3.5 px-4 font-mono text-blue-400 font-bold text-sm">
+                          <td className="py-3.5 px-4 font-mono text-purple-300 font-bold text-sm">
                             {acc.accountNumber}
                           </td>
                           <td className="py-3.5 px-4 font-mono">
                             <div className="flex items-center gap-2">
-                              <span className="bg-[#050505] px-2.5 py-1 rounded border border-white/10 text-emerald-400 font-bold">
+                              <span className="bg-[#050505] px-2.5 py-1 rounded border border-white/10 text-purple-300 font-bold">
                                 {visiblePasswords[acc.id] ? acc.password : '••••••••'}
                               </span>
                               <button
@@ -591,7 +591,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                             {new Date(acc.createdAt).toLocaleString()}
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold px-2 py-0.5 rounded flex items-center gap-1 w-fit">
+                            <span className="bg-purple-900/20 text-purple-300 border border-purple-800/30 text-[9px] font-bold px-2 py-0.5 rounded flex items-center gap-1 w-fit">
                               <Check className="w-3 h-3" /> Dispatched
                             </span>
                           </td>
@@ -601,7 +601,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                                 onClick={() => handleCopyText(`Account: ${acc.accountNumber}\nBroker: ${acc.brokerName}\nServer: ${acc.serverName}\nPassword: ${acc.password}`, `full-${acc.id}`)}
                                 className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[10px] font-bold text-white uppercase flex items-center gap-1 cursor-pointer"
                               >
-                                {copiedId === `full-${acc.id}` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                {copiedId === `full-${acc.id}` ? <Check className="w-3 h-3 text-purple-300" /> : <Copy className="w-3 h-3" />}
                                 {copiedId === `full-${acc.id}` ? 'Copied' : 'Copy All'}
                               </button>
                             </div>
@@ -641,15 +641,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                       filteredSubscriptions.map((sub) => (
                         <tr key={sub.id} className="hover:bg-white/[0.02] transition">
                           <td className="py-3.5 px-4 font-bold text-white">{sub.userEmail}</td>
-                          <td className="py-3.5 px-4 font-semibold text-blue-400">{sub.planName}</td>
+                          <td className="py-3.5 px-4 font-semibold text-purple-300">{sub.planName}</td>
                           <td className="py-3.5 px-4">
                             <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase ${
-                              sub.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                              sub.status === 'ACTIVE' ? 'bg-purple-900/20 text-purple-300 border border-purple-800/30' : 'bg-red-500/10 text-red-400 border border-red-500/20'
                             }`}>
                               {sub.status}
                             </span>
                           </td>
-                          <td className="py-3.5 px-4 font-mono text-emerald-400 font-bold">
+                          <td className="py-3.5 px-4 font-mono text-purple-300 font-bold">
                             ${sub.payments?.reduce((sum: number, p: any) => sum + p.amount, 0).toFixed(2) || '0.00'}
                           </td>
                           <td className="py-3.5 px-4">
@@ -658,7 +658,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                               disabled={updatingId === sub.userId}
                               className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition ${
                                 sub.isBotActive 
-                                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-500' 
+                                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20 hover:bg-purple-500' 
                                   : 'bg-white/10 text-white/60 hover:text-white hover:bg-white/20'
                               }`}
                             >
@@ -677,7 +677,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                                   notes: act?.adminNotes || ''
                                 });
                               }}
-                              className="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 rounded-lg font-bold text-[10px] tracking-wide uppercase cursor-pointer flex items-center gap-1"
+                              className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 rounded-lg font-bold text-[10px] tracking-wide uppercase cursor-pointer flex items-center gap-1"
                             >
                               <Sliders className="w-3 h-3" /> Advance Status
                             </button>
@@ -693,7 +693,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
               {statusForm && (
                 <div className="bg-[#0a0a0a] border border-white/15 rounded-2xl p-6 relative shadow-2xl animate-fade-in">
                   <h3 className="text-sm font-extrabold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-blue-400" /> Advance Bot Deployment & VPS Parameters
+                    <Sparkles className="w-4 h-4 text-purple-300" /> Advance Bot Deployment & VPS Parameters
                   </h3>
                   
                   <form onSubmit={handleUpdateBotActivation} className="space-y-4">
@@ -703,7 +703,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                         <select 
                           value={statusForm.status}
                           onChange={e => setStatusForm({ ...statusForm, status: e.target.value })}
-                          className="w-full bg-[#050505] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 font-semibold cursor-pointer"
+                          className="w-full bg-[#050505] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500 font-semibold cursor-pointer"
                         >
                           <option value="WAITING_FOR_BOT_TEAM">WAITING_FOR_BOT_TEAM (Awaiting Setup)</option>
                           <option value="IN_PROGRESS">IN_PROGRESS (VPS Provisioning)</option>
@@ -720,7 +720,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                           value={statusForm.notes}
                           onChange={e => setStatusForm({ ...statusForm, notes: e.target.value })}
                           placeholder="e.g. Assigned to Low-Latency Node IC-04. Trailing stops active."
-                          className="w-full bg-[#050505] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 font-medium"
+                          className="w-full bg-[#050505] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500 font-medium"
                         />
                       </div>
                     </div>
@@ -736,7 +736,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                       <button 
                         type="submit"
                         disabled={updatingId === statusForm.id}
-                        className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 shadow-lg shadow-blue-600/20"
+                        className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 shadow-lg shadow-purple-600/20"
                       >
                         <Save className="w-4 h-4" /> Save Dispatch Parameters
                       </button>
@@ -772,7 +772,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                       <tr key={log.id} className="hover:bg-white/[0.02] transition">
                         <td className="py-3.5 px-4 text-white/40">{new Date(log.createdAt).toLocaleString()}</td>
                         <td className="py-3.5 px-4 font-bold text-white">{log.userEmail || 'System'}</td>
-                        <td className="py-3.5 px-4 font-bold text-blue-400">{log.action}</td>
+                        <td className="py-3.5 px-4 font-bold text-purple-300">{log.action}</td>
                         <td className="py-3.5 px-4 text-white/70 max-w-sm truncate">{log.details || 'N/A'}</td>
                         <td className="py-3.5 px-4 text-white/30">{log.ipAddress || '127.0.0.1'}</td>
                       </tr>
@@ -798,7 +798,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                       <div className="text-xs font-bold text-white">System Maintenance Mode</div>
                       <div className="text-[10px] text-white/40">Restricts user trading access while system upgrades are performed</div>
                     </div>
-                    <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold px-2.5 py-1 rounded">NORMAL OPERATIONAL</span>
+                    <span className="bg-purple-900/20 text-purple-300 border border-purple-800/30 text-[10px] font-mono font-bold px-2.5 py-1 rounded">NORMAL OPERATIONAL</span>
                   </div>
 
                   <div className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-xl">
@@ -806,7 +806,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                       <div className="text-xs font-bold text-white">Automated Admin Dispatch Alerts</div>
                       <div className="text-[10px] text-white/40">Sends email notifications when users submit new MT5 credentials</div>
                     </div>
-                    <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold px-2.5 py-1 rounded">ACTIVE (SMTP DISPATCH)</span>
+                    <span className="bg-purple-900/20 text-purple-300 border border-purple-800/30 text-[10px] font-mono font-bold px-2.5 py-1 rounded">ACTIVE (SMTP DISPATCH)</span>
                   </div>
 
                   <div className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-xl">

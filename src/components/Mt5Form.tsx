@@ -129,8 +129,8 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
   if (hasActiveSub === false) {
     return (
       <div className="max-w-md mx-auto py-16 px-6 text-center animate-fade-in" id="mt5-locked-view">
-        <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Lock className="w-8 h-8 text-blue-400 animate-pulse" />
+        <div className="w-16 h-16 bg-purple-900/10 border border-purple-800/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Lock className="w-8 h-8 text-purple-300 animate-pulse" />
         </div>
         <h2 className="text-xl font-bold text-white tracking-tight">Active Subscription Required</h2>
         <p className="text-white/40 text-xs mt-3 leading-relaxed">
@@ -139,7 +139,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
         </p>
         <button
           onClick={() => onTabChange?.('subscription')}
-          className="mt-8 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold tracking-wide shadow-lg shadow-indigo-600/15 transition-all cursor-pointer inline-flex items-center gap-2"
+          className="mt-8 px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold tracking-wide shadow-lg shadow-purple-600/15 transition-all cursor-pointer inline-flex items-center gap-2"
         >
           Go to Billing Center <ChevronRight className="w-4 h-4" />
         </button>
@@ -153,7 +153,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
       {/* Header Info */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-          <Database className="w-6 h-6 text-blue-400" /> MetaTrader 5 Vault Configuration
+          <Database className="w-6 h-6 text-purple-300" /> MetaTrader 5 Vault Configuration
         </h1>
         <p className="text-white/40 text-xs mt-1">
           Securely sync your MT5 execution parameters. We operate a zero-cleartext memory standard.
@@ -162,9 +162,9 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
 
       {/* Security Disclosure Card */}
       <div className="glass-card p-4 sm:p-5 relative overflow-hidden flex flex-col sm:flex-row items-start gap-4">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-2xl rounded-full" />
-        <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center shrink-0">
-          <Lock className="w-5 h-5 text-blue-400" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-900/10 blur-2xl rounded-full" />
+          <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center shrink-0">
+          <Lock className="w-5 h-5 text-purple-300" />
         </div>
         <div>
           <h3 className="text-xs font-bold text-white uppercase tracking-wider">AES-256-GCM End-to-End Cryptography</h3>
@@ -177,7 +177,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
       {message && (
         <div className={`p-4 rounded-xl text-xs flex items-center gap-2.5 ${
           message.type === 'success' 
-            ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' 
+            ? 'bg-purple-900/20 border border-purple-800/25 text-purple-300' 
             : 'bg-red-500/10 border border-red-500/25 text-red-400'
         }`}>
           {message.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
@@ -203,7 +203,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
                   value={form.accountNumber}
                   onChange={e => setForm({ ...form, accountNumber: e.target.value })}
                   placeholder="e.g. 849201"
-                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -214,7 +214,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
                   value={form.label}
                   onChange={e => setForm({ ...form, label: e.target.value })}
                   placeholder="e.g. IC Markets Premium"
-                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                 />
               </div>
             </div>
@@ -227,7 +227,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
                   value={form.brokerName}
                   onChange={e => setForm({ ...form, brokerName: e.target.value })}
                   placeholder="e.g. IC Markets Ltd"
-                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -238,7 +238,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
                   value={form.serverName}
                   onChange={e => setForm({ ...form, serverName: e.target.value })}
                   placeholder="e.g. ICMarkets-Live02"
-                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -254,7 +254,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
                   placeholder={account ? '••••••••••••••••••••' : 'Enter MetaTrader 5 master password'}
-                  className="w-full bg-[#050505] border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#050505] border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                   required={!account}
                 />
                 <button
@@ -271,7 +271,7 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
               <button 
                 type="submit"
                 disabled={submitting}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs tracking-wider rounded-lg transition-colors uppercase disabled:opacity-50 cursor-pointer"
+                className="flex-1 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs tracking-wider rounded-lg transition-colors uppercase disabled:opacity-50 cursor-pointer"
               >
                 {submitting ? 'Cryptographic processing...' : (account ? 'Update Secure link' : 'Securely link MT5 Account')}
               </button>
@@ -294,19 +294,19 @@ export const Mt5Form: React.FC<Mt5FormProps> = ({ onTabChange }) => {
         <div className="space-y-6">
           <div className="glass-card p-4 sm:p-6">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-              <KeyRound className="w-4 h-4 text-blue-400" /> MT5 Connection Checklist
+              <KeyRound className="w-4 h-4 text-purple-300" /> MT5 Connection Checklist
             </h3>
             <ul className="space-y-3.5 text-xs text-white/60">
               <li className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 mt-0.5" />
                 <span>Verify that your Broker password matches the MT5 master password, not investor access.</span>
               </li>
               <li className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 mt-0.5" />
                 <span>The server node field must match exactly (e.g., ICMarkets-Live02, ICMarkets-Live05).</span>
               </li>
               <li className="flex gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 mt-0.5" />
                 <span>Our hosting system operates isolated execution servers inside secured private virtualization.</span>
               </li>
             </ul>
