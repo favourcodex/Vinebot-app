@@ -210,9 +210,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             className="lg:col-span-5 relative flex justify-center items-center"
           >
-            <div className="relative max-w-[480px] md:max-w-[520px] w-full h-auto mx-auto flex items-center justify-center">
+            <div className="relative max-w-[480px] md:max-w-[540px] w-full h-auto mx-auto flex items-center justify-center">
               <img 
-                src="/vincorp_logo.png" 
+                src="/vincorp_full_logo.png" 
                 alt="VIN-CORP AI TRADING AUTOMATION" 
                 referrerPolicy="no-referrer"
                 className="w-full h-auto object-contain filter brightness-110 contrast-125 mix-blend-screen bg-transparent"

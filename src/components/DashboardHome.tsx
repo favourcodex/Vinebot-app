@@ -263,7 +263,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           src="/vincorp_v_emblem.png" 
           alt="VIN-CORP V Emblem" 
           referrerPolicy="no-referrer"
-          className="absolute right-2 bottom-0 top-0 h-full w-auto object-contain opacity-95 pointer-events-none z-10 filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-36 md:h-48 w-auto opacity-90 object-contain pointer-events-none z-10 filter brightness-125 contrast-125 mix-blend-screen bg-transparent"
         />
       </div>
 
