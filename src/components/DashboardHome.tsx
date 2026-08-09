@@ -224,7 +224,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           className="absolute right-0 top-0 bottom-0 h-full w-auto max-w-[60%] object-cover object-right opacity-30 md:opacity-90 pointer-events-none select-none z-0"
         />
 
-        {/* subtle circuit SVG overlay behind emblem */}
+        {/* subtle circuit SVG overlay behind banner */}
         <svg className="absolute right-40 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none z-10 w-[420px] h-[220px]" viewBox="0 0 420 220" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 40 H120 L160 80 H260 L300 40 H420" stroke="white" strokeWidth="1" opacity="0.5" />
           <path d="M0 120 H100 L140 160 H260 L320 100 H420" stroke="white" strokeWidth="1" opacity="0.6" />
@@ -245,13 +245,6 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
             <RefreshCw className="w-3.5 h-3.5 text-white" /> Refresh Systems
           </button>
         </div>
-
-        <img
-          src={vEmblem}
-          alt="VIN-CORP V Emblem"
-          referrerPolicy="no-referrer"
-          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 h-28 sm:h-36 md:h-44 w-auto object-contain opacity-70 md:opacity-90 pointer-events-none select-none z-30"
-        />
       </div>
 
       {/* Top Cards Grid */}
