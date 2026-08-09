@@ -14,7 +14,7 @@ import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid 
 } from 'recharts';
 import { UserSubscription, Mt5Account, BotActivation, ActivityLog, SubscriptionPlan, BotActivationStatus } from '../types';
-import vEmblemLogo from '../assets/vincorp_v_emblem.png';
+import logo from '../assets/vincorp_full_logo.png';
 
 interface DashboardHomeProps {
   onTabChange: (tab: string) => void;
@@ -229,12 +229,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           </button>
         </div>
 
-        <img 
-          src={vEmblemLogo}
-          alt="VIN-CORP V Emblem" 
-          referrerPolicy="no-referrer"
-          className="absolute right-2 top-1/2 -translate-y-1/2 h-36 md:h-48 w-auto opacity-90 object-contain pointer-events-none z-10 filter brightness-125 contrast-125 bg-transparent"
-        />
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 h-32 md:h-44 w-auto overflow-hidden pointer-events-none z-10">
+          <img 
+            src={logo}
+            alt="VIN-CORP AI TRADING AUTOMATION" 
+            referrerPolicy="no-referrer"
+            className="h-32 md:h-44 w-auto object-contain object-right"
+          />
+        </div>
       </div>
 
       {/* Top Cards Grid */}
