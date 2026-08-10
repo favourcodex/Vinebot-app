@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ShieldAlert, Mail, AlertTriangle, CheckCircle2, Send, Loader2 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 
 interface AdminLoginProps {
   onNavigate?: (route: string) => void;
@@ -9,6 +9,7 @@ interface AdminLoginProps {
 const ALLOWED_ADMIN_EMAIL = 'vinindustry0@gmail.com';
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onNavigate }) => {
+  const { apiRequest } = useAuth();
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -30,18 +31,17 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onNavigate }) => {
     setSubmitting(true);
 
     try {
-      // 2. Dispatch Magic Link via Supabase
-      const { error } = await supabase.auth.signInWithOtp({
-        email: ALLOWED_ADMIN_EMAIL,
-        options: {
-          emailRedirectTo: `${window.location.origin}/admin`
-        }
+      // 2. Dispatch Magic Link via custom API endpoint
+      const res = await apiRequest('/api/auth/magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: ALLOWED_ADMIN_EMAIL })
       });
 
-      if (error) {
-        setAuthError(error.message || "Failed to dispatch magic link authorization.");
-      } else {
+      if (res && res.success) {
         setAuthSuccess("Magic link sent! Check vinindustry0@gmail.com to authorize console access.");
+      } else {
+        setAuthError(res?.message || "Failed to dispatch magic link authorization.");
       }
     } catch (err: any) {
       setAuthError(err.message || "An unexpected authentication error occurred.");
