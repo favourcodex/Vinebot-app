@@ -74,12 +74,12 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       <aside className="hidden lg:flex w-64 bg-[#080808] border-r border-white/5 flex-col justify-between shrink-0 h-screen sticky top-0 z-30">
         <div>
           {/* Brand Logo */}
-          <div className="p-5 flex items-center justify-start gap-3 border-b border-white/5">
+          <div className="py-3 px-4 md:px-6 flex items-center justify-start gap-3 border-b border-white/5">
             <img
               src={navLogo}
               alt="VIN-CORP"
               referrerPolicy="no-referrer"
-              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+              className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
             />
           </div>
 
@@ -235,7 +235,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       {/* Main Content Pane Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Menu Header (Top Bar with Hamburger menu) */}
-        <header className="lg:hidden h-16 border-b border-white/5 bg-[#080808] flex items-center justify-between px-4 sticky top-0 z-20 shrink-0 w-full">
+        <header className="lg:hidden py-3 px-4 md:px-6 border-b border-white/5 bg-[#080808] flex items-center justify-between sticky top-0 z-20 shrink-0 w-full">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -247,7 +247,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               src={navLogo}
               alt="VIN-CORP"
               referrerPolicy="no-referrer"
-              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+              className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
             />
           </div>
 

@@ -42,13 +42,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
       <aside className="hidden lg:flex w-64 bg-[#08080c] border-r border-rose-500/15 flex-col justify-between shrink-0 h-screen sticky top-0 z-30 shadow-2xl">
         <div>
           {/* Brand Logo & Admin Badge */}
-          <div className="p-5 border-b border-rose-500/10">
+          <div className="py-3 px-4 md:px-6 border-b border-rose-500/10">
             <div className="flex items-center gap-3">
               <img
                 src={navLogo}
                 alt="VIN-CORP"
                 referrerPolicy="no-referrer"
-                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+                className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
               />
             </div>
             <div className="mt-3 bg-rose-500/15 border border-rose-500/30 text-rose-400 text-[9px] font-extrabold px-2.5 py-1 rounded tracking-widest uppercase flex items-center justify-center gap-1.5 shadow-sm">
@@ -110,13 +110,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
       </aside>
 
       {/* Mobile Top Navigation Header */}
-      <div className="lg:hidden bg-[#08080c] border-b border-rose-500/15 p-4 flex items-center justify-between sticky top-0 z-40">
+      <div className="lg:hidden bg-[#08080c] border-b border-rose-500/15 py-3 px-4 md:px-6 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
           <img
             src={navLogo}
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
-            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+            className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
           />
           <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
             ADMIN

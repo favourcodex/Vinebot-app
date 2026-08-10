@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import preloaderLogo from '../../assets/vincorp_preloader_logo.png';
 
@@ -18,6 +18,25 @@ export const Preloader: React.FC<PreloaderProps> = ({
   subtext = 'Connecting to high-frequency trading & session nodes',
   variant = 'fullscreen'
 }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const totalDuration = 11000;
+    const stepInterval = 100;
+    const increment = 100 / (totalDuration / stepInterval);
+    const timer = window.setInterval(() => {
+      setProgress((current) => {
+        const next = Math.min(100, current + increment);
+        if (next >= 100) {
+          window.clearInterval(timer);
+        }
+        return next;
+      });
+    }, stepInterval);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -43,22 +62,15 @@ export const Preloader: React.FC<PreloaderProps> = ({
             src={preloaderLogo}
             alt="VIN-CORP AI TRADING AUTOMATION"
             referrerPolicy="no-referrer"
-            className="w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[480px] md:h-[480px] object-contain drop-shadow-[0_0_35px_rgba(168,85,247,0.35)]"
+            className="w-72 h-72 sm:w-96 sm:h-96 object-contain animate-pulse"
           />
         </motion.div>
 
-        {/* Subtle animated progress bar indicator */}
-        <div className="w-64 sm:w-80 h-2 bg-neutral-900/90 rounded-full overflow-hidden relative border border-neutral-800/80 shadow-inner">
-          <motion.div
-            className="h-full bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.85)]"
-            animate={{ x: ['-100%', '100%'] }}
-            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+        <div className="w-64 md:w-80 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-purple-600 rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${progress}%` }}
           />
-        </div>
-
-        <div className="mt-4 flex items-center gap-2 text-[11px] uppercase tracking-[0.36em] text-neutral-300">
-          <span className="w-3 h-3 rounded-full bg-purple-300 animate-pulse" />
-          Preparing environment...
         </div>
       </div>
     </motion.div>
