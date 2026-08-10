@@ -31,21 +31,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   return (
     <header className="border-b border-[#262626] bg-[#050505]/90 backdrop-blur-md sticky top-0 z-40 relative w-full">
-      <div className="max-w-7xl mx-auto py-3 px-4 md:px-6 flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         
         {/* LEFT: VC Logo */}
-        <div className="flex-1 min-w-0 flex items-center justify-start mx-2">
+        <div className="flex items-center space-x-3 shrink-0">
           <img
             src={navLogo}
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
             onClick={() => handleNavClick('/')}
-            className="w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:max-w-none lg:w-auto cursor-pointer"
+            className="h-8 sm:h-10 md:h-11 w-auto object-contain cursor-pointer"
           />
         </div>
 
-        {/* DESKTOP NAV LINKS (hidden on mobile/tablet < 1024px) */}
-        <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-sm text-neutral-400 font-medium">
+        {/* CENTER: NAV LINKS */}
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
           <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('#features'); }} className="hover:text-white transition cursor-pointer">Features</a>
           <a href="#pricing" onClick={(e) => { e.preventDefault(); handleNavClick('#pricing'); }} className="hover:text-white transition cursor-pointer">Pricing</a>
           <a href="#faq" onClick={(e) => { e.preventDefault(); handleNavClick('#faq'); }} className="hover:text-white transition cursor-pointer">FAQ</a>
@@ -53,12 +53,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         </nav>
 
         {/* RIGHT: AUTH / CTA BUTTONS */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center space-x-4 shrink-0">
           {isAuthenticated ? (
             <button 
               id="nav-dashboard-btn"
               onClick={() => handleNavClick('/dashboard')}
-              className="px-4 py-1.5 text-xs sm:text-sm font-bold bg-white text-black hover:bg-neutral-200 rounded-lg transition-all shadow-md cursor-pointer whitespace-nowrap"
+              className="px-5 py-2.5 text-sm font-semibold bg-white text-black hover:bg-neutral-200 rounded-xl transition-all shadow-md cursor-pointer whitespace-nowrap"
             >
               Dashboard
             </button>
