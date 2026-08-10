@@ -228,7 +228,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Logo size="md" />
-            <span className="bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] font-extrabold px-2.5 py-0.5 rounded tracking-widest uppercase flex items-center gap-1.5 shadow-sm">
+            <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-extrabold px-2.5 py-0.5 rounded tracking-widest uppercase flex items-center gap-1.5 shadow-sm">
               <ShieldAlert className="w-3.5 h-3.5" /> Live Production Operations Desk
             </span>
           </div>
@@ -252,7 +252,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         <div className={`p-4 rounded-xl text-xs font-medium flex items-center gap-3 shadow-lg ${
           message.type === 'success' 
             ? 'bg-purple-900/20 border border-purple-800/30 text-purple-300' 
-            : 'bg-red-500/10 border border-red-500/30 text-red-400'
+            : 'bg-rose-500/10 border border-rose-500/30 text-rose-400'
         }`}>
           {message.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
           <span>{message.text}</span>
@@ -322,12 +322,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         {/* View Header Bar */}
         <div className="p-4 border-b border-white/5 bg-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h2 className="text-xs font-bold text-white/90 uppercase tracking-wider flex items-center gap-2">
-            {view === 'overview' && <><LayoutDashboard className="w-4 h-4 text-rose-400" /> Platform Overview</>}
-            {view === 'users' && <><Users className="w-4 h-4 text-rose-400" /> User Management ({users.length})</>}
-            {view === 'mt5' && <><Key className="w-4 h-4 text-rose-400" /> MT5 Credentials Desk ({mt5Accounts.length})</>}
-            {view === 'subscriptions' && <><Power className="w-4 h-4 text-rose-400" /> Bot Activation Queue ({stats?.pendingBotActivations || 0})</>}
-            {view === 'logs' && <><Activity className="w-4 h-4 text-rose-400" /> System Audit Logs ({logs.length})</>}
-            {view === 'settings' && <><Sliders className="w-4 h-4 text-rose-400" /> Platform Settings</>}
+            {view === 'overview' && <><LayoutDashboard className="w-4 h-4 text-purple-400" /> Platform Overview</>}
+            {view === 'users' && <><Users className="w-4 h-4 text-purple-400" /> User Management ({users.length})</>}
+            {view === 'mt5' && <><Key className="w-4 h-4 text-purple-400" /> MT5 Credentials Desk ({mt5Accounts.length})</>}
+            {view === 'subscriptions' && <><Power className="w-4 h-4 text-purple-400" /> Bot Activation Queue ({stats?.pendingBotActivations || 0})</>}
+            {view === 'logs' && <><Activity className="w-4 h-4 text-purple-400" /> System Audit Logs ({logs.length})</>}
+            {view === 'settings' && <><Sliders className="w-4 h-4 text-purple-400" /> Platform Settings</>}
           </h2>
 
           {/* Search Inputs & Filter Actions */}
@@ -377,15 +377,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
           {view === 'overview' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-[#0c0d12] border border-rose-500/20 p-5 rounded-xl space-y-2">
+                <div className="bg-[#0c0d12] border border-purple-500/20 p-5 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
-                    <span className="flex items-center gap-2"><Server className="w-4 h-4 text-rose-400" /> Core Engine Status</span>
+                    <span className="flex items-center gap-2"><Server className="w-4 h-4 text-purple-400" /> Core Engine Status</span>
                     <span className="bg-purple-900/20 text-purple-300 text-[9px] px-2 py-0.5 rounded font-mono font-bold">100% ONLINE</span>
                   </div>
                   <p className="text-xs text-white/50">Low-latency Execution Bridge actively monitoring MT5 webhooks and queue dispatches.</p>
                 </div>
 
-                <div className="bg-[#0c0d12] border border-rose-500/20 p-5 rounded-xl space-y-2">
+                <div className="bg-[#0c0d12] border border-purple-500/20 p-5 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
                     <span className="flex items-center gap-2"><Database className="w-4 h-4 text-purple-400" /> Database Live Sync</span>
                     <span className="bg-purple-500/20 text-purple-400 text-[9px] px-2 py-0.5 rounded font-mono font-bold">vinebot_db.json</span>
@@ -393,7 +393,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                   <p className="text-xs text-white/50">Real-time persistent state engine. Zero mock data layer enabled.</p>
                 </div>
 
-                <div className="bg-[#0c0d12] border border-rose-500/20 p-5 rounded-xl space-y-2">
+                <div className="bg-[#0c0d12] border border-purple-500/20 p-5 rounded-xl space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
                     <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-purple-300" /> Security & Auth Node</span>
                     <span className="bg-purple-900/20 text-purple-300 text-[9px] px-2 py-0.5 rounded font-mono font-bold">VERIFIED</span>
@@ -405,7 +405,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
               {/* Quick Actions Grid */}
               <div className="border border-white/10 rounded-xl p-5 bg-white/[0.01] space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-white/60 flex items-center gap-2">
-                  <Cpu className="w-4 h-4 text-rose-400" /> Admin Command Summary
+                  <Cpu className="w-4 h-4 text-purple-400" /> Admin Command Summary
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   <button onClick={() => setView('users')} className="p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left transition cursor-pointer">
@@ -476,7 +476,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                         </td>
 
                         <td className="py-3.5 px-4 font-mono font-bold text-[10px] tracking-wider">
-                          <span className={`px-2 py-0.5 rounded ${u.role === 'ADMIN' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-white/5 text-purple-300 border border-white/10'}`}>
+                          <span className={`px-2 py-0.5 rounded ${u.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-white/5 text-purple-300 border border-white/10'}`}>
                             {u.role}
                           </span>
                         </td>
@@ -644,7 +644,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                           <td className="py-3.5 px-4 font-semibold text-purple-300">{sub.planName}</td>
                           <td className="py-3.5 px-4">
                             <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase ${
-                              sub.status === 'ACTIVE' ? 'bg-purple-900/20 text-purple-300 border border-purple-800/30' : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                              sub.status === 'ACTIVE' ? 'bg-purple-900/20 text-purple-300 border border-purple-800/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                             }`}>
                               {sub.status}
                             </span>
