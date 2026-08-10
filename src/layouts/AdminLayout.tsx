@@ -9,7 +9,7 @@ import {
   ShieldAlert, Users, Key, Power, Activity, LogOut, 
   Menu, X, LayoutDashboard, RefreshCw, CheckCircle2, Shield, Sliders
 } from 'lucide-react';
-import { Logo } from '../components/common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 
 export type AdminTab = 'overview' | 'users' | 'mt5' | 'subscriptions' | 'logs' | 'settings';
 
@@ -44,7 +44,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
           {/* Brand Logo & Admin Badge */}
           <div className="p-5 border-b border-rose-500/10">
             <div className="flex items-center gap-3">
-              <Logo size="md" />
+              <img
+                src={navLogo}
+                alt="VIN-CORP"
+                referrerPolicy="no-referrer"
+                className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+              />
             </div>
             <div className="mt-3 bg-rose-500/15 border border-rose-500/30 text-rose-400 text-[9px] font-extrabold px-2.5 py-1 rounded tracking-widest uppercase flex items-center justify-center gap-1.5 shadow-sm">
               <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" /> Operations Console
@@ -107,7 +112,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
       {/* Mobile Top Navigation Header */}
       <div className="lg:hidden bg-[#08080c] border-b border-rose-500/15 p-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
-          <Logo size="sm" />
+          <img
+            src={navLogo}
+            alt="VIN-CORP"
+            referrerPolicy="no-referrer"
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+          />
           <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
             ADMIN
           </span>
@@ -127,7 +137,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
           <div className="relative flex flex-col w-72 max-w-xs bg-[#08080c] border-r border-rose-500/20 h-full p-4 justify-between shadow-2xl z-50">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
-                <Logo size="sm" />
+                <img
+                  src={navLogo}
+                  alt="VIN-CORP"
+                  referrerPolicy="no-referrer"
+                  className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                />
                 <button onClick={() => setMobileMenuOpen(false)} className="text-white/60 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>

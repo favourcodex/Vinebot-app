@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
-import { Logo } from './common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 import { useAuth } from './AuthContext';
 
 interface NavbarProps {
@@ -35,7 +35,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         
         {/* LEFT: VC Logo */}
         <div className="flex items-center gap-2 shrink-0">
-          <Logo size="md" onClick={() => handleNavClick('/')} />
+          <img
+            src={navLogo}
+            alt="VIN-CORP"
+            referrerPolicy="no-referrer"
+            onClick={() => handleNavClick('/')}
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer"
+          />
         </div>
 
         {/* DESKTOP NAV LINKS (hidden on mobile/tablet < 1024px) */}

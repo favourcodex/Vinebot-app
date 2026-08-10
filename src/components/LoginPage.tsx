@@ -8,7 +8,7 @@ import {
   ArrowLeft, Mail, Sparkles, AlertTriangle, 
   ShieldAlert, Zap, Activity, ShieldCheck
 } from 'lucide-react';
-import { Logo } from './common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 
 interface LoginPageProps {
   email: string;
@@ -128,7 +128,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           {/* Brand Header */}
           <div className="text-center sm:text-left mb-6">
             <div className="flex justify-center sm:justify-start mb-3">
-              <Logo size="lg" />
+              <img
+                src={navLogo}
+                alt="VIN-CORP"
+                referrerPolicy="no-referrer"
+                className="h-12 sm:h-14 md:h-16 w-auto object-contain"
+              />
             </div>
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase font-sans">
               Account Access

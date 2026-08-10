@@ -11,7 +11,7 @@ import {
   History
 } from 'lucide-react';
 import { Notification } from '../types';
-import { Logo } from './common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 
 interface NavigationProps {
   currentTab: string;
@@ -75,7 +75,12 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
         <div>
           {/* Brand Logo */}
           <div className="p-5 flex items-center justify-start gap-3 border-b border-white/5">
-            <Logo size="md" />
+            <img
+              src={navLogo}
+              alt="VIN-CORP"
+              referrerPolicy="no-referrer"
+              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+            />
           </div>
 
           {/* Section title */}
@@ -159,7 +164,12 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               {/* Drawer Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                  <Logo size="md" />
+                  <img
+                    src={navLogo}
+                    alt="VIN-CORP"
+                    referrerPolicy="no-referrer"
+                    className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                  />
                 </div>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
@@ -233,66 +243,69 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
             >
               <Menu className="w-5 h-5" />
             </button>
-            <Logo size="sm" />
+            <img
+              src={navLogo}
+              alt="VIN-CORP"
+              referrerPolicy="no-referrer"
+              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+            />
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Notifications Trigger Mobile */}
-            <div className="relative">
-              <button 
-                onClick={() => setShowNotifDropdown(!showNotifDropdown)}
-                className="relative w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
-              >
-                <Bell className="w-4 h-4" />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-600 text-[9px] font-bold text-white flex items-center justify-center">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
-
-              {/* Dropdown Card */}
-              {showNotifDropdown && (
-                <div className="absolute right-0 mt-2.5 w-72 bg-[#0c0c0c] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
-                  <div className="p-3 border-b border-white/5 flex items-center justify-between bg-[#101010]">
-                    <span className="text-xs font-bold text-white">System Alerts</span>
-                    {unreadCount > 0 && (
-                      <button 
-                        onClick={() => handleMarkRead()}
-                        className="text-[9px] font-bold text-purple-300 hover:text-purple-200 flex items-center gap-0.5 cursor-pointer"
-                      >
-                        Mark all read
-                      </button>
-                    )}
-                  </div>
-                  <div className="max-h-64 overflow-y-auto divide-y divide-white/5">
-                    {notifications.length === 0 ? (
-                      <div className="p-5 text-center text-xs text-white/40">No active system alerts.</div>
-                    ) : (
-                      notifications.map((n) => (
-                        <div 
-                          key={n.id} 
-                          className={`p-3 text-xs transition-colors hover:bg-white/5 ${n.read ? 'opacity-50' : 'bg-[#121212]'}`}
-                        >
-                          <div className="flex items-start justify-between gap-1">
-                            <span className="font-bold text-white text-[10px] leading-tight block">{n.title}</span>
-                            {!n.read && (
-                              <button 
-                                onClick={() => handleMarkRead(n.id)}
-                                className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-purple-600 hover:text-white shrink-0 cursor-pointer"
-                              >
-                                <Check className="w-2.5 h-2.5" />
-                              </button>
-                            )}
-                          </div>
-                          <p className="text-white/60 text-[9px] mt-1 leading-relaxed">{n.message}</p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
+          <div className="relative">
+            <button
+              id="top-nav-bell-trigger-mobile"
+              onClick={() => setShowNotifDropdown(!showNotifDropdown)}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/5 border border-white/10 text-white/60 hover:text-white transition-all cursor-pointer"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-600 text-[9px] font-bold text-white flex items-center justify-center">
+                  {unreadCount}
+                </span>
               )}
-            </div>
+            </button>
+
+            {/* Dropdown Card */}
+            {showNotifDropdown && (
+              <div className="absolute right-0 mt-2.5 w-72 bg-[#0c0c0c] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
+                <div className="p-3 border-b border-white/5 flex items-center justify-between bg-[#101010]">
+                  <span className="text-xs font-bold text-white">System Alerts</span>
+                  {unreadCount > 0 && (
+                    <button 
+                      onClick={() => handleMarkRead()}
+                      className="text-[9px] font-bold text-purple-300 hover:text-purple-200 flex items-center gap-0.5 cursor-pointer"
+                    >
+                      Mark all read
+                    </button>
+                  )}
+                </div>
+                <div className="max-h-64 overflow-y-auto divide-y divide-white/5">
+                  {notifications.length === 0 ? (
+                    <div className="p-5 text-center text-xs text-white/40">No active system alerts.</div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div 
+                        key={n.id} 
+                        className={`p-3 text-xs transition-colors hover:bg-white/5 ${n.read ? 'opacity-50' : 'bg-[#121212]'}`}
+                      >
+                        <div className="flex items-start justify-between gap-1">
+                          <span className="font-bold text-white text-[10px] leading-tight block">{n.title}</span>
+                          {!n.read && (
+                            <button 
+                              onClick={() => handleMarkRead(n.id)}
+                              className="w-4 h-4 rounded bg-white/5 flex items-center justify-center hover:bg-purple-600 hover:text-white shrink-0 cursor-pointer"
+                            >
+                              <Check className="w-2.5 h-2.5" />
+                            </button>
+                          )}
+                        </div>
+                        <p className="text-white/60 text-[9px] mt-1 leading-relaxed">{n.message}</p>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </header>
 

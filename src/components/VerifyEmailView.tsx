@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { Bot, CheckCircle2, XCircle, Loader2, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
-import { Logo } from './common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 
 interface VerifyEmailViewProps {
   onNavigate: (route: string) => void;
@@ -74,7 +74,12 @@ export const VerifyEmailView: React.FC<VerifyEmailViewProps> = ({ onNavigate }) 
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
         <div className="flex items-center justify-center mb-6">
-          <Logo size="lg" />
+          <img
+            src={navLogo}
+            alt="VIN-CORP"
+            referrerPolicy="no-referrer"
+            className="h-12 sm:h-14 md:h-16 w-auto object-contain"
+          />
         </div>
         <p className="mt-1 text-xs text-gray-400">Cryptographic passwordless session authentication.</p>
       </div>

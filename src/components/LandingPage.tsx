@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Shield, Cpu, Activity, CheckCircle2, ChevronRight, HelpCircle, ArrowRight, Layers, Loader2, Sparkles, Server } from 'lucide-react';
-import { Logo } from './common/Logo';
+import navLogo from '../assets/vincorp_nav_logo.jpeg';
 import { Navbar } from './Navbar';
 import { useAuth } from './AuthContext';
 import fullLogo from '../assets/vincorp_full_logo.png';
@@ -491,7 +491,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <footer className="border-t border-[#262626] bg-[#050505] py-12 text-center text-xs text-neutral-500 relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <Logo size="sm" onClick={() => onNavigate('/')} />
+            <img
+              src={navLogo}
+              alt="VIN-CORP"
+              referrerPolicy="no-referrer"
+              onClick={() => onNavigate('/')}
+              className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer"
+            />
           </div>
           <div>
             &copy; 2026 VIN-CORP Systems Inc. All rights reserved.

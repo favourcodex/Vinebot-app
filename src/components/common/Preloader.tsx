@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import fullLogo from '../../assets/vincorp_full_logo.png';
+import preloaderLogo from '../../assets/vincorp_preloader_logo.png';
 
 interface PreloaderProps {
   message?: string;
@@ -40,10 +40,10 @@ export const Preloader: React.FC<PreloaderProps> = ({
           className="mb-8 flex items-center justify-center bg-transparent"
         >
           <img
-            src={fullLogo}
+            src={preloaderLogo}
             alt="VIN-CORP AI TRADING AUTOMATION"
             referrerPolicy="no-referrer"
-            className="h-32 md:h-48 w-auto object-contain animate-pulse"
+            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain animate-pulse"
           />
         </motion.div>
 
@@ -55,7 +55,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
               x: ['-100%', '100%']
             }}
             transition={{
-              duration: 1.3,
+              duration: 3.5,
               repeat: Infinity,
               ease: 'easeInOut'
             }}
