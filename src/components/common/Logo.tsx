@@ -20,11 +20,11 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const iconDimensions = {
-    sm: 'h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain',
-    md: 'h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain',
-    lg: 'h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain',
-    xl: 'h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain',
-    '2xl': 'h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain'
+    sm: 'w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none',
+    md: 'w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none',
+    lg: 'w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none',
+    xl: 'w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none',
+    '2xl': 'w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none'
   };
 
   return (

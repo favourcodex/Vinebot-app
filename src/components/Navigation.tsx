@@ -79,7 +79,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               src={navLogo}
               alt="VIN-CORP"
               referrerPolicy="no-referrer"
-              className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
+              className="h-14 lg:h-16 w-auto object-contain"
             />
           </div>
 
@@ -163,12 +163,12 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
             <div>
               {/* Drawer Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
-                <div className="flex items-center gap-3">
+                <div className="flex-1 min-w-0 flex items-center justify-start mx-2">
                   <img
                     src={navLogo}
                     alt="VIN-CORP"
                     referrerPolicy="no-referrer"
-                    className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+                    className="w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none"
                   />
                 </div>
                 <button 
@@ -235,20 +235,22 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
       {/* Main Content Pane Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Menu Header (Top Bar with Hamburger menu) */}
-        <header className="lg:hidden py-3 px-4 md:px-6 border-b border-white/5 bg-[#080808] flex items-center justify-between sticky top-0 z-20 shrink-0 w-full">
-          <div className="flex items-center gap-3">
+      <header className="lg:hidden py-3 px-4 md:px-6 border-b border-white/5 bg-[#080808] flex items-center justify-between sticky top-0 z-20 shrink-0 w-full">
+          <div className="flex items-center gap-3 flex-1 min-w-0 justify-start mx-2">
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <img
-              src={navLogo}
-              alt="VIN-CORP"
-              referrerPolicy="no-referrer"
-              className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
-            />
+            <div className="flex-1 min-w-0 flex items-center justify-start mx-2">
+              <img
+                src={navLogo}
+                alt="VIN-CORP"
+                referrerPolicy="no-referrer"
+                className="w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none"
+              />
+            </div>
           </div>
 
           <div className="relative">

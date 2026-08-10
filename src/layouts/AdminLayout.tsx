@@ -111,23 +111,25 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
 
       {/* Mobile Top Navigation Header */}
       <div className="lg:hidden bg-[#08080c] border-b border-rose-500/15 py-3 px-4 md:px-6 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-2">
+        <div className="flex-1 min-w-0 flex items-center justify-start mx-2">
           <img
             src={navLogo}
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
-            className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain"
+            className="w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:w-auto lg:max-w-none"
           />
+        </div>
+        <div className="flex items-center gap-2">
           <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
             ADMIN
           </span>
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 bg-white/5 border border-white/10 rounded-lg text-white"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
-        <button 
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 bg-white/5 border border-white/10 rounded-lg text-white"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
       </div>
 
       {/* Mobile Drawer */}

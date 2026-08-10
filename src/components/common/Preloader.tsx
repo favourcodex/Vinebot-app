@@ -66,9 +66,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
           />
         </motion.div>
 
-        <div className="w-64 md:w-80 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+        <div className="w-64 md:w-80 h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-purple-600 rounded-full transition-all duration-300 ease-out"
+            className="h-full bg-white rounded-full shadow-[0_0_12px_rgba(255,255,255,0.8)] transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

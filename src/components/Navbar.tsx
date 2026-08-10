@@ -34,13 +34,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
       <div className="max-w-7xl mx-auto py-3 px-4 md:px-6 flex items-center justify-between w-full">
         
         {/* LEFT: VC Logo */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex-1 min-w-0 flex items-center justify-start mx-2">
           <img
             src={navLogo}
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
             onClick={() => handleNavClick('/')}
-            className="h-12 sm:h-16 md:h-20 max-h-[80px] w-auto object-contain cursor-pointer"
+            className="w-full max-w-[220px] xs:max-w-[260px] h-10 object-contain object-left lg:h-14 lg:max-w-none lg:w-auto cursor-pointer"
           />
         </div>
 
