@@ -79,7 +79,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               src={navLogo}
               alt="VIN-CORP"
               referrerPolicy="no-referrer"
-              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
             />
           </div>
 
@@ -168,7 +168,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                     src={navLogo}
                     alt="VIN-CORP"
                     referrerPolicy="no-referrer"
-                    className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                    className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
                   />
                 </div>
                 <button 
@@ -239,7 +239,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="w-9 h-9 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white cursor-pointer"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -247,7 +247,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
               src={navLogo}
               alt="VIN-CORP"
               referrerPolicy="no-referrer"
-              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
             />
           </div>
 

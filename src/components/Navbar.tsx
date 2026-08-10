@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   return (
     <header className="border-b border-[#262626] bg-[#050505]/90 backdrop-blur-md sticky top-0 z-40 relative w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between w-full">
         
         {/* LEFT: VC Logo */}
         <div className="flex items-center gap-2 shrink-0">
@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
             onClick={() => handleNavClick('/')}
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer"
+            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain cursor-pointer"
           />
         </div>
 

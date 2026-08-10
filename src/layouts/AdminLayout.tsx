@@ -48,7 +48,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
                 src={navLogo}
                 alt="VIN-CORP"
                 referrerPolicy="no-referrer"
-                className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
               />
             </div>
             <div className="mt-3 bg-rose-500/15 border border-rose-500/30 text-rose-400 text-[9px] font-extrabold px-2.5 py-1 rounded tracking-widest uppercase flex items-center justify-center gap-1.5 shadow-sm">
@@ -116,7 +116,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ currentTab, onTabChang
             src={navLogo}
             alt="VIN-CORP"
             referrerPolicy="no-referrer"
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
           />
           <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded tracking-wider uppercase">
             ADMIN
