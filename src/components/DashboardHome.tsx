@@ -398,7 +398,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
 
           {/* Status Badge Tag */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-gray-300 relative z-10">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
             <span>Status: Awaiting First MT5 Execution</span>
           </div>
         </div>
@@ -431,9 +431,9 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
           <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
             <div className="flex items-center justify-between text-gray-400 text-[11px] mb-1">
               <span>Avg Daily Return</span>
-              <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
+              <TrendingUp className="w-3.5 h-3.5 text-purple-300" />
             </div>
-            <p className="text-lg sm:text-xl font-mono font-bold text-amber-400">+${metrics.avgDailyReturn}</p>
+            <p className="text-lg sm:text-xl font-mono font-bold text-purple-300">+${metrics.avgDailyReturn}</p>
           </div>
         </div>
 
@@ -514,7 +514,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ onTabChange }) => 
             </div>
           ) : (
             <div className="py-12 text-center text-xs text-white/40 border border-dashed border-white/10 rounded-xl bg-white/5">
-              <AlertTriangle className="w-8 h-8 text-amber-500/60 mx-auto mb-2 animate-pulse" />
+              <AlertTriangle className="w-8 h-8 text-purple-500/60 mx-auto mb-2 animate-pulse" />
               <p className="font-semibold text-white">Deployment queue empty</p>
               <p className="mt-1">Link your MT5 account and buy a subscription to begin container provisioning.</p>
             </div>

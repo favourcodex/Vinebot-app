@@ -230,16 +230,16 @@ export const SubscriptionCard: React.FC = () => {
       <div className="max-w-4xl mx-auto space-y-6 animate-fade-in" id="stripe-checkout-sandbox-container">
         
         {/* Sandbox Top Warning Belt */}
-        <div className="bg-yellow-500/10 border border-yellow-500/25 p-3.5 rounded-xl text-yellow-400 text-xs flex items-center justify-between gap-3 shadow-lg shadow-yellow-500/5">
+        <div className="bg-purple-600/10 border border-purple-500/40 p-3.5 rounded-xl text-purple-300 text-xs flex items-center justify-between gap-3 shadow-lg shadow-purple-600/10">
           <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-5 h-5 animate-pulse text-yellow-400" />
+            <ShieldCheck className="w-5 h-5 animate-pulse text-purple-300" />
             <div>
               <span className="font-bold">Stripe Sandbox Node Active:</span> You are currently using our integrated high-fidelity secure checkout flow simulator. Do not enter real credentials.
             </div>
           </div>
           <button 
             onClick={() => setCheckoutPlan(null)}
-            className="text-yellow-400/60 hover:text-yellow-400 font-bold transition-colors uppercase text-[10px] tracking-wider cursor-pointer"
+            className="text-purple-400/60 hover:text-purple-300 font-bold transition-colors uppercase text-[10px] tracking-wider cursor-pointer"
           >
             Cancel Payment
           </button>
@@ -531,7 +531,7 @@ export const SubscriptionCard: React.FC = () => {
                 </div>
 
                 {sub.cancelAtPeriodEnd ? (
-                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 text-[10px] text-amber-400 leading-relaxed">
+                  <div className="bg-purple-600/10 border border-purple-500/30 rounded-lg p-3 text-[10px] text-purple-300 leading-relaxed">
                     Auto-renew is disabled. Your trading VPS will stand-down on {new Date(sub.currentPeriodEnd).toLocaleDateString()}.
                   </div>
                 ) : (
@@ -561,12 +561,12 @@ export const SubscriptionCard: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="py-6 px-4 text-center space-y-4 rounded-xl bg-amber-500/5 border border-amber-500/10" id="licence-no-active-alert">
-                <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto">
-                  <AlertTriangle className="w-5 h-5 text-amber-500 animate-pulse" />
+              <div className="py-6 px-4 text-center space-y-4 rounded-xl bg-purple-600/5 border border-purple-500/20" id="licence-no-active-alert">
+                <div className="w-10 h-10 rounded-full bg-purple-600/10 flex items-center justify-center mx-auto">
+                  <AlertTriangle className="w-5 h-5 text-purple-400 animate-pulse" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono">No Active License</p>
+                  <p className="text-xs font-bold text-purple-300 uppercase tracking-wider font-mono">No Active License</p>
                   <p className="text-[10px] text-white/60 leading-relaxed">
                     Your automated cloud bot is currently <span className="text-rose-400 font-bold">DEACTIVATED</span>.
                   </p>
@@ -597,22 +597,22 @@ export const SubscriptionCard: React.FC = () => {
                     key={p.id}
                     className={`border rounded-xl p-5 flex flex-col justify-between relative transition-all duration-200 ${
                       isVip
-                        ? 'border-amber-500/50 bg-gradient-to-b from-amber-500/10 via-white/5 to-white/5 shadow-xl shadow-amber-500/10'
+                        ? 'border-purple-500/40 bg-gradient-to-b from-purple-600/10 via-white/5 to-white/5 shadow-xl shadow-purple-600/20'
                         : isCurrent
                           ? 'border-purple-500 bg-white/10 shadow-lg shadow-purple-500/5'
                           : 'border-white/10 bg-white/5 hover:border-white/20'
                     }`}
                   >
                     {isVip && (
-                      <div className="absolute -top-3.5 right-4 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-black font-extrabold text-[9px] tracking-widest uppercase px-3 py-1 rounded-full shadow-lg shadow-amber-500/25 border border-amber-300/40 flex items-center gap-1.5 z-10">
-                        <Sparkles className="w-3 h-3 text-black fill-black" /> MOST POPULAR / VIP
+                      <div className="absolute -top-3.5 right-4 bg-gradient-to-r from-purple-600 via-purple-500 to-purple-700 text-white font-extrabold text-[9px] tracking-widest uppercase px-3 py-1 rounded-full shadow-lg shadow-purple-600/25 border border-purple-400/40 flex items-center gap-1.5 z-10">
+                        <Sparkles className="w-3 h-3 text-white fill-white" /> MOST POPULAR / VIP
                       </div>
                     )}
 
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        {isVip && <Crown className="w-4 h-4 text-amber-400" />}
-                        <h3 className={`text-xs font-bold uppercase tracking-wider ${isVip ? 'text-amber-400' : 'text-white'}`}>
+                        {isVip && <Crown className="w-4 h-4 text-purple-400" />}
+                        <h3 className={`text-xs font-bold uppercase tracking-wider ${isVip ? 'text-purple-300' : 'text-white'}`}>
                           {p.name}
                         </h3>
                       </div>
@@ -624,7 +624,7 @@ export const SubscriptionCard: React.FC = () => {
                           <span className="text-white/40 text-xs ml-1.5">/ {p.interval}</span>
                         </div>
                         {isVip && (
-                          <div className="mt-1.5 inline-flex items-center gap-1 text-amber-400 font-extrabold text-[10px] tracking-wider font-mono uppercase bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                          <div className="mt-1.5 inline-flex items-center gap-1 text-purple-300 font-extrabold text-[10px] tracking-wider font-mono uppercase bg-purple-600/10 px-2 py-0.5 rounded border border-purple-500/30">
                             + 20% Profit Share
                           </div>
                         )}
@@ -633,7 +633,7 @@ export const SubscriptionCard: React.FC = () => {
                       <ul className="space-y-2.5 border-t border-white/5 pt-4 mb-6">
                         {p.features.map((f, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-[10px] text-white/70">
-                            <CheckCircle2 className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${isVip ? 'text-amber-400' : 'text-purple-300'}`} />
+                            <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0 text-purple-300" />
                             <span>{f}</span>
                           </li>
                         ))}
@@ -650,7 +650,7 @@ export const SubscriptionCard: React.FC = () => {
                           : isLoading
                             ? 'bg-purple-600/50 text-white/80 cursor-wait'
                             : isVip
-                              ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold shadow-lg shadow-amber-500/20 cursor-pointer'
+                              ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-extrabold shadow-lg shadow-purple-600/20 cursor-pointer'
                               : 'bg-purple-600 text-white hover:bg-purple-500 shadow-md shadow-purple-600/10 cursor-pointer'
                       }`}
                     >

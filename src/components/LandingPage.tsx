@@ -502,14 +502,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div>
             &copy; 2026 VIN-CORP Systems Inc. All rights reserved.
           </div>
-          <div className="flex flex-wrap justify-center gap-4 text-[11px] text-neutral-400 font-mono">
-            <span onClick={() => onNavigate('/terms')} className="hover:text-white transition cursor-pointer uppercase">Terms of Use</span>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[11px] text-neutral-400 font-mono">
+            <span onClick={() => onNavigate('/terms')} className="hover:text-white transition cursor-pointer uppercase">Terms of Service</span>
             <span>&bull;</span>
             <span onClick={() => onNavigate('/privacy')} className="hover:text-white transition cursor-pointer uppercase">Privacy Policy</span>
             <span>&bull;</span>
+            <span onClick={() => onNavigate('/refund-policy')} className="hover:text-white transition cursor-pointer uppercase">Refund Policy</span>
+            <span>&bull;</span>
             <span onClick={() => onNavigate('/cookie-policy')} className="hover:text-white transition cursor-pointer uppercase">Cookie Policy</span>
             <span>&bull;</span>
-            <span onClick={() => onNavigate('/risk-disclosure')} className="hover:text-white transition cursor-pointer font-bold uppercase">MT5 Risk Statement</span>
+            <span onClick={() => onNavigate('/risk-disclosure')} className="hover:text-white transition cursor-pointer font-bold uppercase">Risk Disclosure</span>
           </div>
         </div>
       </footer>

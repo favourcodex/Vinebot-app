@@ -192,7 +192,7 @@ export const SettingsPage: React.FC = () => {
               {/* Magic Link Option */}
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-white/5 border border-white/10">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-300 shrink-0">
                     <Sparkles className="w-4.5 h-4.5" />
                   </div>
                   <div>

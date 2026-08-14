@@ -1570,8 +1570,9 @@ const handleCheckout = async (req: Request, res: Response) => {
 
     const callbackUrl = `${cleanClientOrigin}/dashboard?payment=success&plan_id=${plan.id}`;
     
-    // Paystack currency configuration (defaults to 'NGN' with sub-units/kobo or dynamic currency)
-    const requestedCurrency = (process.env.PAYSTACK_CURRENCY || 'NGN').toUpperCase();
+    // Paystack currency configuration (defaults to 'USD'). Amounts are always sent
+    // in the smallest currency subunit: $100 Pro => 10000 cents, $200 VIP => 20000 cents.
+    const requestedCurrency = (process.env.PAYSTACK_CURRENCY || 'USD').toUpperCase();
     let amountInSubunits = Math.round(plan.price * 100);
     if (requestedCurrency === 'NGN') {
       const exchangeRate = Number(process.env.PAYSTACK_USD_NGN_RATE || 1500);

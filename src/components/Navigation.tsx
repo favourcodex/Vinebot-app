@@ -398,9 +398,9 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
         {/* Dashboard Dynamic View Body */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
           {user && (!user.isEmailVerified && !user.verified) && (
-            <div className="mb-6 bg-amber-500/10 border border-amber-500/20 text-amber-400 p-4 rounded-xl text-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div className="mb-6 bg-purple-600/10 border border-purple-500/30 text-purple-300 p-4 rounded-xl text-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div className="flex items-start gap-2.5">
-                <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5 text-amber-500" />
+                <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5 text-purple-400" />
                 <div>
                   <p className="font-bold text-white uppercase tracking-wider text-[10px]">Security Notice: Email Verification Pending</p>
                   <p className="text-white/60 text-[10px] mt-0.5">Please verify your email address to unlock full automated MetaTrader 5 bot attachment features.</p>
@@ -457,7 +457,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
                     }
                   }}
                   disabled={verifying}
-                  className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white font-bold text-[10px] tracking-wider rounded-lg uppercase cursor-pointer transition disabled:opacity-50"
+                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-bold text-[10px] tracking-wider rounded-lg uppercase cursor-pointer transition disabled:opacity-50"
                 >
                   {verifying ? 'Verifying...' : 'Verify Email Now'}
                 </button>
@@ -466,6 +466,19 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange,
           )}
           {children}
         </main>
+
+        {/* Compliance & Legal Footer */}
+        <footer className="border-t border-white/5 bg-[#0b0d12] px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] text-white/30 font-mono">
+          <span className="text-white/40 uppercase tracking-wider">VineBot &bull; Automated MT5 Execution</span>
+          <span className="text-white/10">|</span>
+          <span onClick={() => onNavigate?.('/terms')} className="hover:text-purple-300 transition cursor-pointer uppercase">Terms of Service</span>
+          <span className="text-white/10">|</span>
+          <span onClick={() => onNavigate?.('/privacy')} className="hover:text-purple-300 transition cursor-pointer uppercase">Privacy Policy</span>
+          <span className="text-white/10">|</span>
+          <span onClick={() => onNavigate?.('/refund-policy')} className="hover:text-purple-300 transition cursor-pointer uppercase">Refund Policy</span>
+          <span className="text-white/10">|</span>
+          <span onClick={() => onNavigate?.('/risk-disclosure')} className="hover:text-purple-300 transition cursor-pointer uppercase">Risk Disclosure</span>
+        </footer>
       </div>
 
       {/* SIGN-OUT CONFIRMATION MODAL */}

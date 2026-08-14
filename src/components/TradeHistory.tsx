@@ -256,11 +256,11 @@ export const TradeHistory: React.FC = () => {
         <div className="bg-[#0e1118] border border-[#1b202e] rounded-xl p-4 flex items-center justify-between">
           <div className="space-y-1">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Active Positions</span>
-            <div className="text-lg font-mono font-bold text-amber-400">
+            <div className="text-lg font-mono font-bold text-purple-300">
               {activeCount}
             </div>
           </div>
-          <div className="w-10 h-10 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-purple-600/10 border border-purple-500/20 text-purple-300 rounded-lg flex items-center justify-center">
             <Activity className="w-5 h-5" />
           </div>
         </div>
@@ -479,8 +479,8 @@ export const TradeHistory: React.FC = () => {
                     </td>
                     <td className="p-4">
                       {trade.status === 'OPEN' ? (
-                        <span className="flex items-center gap-1 text-amber-400 text-[10px] font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                        <span className="flex items-center gap-1 text-purple-300 text-[10px] font-semibold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
                           LIVE POSITION
                         </span>
                       ) : (

@@ -53,7 +53,7 @@ export const Timeline: React.FC = () => {
   const getStatusColor = (status: BotActivationStatus) => {
     switch (status) {
       case 'ACTIVE': return 'text-purple-300 border-purple-800/35 bg-purple-900/20 status-glow';
-      case 'PENDING_PAYMENT': return 'text-amber-400 border-amber-500/35 bg-amber-500/10';
+      case 'PENDING_PAYMENT': return 'text-purple-300 border-purple-500/35 bg-purple-600/10';
       case 'PAYMENT_CONFIRMED': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';
       case 'WAITING_FOR_BOT_TEAM': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';
       case 'IN_PROGRESS': return 'text-purple-300 border-purple-800/35 bg-purple-900/20';

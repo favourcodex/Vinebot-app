@@ -63,6 +63,8 @@ VITE_STRIPE_PRICE_VIP=price_1TyWWuEAAe7A6uScQMi6hlWY
 
 PAYSTACK_SECRET_KEY=sk_test_... (or sk_live_...)
 PAYSTACK_PUBLIC_KEY=pk_test_... (or pk_live_...)
+# Billing currency for Paystack transactions. Defaults to "USD" ($100 Pro => 10000 cents, $200 VIP => 20000 cents).
+PAYSTACK_CURRENCY=USD
 
 # Email Notifications (Resend API or SMTP)
 RESEND_API_KEY=re_...

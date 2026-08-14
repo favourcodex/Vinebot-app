@@ -17,7 +17,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminLayout, AdminTab } from './layouts/AdminLayout';
 import { TradeHistory } from './components/TradeHistory';
-import { TermsPage, PrivacyPage, CookiePolicyPage, RiskDisclosurePage } from './components/LegalPages';
+import { TermsPage, PrivacyPage, CookiePolicyPage, RiskDisclosurePage, RefundPolicyPage } from './components/LegalPages';
 import { OnboardingTerms } from './components/OnboardingTerms';
 import { VerifyEmailView } from './components/VerifyEmailView';
 import { GoogleCallback } from './components/GoogleCallback';
@@ -43,7 +43,7 @@ function AppContent() {
     if (path === '/risk-disclosure' || path === '/risk') {
       return '/risk';
     }
-    if (['/login', '/register', '/terms', '/privacy', '/cookie-policy', '/dashboard', '/verify-email', '/auth/callback', '/auth/google/callback', '/onboarding/terms'].includes(path)) {
+    if (['/login', '/register', '/terms', '/privacy', '/refund-policy', '/cookie-policy', '/dashboard', '/verify-email', '/auth/callback', '/auth/google/callback', '/onboarding/terms'].includes(path)) {
       return path === '/register' ? '/login' : path;
     }
     return '/';
@@ -122,7 +122,7 @@ function AppContent() {
 
   // Sync route on auth state
   useEffect(() => {
-    const isPublicLegal = ['/login', '/terms', '/privacy', '/cookie-policy', '/risk', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
+    const isPublicLegal = ['/login', '/terms', '/privacy', '/refund-policy', '/cookie-policy', '/risk', '/risk-disclosure', '/verify-email', '/auth/callback', '/auth/google/callback'].includes(route);
     if (isPublicLegal) return;
 
     if (state.isAuthenticated) {
@@ -585,6 +585,9 @@ function AppContent() {
 
       case '/privacy':
         return <PrivacyPage onBack={() => handleNavigate('/')} />;
+
+      case '/refund-policy':
+        return <RefundPolicyPage onBack={() => handleNavigate('/')} />;
 
       case '/cookie-policy':
         return <CookiePolicyPage onBack={() => handleNavigate('/')} />;

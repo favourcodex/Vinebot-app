@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ShieldAlert, Scale, HelpCircle, FileText } from 'lucide-react';
+import { ArrowLeft, ShieldAlert, Scale, HelpCircle, FileText, RotateCcw } from 'lucide-react';
 
 interface LegalLayoutProps {
   title: string;
@@ -172,6 +172,16 @@ export const RiskDisclosurePage: React.FC<{ onBack: () => void }> = ({ onBack })
   return (
     <LegalLayout title="Risk Disclosure" icon={<ShieldAlert className="w-6 h-6 text-white" />} onBack={onBack}>
       <div className="space-y-6">
+        <div className="border-[#7c3aed] border bg-[#1a1424] p-5 rounded-xl flex items-start gap-3 text-sm">
+          <ShieldAlert className="w-5 h-5 mt-0.5 shrink-0 text-purple-400" />
+          <div>
+            <h4 className="font-bold text-white uppercase tracking-wider text-xs">TRADING DISCLAIMER</h4>
+            <p className="text-xs mt-1 text-neutral-300">
+              Trading Forex/CFDs carries high risk. Past performance of EAs does not guarantee future results. VineBot is execution software, not a financial advisor.
+            </p>
+          </div>
+        </div>
+
         <div className="border-[#262626] border bg-[#181818] p-5 rounded-xl flex items-start gap-3 text-sm">
           <ShieldAlert className="w-5 h-5 mt-0.5 shrink-0 text-white" />
           <div>
@@ -200,6 +210,61 @@ export const RiskDisclosurePage: React.FC<{ onBack: () => void }> = ({ onBack })
           <h3 className="font-bold text-white text-sm uppercase">3. No Guarantees</h3>
           <p className="text-neutral-300">
             VIN-CORP provides no guarantees of profitability. Historical back-tested statistics or demo simulation returns do not project real future returns. Under volatile, abnormal, or illiquid market environments, risk metrics and stop-loss targets may fail to execute correctly.
+          </p>
+        </div>
+      </div>
+    </LegalLayout>
+  );
+};
+
+export const RefundPolicyPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  return (
+    <LegalLayout title="Refund Policy" icon={<RotateCcw className="w-6 h-6 text-white" />} onBack={onBack}>
+      <div className="space-y-6">
+        <div className="border-b border-[#262626] pb-4 mb-4">
+          <h2 className="text-lg font-bold text-white uppercase font-mono">REFUND & CANCELLATION POLICY</h2>
+          <p className="text-xs text-neutral-400 mt-1">Effective Date: July 20, 2026</p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">1. Subscription Billing</h3>
+          <p className="text-neutral-300">
+            VineBot subscriptions are billed in advance on a recurring monthly basis in United States Dollars (USD). Payment is collected at the start of each billing cycle for the duration of the selected subscription term.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">2. Refund Eligibility</h3>
+          <p className="text-neutral-300">
+            Because automated bot deployment incurs immediate infrastructure provisioning costs (dedicated VPS hosting, secure credential vaulting, and expert advisor configuration), all subscription fees are final and non-refundable once an MT5 account has been linked or bot deployment has been initiated.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">3. Pre-Deployment Refunds</h3>
+          <p className="text-neutral-300">
+            If no MT5 account has been linked and no bot deployment has begun, you may request a full refund within 48 hours of your initial payment by contacting our support desk. Refunds are processed back to the original payment method within 5-10 business days.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">4. Cancellation & Auto-Renewal</h3>
+          <p className="text-neutral-300">
+            You may cancel your subscription at any time from the Billing Center. Cancellation stops future auto-renewal charges at the end of the current billing period; you retain access to all services until that period expires. No partial-period refunds are issued for cancelled subscriptions.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">5. Chargebacks & Disputes</h3>
+          <p className="text-neutral-300">
+            Unjustified chargebacks or payment disputes may result in immediate suspension of your account and all trading bot services. Please contact our support desk before initiating a dispute so we can resolve any billing issue.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-white text-sm uppercase">6. Contacting Us</h3>
+          <p className="text-neutral-300">
+            For all refund and billing inquiries, please open a support ticket through the dashboard or email our billing operations desk. We aim to respond to all refund requests within 48 hours.
           </p>
         </div>
       </div>

@@ -309,10 +309,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
         <div className="glass-card p-4">
           <div className="flex items-center justify-between text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">
             <span>Pending Setup</span>
-            <Activity className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <Activity className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
           </div>
-          <p className="text-2xl font-black text-amber-400">{stats?.pendingBotActivations || 0}</p>
-          <p className="text-[10px] text-amber-400/80 mt-1">Queued Deployment</p>
+          <p className="text-2xl font-black text-purple-300">{stats?.pendingBotActivations || 0}</p>
+          <p className="text-[10px] text-purple-400/80 mt-1">Queued Deployment</p>
         </div>
       </div>
 
@@ -508,7 +508,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ activeTab, onTabChange }
                             className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition ${
                               u.isBotActive 
                                 ? 'bg-purple-900/20 text-purple-300 border border-purple-800/40 hover:bg-purple-900/30' 
-                                : 'bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20'
+                                : 'bg-purple-600/10 text-purple-300 border border-purple-500/20 hover:bg-purple-600/20'
                             }`}
                           >
                             <Power className="w-3 h-3" />
