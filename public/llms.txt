@@ -1,0 +1,14 @@
+# Vinebot
+
+Vinebot provides automated MetaTrader 5 trading operations, encrypted credential storage, VPS execution, subscription management, and account activity tracking.
+
+## Public pages
+
+- https://vinebot-app.vercel.app/
+- https://vinebot-app.vercel.app/terms
+- https://vinebot-app.vercel.app/privacy
+- https://vinebot-app.vercel.app/risk
+- https://vinebot-app.vercel.app/refund-policy
+- https://vinebot-app.vercel.app/cookie-policy
+
+Vinebot is not financial advice. Trading leveraged instruments carries substantial risk.
