@@ -2331,11 +2331,15 @@ app.get('/api/admin/logs/csv', authenticateToken, requireAdmin, (req: Request, r
 // VITE DEV SERVER / STATIC ASSETS ROUTING
 // ==========================================
 
-async function startServer() {
+export async function initializeServer() {
   // Initialize Database (PostgreSQL / local JSON fallback)
   await db.init().catch(err => {
     console.error('Failure initializing database layer:', err);
   });
+}
+
+async function startServer() {
+  await initializeServer();
 
   if (process.env.NODE_ENV !== 'production') {
     // Integrate Vite as Middleware in development
@@ -2365,6 +2369,10 @@ async function startServer() {
   });
 }
 
-startServer().catch(err => {
-  console.error('Failure initializing server process:', err);
-});
+export { app };
+
+if (process.env.VERCEL !== '1') {
+  startServer().catch(err => {
+    console.error('Failure initializing server process:', err);
+  });
+}

@@ -13,9 +13,9 @@ export const getApiBaseUrl = (): string => {
     if (hostname.includes('run.app') || hostname === 'localhost' || hostname === '127.0.0.1') {
       return '';
     }
-    // On Vercel deployments, use Railway backend or env URL
+    // On Vercel deployments, use the same-origin serverless API unless an external backend is configured.
     if (hostname.includes('vercel.app')) {
-      return envUrl || 'https://vinebot-app-production.up.railway.app';
+      return envUrl || '';
     }
   }
 

@@ -237,8 +237,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }
 
-      const data = await response.json();
-      return data;
+      const contentType = response.headers.get('content-type') || '';
+      const responseText = await response.text();
+
+      if (!contentType.includes('application/json')) {
+        return {
+          success: false,
+          message: response.ok
+            ? 'The authentication server returned an invalid response.'
+            : `Authentication request failed (${response.status}). Please try again.`
+        };
+      }
+
+      try {
+        return JSON.parse(responseText);
+      } catch {
+        return { success: false, message: 'The authentication server returned invalid JSON.' };
+      }
     } catch (err: any) {
       console.error('API request error:', err);
       return { success: false, message: 'Network connection notice. Please try again.' };
